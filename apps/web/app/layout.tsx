@@ -2,8 +2,7 @@ import { Geist_Mono, Inter } from "next/font/google"
 
 import "@workspace/shadcn-ui/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@workspace/shadcn-ui/lib/utils";
-import { TooltipProvider } from "@workspace/shadcn-ui/components/tooltip";
+import { cn, TooltipProvider } from "@workspace/shadcn-ui";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 

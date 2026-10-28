@@ -1,4 +1,4 @@
-import { Button } from "@workspace/shadcn-ui/components/button"
+import { Button } from "@workspace/shadcn-ui"
 
 export default function Page() {
   return (

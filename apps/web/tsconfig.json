@@ -3,6 +3,7 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./*"],
+      "@workspace/shadcn-ui": ["../../packages/shadcn-ui/src/index.ts"],
       "@workspace/shadcn-ui/*": ["../../packages/shadcn-ui/src/*"]
     },
     "plugins": [

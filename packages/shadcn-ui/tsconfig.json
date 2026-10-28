@@ -1,7 +1,10 @@
 {
   "extends": "@workspace/typescript-config/react-library.json",
   "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "paths": {
+      "@workspace/shadcn-ui": ["./src/index.ts"],
       "@workspace/shadcn-ui/*": ["./src/*"]
     }
   },
