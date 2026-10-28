@@ -1,0 +1,20 @@
+{
+  "name": "@workspace/css",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": ["**/*.css"],
+  "dependencies": {
+    "shadcn": "^4.22.2",
+    "tw-animate-css": "^1.4.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3"
+  },
+  "exports": {
+    "./globals.css": "./src/globals.css",
+    "./postcss.config": "./postcss.config.mjs",
+    "./themes/all.css": "./src/themes/all.css",
+    "./themes/*.css": "./src/themes/*.css"
+  }
+}

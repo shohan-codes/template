@@ -1,6 +1,7 @@
 import { Geist_Mono, Inter } from "next/font/google"
 
-import "@workspace/shadcn-ui/globals.css"
+import "@workspace/css/globals.css"
+import "@workspace/css/themes/all.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn, TooltipProvider } from "@workspace/shadcn-ui";
 
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-theme="cyan"
       suppressHydrationWarning
       className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
     >

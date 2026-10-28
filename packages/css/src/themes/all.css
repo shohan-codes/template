@@ -1,0 +1,19 @@
+/* Import all themes once, then select with data-theme on <html>. */
+@import "./amber.css";
+@import "./blue.css";
+@import "./cyan.css";
+@import "./emerald.css";
+@import "./fuchsia.css";
+@import "./green.css";
+@import "./indigo.css";
+@import "./lime.css";
+@import "./neutral.css";
+@import "./orange.css";
+@import "./pink.css";
+@import "./purple.css";
+@import "./red.css";
+@import "./rose.css";
+@import "./sky.css";
+@import "./teal.css";
+@import "./violet.css";
+@import "./yellow.css";

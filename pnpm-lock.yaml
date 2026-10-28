@@ -29,6 +29,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@workspace/css':
+        specifier: workspace:*
+        version: link:../../packages/css
       '@workspace/shadcn-ui':
         specifier: workspace:*
         version: link:../../packages/shadcn-ui
@@ -72,6 +75,19 @@ importers:
       typescript:
         specifier: ^5
         version: 5.9.3
+
+  packages/css:
+    dependencies:
+      shadcn:
+        specifier: ^4.22.2
+        version: 4.22.2(supports-color@7.2.0)
+      tw-animate-css:
+        specifier: ^1.4.0
+        version: 1.4.0
+    devDependencies:
+      '@tailwindcss/postcss':
+        specifier: ^4.3.3
+        version: 4.3.3
 
   packages/eslint-config:
     devDependencies:
@@ -179,7 +195,7 @@ importers:
         version: 4.6.7
     devDependencies:
       '@tailwindcss/postcss':
-        specifier: ^4
+        specifier: ^4.3.3
         version: 4.3.3
       '@turbo/gen':
         specifier: ^2.11.10
@@ -203,7 +219,7 @@ importers:
         specifier: ^10
         version: 10.13.0(jiti@2.7.0)(supports-color@7.2.0)
       tailwindcss:
-        specifier: ^4
+        specifier: ^4.3.3
         version: 4.3.3
       tsdown:
         specifier: ^0.23.2

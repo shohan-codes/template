@@ -1,1 +1,1 @@
-export { default } from "@workspace/shadcn-ui/postcss.config";
+export { default } from "@workspace/css/postcss.config";
