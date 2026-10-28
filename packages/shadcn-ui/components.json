@@ -11,11 +11,11 @@
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "@workspace/ui/components",
-    "utils": "@workspace/ui/lib/utils",
-    "hooks": "@workspace/ui/hooks",
-    "lib": "@workspace/ui/lib",
-    "ui": "@workspace/ui/components"
+    "components": "@workspace/shadcn-ui/components",
+    "utils": "@workspace/shadcn-ui/lib/utils",
+    "hooks": "@workspace/shadcn-ui/hooks",
+    "lib": "@workspace/shadcn-ui/lib",
+    "ui": "@workspace/shadcn-ui/components"
   },
   "rtl": true,
   "menuColor": "default",
