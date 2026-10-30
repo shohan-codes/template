@@ -81,18 +81,18 @@ export function createAccordion<
     const rootBehaviorProps: AccordionRootBehaviorProps =
       mode === "multiple"
         ? {
-          type: "multiple",
-          value: Array.isArray(value) ? value : undefined,
-          defaultValue: Array.isArray(defaultValue) ? defaultValue : undefined,
-          onValueChange: onValueChange as ((val: string[]) => void) | undefined,
-        }
+            type: "multiple",
+            value,
+            defaultValue,
+            onValueChange,
+          }
         : {
-          type: "single",
-          value: typeof value === "string" ? value : undefined,
-          defaultValue: typeof defaultValue === "string" ? defaultValue : undefined,
-          onValueChange: onValueChange as ((val: string) => void) | undefined,
-          collapsible: collapsible ?? true,
-        }
+            type: "single",
+            value,
+            defaultValue,
+            onValueChange,
+            collapsible: collapsible ?? true,
+          }
 
     return (
       <Root {...$root} {...rootBehaviorProps}>
@@ -107,6 +107,24 @@ export function createAccordion<
 /* ========================================================================== *\
  * Accordion Types
  * ========================================================================== */
+
+type AccordionSingleProps = {
+  mode?: "single"
+  value?: string
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+  collapsible?: boolean
+}
+
+type AccordionMultipleProps = {
+  mode: "multiple"
+  value?: string[]
+  defaultValue?: string[]
+  onValueChange?: (value: string[]) => void
+  collapsible?: never
+}
+
+type AccordionBehaviorProps = AccordionSingleProps | AccordionMultipleProps
 
 export type AccordionProps<
   TRoot extends React.ElementType = React.ElementType,
@@ -123,11 +141,6 @@ export type AccordionProps<
   | "collapsible"
 > & {
   items: readonly AccordionItemData[]
-  mode?: "single" | "multiple"
-  value?: string | string[]
-  defaultValue?: string | string[]
-  collapsible?: boolean
-  onValueChange?: ((value: string) => void) | ((value: string[]) => void)
   $item?: Omit<
     React.ComponentPropsWithoutRef<TItem>,
     "children" | "value" | "disabled"
@@ -140,22 +153,24 @@ export type AccordionProps<
     React.ComponentPropsWithoutRef<TContent>,
     "children" | "asChild"
   >
-}
+} & AccordionBehaviorProps
 
 type AccordionRootBehaviorProps =
   | {
-    type: "single"
-    value?: string
-    defaultValue?: string
-    onValueChange?: (value: string) => void
-    collapsible: boolean
-  }
+      type: "single"
+      value?: string
+      defaultValue?: string
+      onValueChange?: (value: string) => void
+      collapsible: boolean
+    }
   | {
-    type: "multiple"
-    value?: string[]
-    defaultValue?: string[]
-    onValueChange?: (value: string[]) => void
-  }
+      type: "multiple"
+      value?: string[]
+      defaultValue?: string[]
+      onValueChange?: (value: string[]) => void
+    }
+
+
 
 /** The four main primitives used by the data-driven Accordion. */
 export type AccordionPrimitives<
