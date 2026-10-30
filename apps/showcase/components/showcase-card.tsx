@@ -1,0 +1,109 @@
+"use client"
+
+import { RiCodeSSlashLine, RiEyeLine } from "@remixicon/react"
+import * as React from "react"
+
+import { Button } from "@workspace/shadcn-ui"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@workspace/shadcn-ui"
+import { cn } from "@workspace/shadcn-ui/lib/utils"
+
+/** Props accepted by {@link ShowcaseCard}. */
+export interface ShowcaseCardProps extends Omit<
+  React.ComponentProps<typeof Card>,
+  "title"
+> {
+  /** Section heading for the showcase example. */
+  readonly title: React.ReactNode
+  /** Explanatory description of the demonstration. */
+  readonly description?: React.ReactNode
+  /** Optional badge or tag displayed alongside the title. */
+  readonly badge?: React.ReactNode
+  /** Optional interactive controls displayed above the component preview. */
+  readonly controls?: React.ReactNode
+  /** Optional code preview string displayed in an expandable tab. */
+  readonly code?: string
+  /** Component interactive preview content. */
+  readonly children: React.ReactNode
+}
+
+/**
+ * Container card for rendering component examples with optional controls and code preview.
+ *
+ * @param props - Card heading, description, controls, code preview, and children.
+ * @returns The structured showcase card view.
+ */
+export function ShowcaseCard({
+  title,
+  description,
+  badge,
+  controls,
+  code,
+  children,
+  className,
+  ...props
+}: ShowcaseCardProps) {
+  const [viewMode, setViewMode] = React.useState<"preview" | "code">("preview")
+
+  return (
+    <Card className={cn("overflow-hidden bg-secondary/5", className)} {...props}>
+      <CardHeader className="border-b">
+        <div className="flex flex-wrap items-center gap-2">
+          <CardTitle className="text-base font-medium">{title}</CardTitle>
+          {Boolean(badge) && <div>{badge}</div>}
+        </div>
+        {Boolean(description) && (
+          <CardDescription className="text-xs">{description}</CardDescription>
+        )}
+        {Boolean(code) && (
+          <CardAction>
+            <div className="flex items-center rounded-lg border bg-background p-0.5 shadow-xs">
+              <Button
+                type="button"
+                variant={viewMode === "preview" ? "secondary" : "ghost"}
+                size="xs"
+                className="h-6 gap-1 px-2 text-xs"
+                onClick={() => setViewMode("preview")}
+              >
+                <RiEyeLine className="size-3.5" />
+                Preview
+              </Button>
+              <Button
+                type="button"
+                variant={viewMode === "code" ? "secondary" : "ghost"}
+                size="xs"
+                className="h-6 gap-1 px-2 text-xs"
+                onClick={() => setViewMode("code")}
+              >
+                <RiCodeSSlashLine className="size-3.5" />
+                Code
+              </Button>
+            </div>
+          </CardAction>
+        )}
+      </CardHeader>
+
+      {Boolean(controls) && (
+        <div className="flex flex-wrap items-center gap-3 border-b bg-muted/10 px-6 py-3 text-xs">
+          {controls}
+        </div>
+      )}
+
+      <CardContent className="p-6">
+        {viewMode === "preview" ? (
+          <div className="min-w-0">{children}</div>
+        ) : (
+          <pre className="max-h-96 overflow-x-auto rounded-lg bg-muted/50 p-4 font-mono text-xs leading-relaxed text-foreground">
+            <code>{code}</code>
+          </pre>
+        )}
+      </CardContent>
+    </Card>
+  )
+}

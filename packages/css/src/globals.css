@@ -6,6 +6,7 @@
 @source "../../../apps/**/*.{ts,tsx}";
 @source "../../../components/**/*.{ts,tsx}";
 @source "../../shadcn-ui/src/**/*.{ts,tsx}";
+@source "../../pattern/src/**/*.{ts,tsx}";
 @source "../**/*.{ts,tsx}";
 
 @theme inline {

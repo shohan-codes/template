@@ -1,0 +1,9 @@
+{
+  "tailwindCSS.experimental.configFile": "packages/css/src/globals.css",
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascriptreact",
+    "typescriptreact": "javascriptreact"
+  },
+  "tailwindCSS.classAttributes": ["class", "className", ".*ClassName.*"]
+}
+

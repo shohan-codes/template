@@ -1,0 +1,29 @@
+{
+  "extends": "@workspace/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./*"],
+      "@workspace/shadcn-ui": ["../../packages/shadcn-ui/src/index.ts"],
+      "@workspace/shadcn-ui/*": ["../../packages/shadcn-ui/src/*"],
+      "@workspace/pattern": ["../../packages/pattern/src/index.ts"],
+      "@workspace/pattern/*": ["../../packages/pattern/src/*"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "global.d.ts",
+    "next-env.d.ts",
+    "next.config.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.mts",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}
+
