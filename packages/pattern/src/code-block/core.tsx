@@ -9,7 +9,8 @@ import {
   getLineVariantClassName,
   type CodeBlockLineVariant,
 } from "./utilities/notations"
-import { LazyTerminalHeader, LazyTabHeader } from "./headers/lazy-headers"
+import { TerminalHeader } from "./headers/terminal-header"
+import { TabHeader } from "./headers/tab-header"
 
 /* ========================================================================== *\
  * CodeBlock Factory
@@ -22,7 +23,7 @@ export function createCodeBlock<const TPrimitives extends CodeBlockPrimitives>(
   defaultPrimitives: TPrimitives,
   slots?: Partial<CodeBlockPrimitives>
 ) {
-  const mergedPrimitives = { ...defaultPrimitives, ...slots }
+  const P = { ...defaultPrimitives, ...slots }
 
   function CodeBlock(props: CodeBlockProps<TPrimitives>) {
     const {
@@ -55,21 +56,12 @@ export function createCodeBlock<const TPrimitives extends CodeBlockPrimitives>(
       ...rootProps
     } = props
 
-    const P = { ...mergedPrimitives, ...propSlots }
-    const Root = P.Root as React.ElementType
-    const Actions = P.Actions as React.ElementType
-    const CopyButton = P.CopyButton as React.ElementType
-    const Content = P.Content as React.ElementType
-    const Line = P.Line as React.ElementType
-    const Title = P.Title as React.ElementType
-    const Footer = P.Footer as React.ElementType
-
-    const HeaderComponent: React.ElementType =
+    const Header =
       headerVariant === "terminal"
-        ? LazyTerminalHeader
+        ? TerminalHeader
         : headerVariant === "tab"
-          ? LazyTabHeader
-          : (P.Header as React.ElementType)
+          ? TabHeader
+          : propSlots?.Header ?? P.Header
 
     const parsed = React.useMemo(
       () =>
@@ -103,42 +95,33 @@ export function createCodeBlock<const TPrimitives extends CodeBlockPrimitives>(
     const hasHeader = Boolean(header || title)
 
     return (
-      <Root {...rootProps}>
+      <P.Root {...rootProps}>
         {hasHeader ? (
-          <React.Suspense
-            fallback={
-              <div
-                data-slot="code-block-header"
-                className="h-9 min-w-0 border-b border-border bg-muted/40 px-3.5 py-1.5 animate-pulse"
-              />
-            }
-          >
-            <HeaderComponent {...$header}>
-              {header ?? (
-                <>
-                  {title && <Title {...$title}>{title}</Title>}
-                  {hasActions && (
-                    <Actions {...$actions}>
-                      {actions}
-                      {copyable && Boolean(parsed.copyCode) && (
-                        <CopyButton value={copyValue} {...$copyButton} />
-                      )}
-                    </Actions>
-                  )}
-                </>
-              )}
-            </HeaderComponent>
-          </React.Suspense>
+          <Header {...$header}>
+            {header ?? (
+              <>
+                {title && <P.Title {...$title}>{title}</P.Title>}
+                {hasActions && (
+                  <P.Actions {...$actions}>
+                    {actions}
+                    {copyable && Boolean(parsed.copyCode) && (
+                      <P.CopyButton value={copyValue} {...$copyButton} />
+                    )}
+                  </P.Actions>
+                )}
+              </>
+            )}
+          </Header>
         ) : hasActions ? (
-          <Actions {...$actions}>
+          <P.Actions {...$actions}>
             {actions}
             {copyable && Boolean(parsed.copyCode) && (
-              <CopyButton value={copyValue} {...$copyButton} />
+              <P.CopyButton value={copyValue} {...$copyButton} />
             )}
-          </Actions>
+          </P.Actions>
         ) : null}
 
-        <Content
+        <P.Content
           wrap={wrap}
           lineNumbers={lineNumbers}
           startLine={startLine}
@@ -160,20 +143,20 @@ export function createCodeBlock<const TPrimitives extends CodeBlockPrimitives>(
             const variantClassName = getLineVariantClassName(variant, isBlurred)
 
             return (
-              <Line
+              <P.Line
                 key={lineNumber}
                 variant={mappedPrimitiveVariant}
                 {...$line}
                 className={cn(variantClassName, $line?.className)}
               >
                 {line}
-              </Line>
+              </P.Line>
             )
           })}
-        </Content>
+        </P.Content>
 
-        {footer && <Footer {...$footer}>{footer}</Footer>}
-      </Root>
+        {footer && <P.Footer {...$footer}>{footer}</P.Footer>}
+      </P.Root>
     )
   }
 
@@ -190,7 +173,7 @@ export type CodeBlockHeaderVariant = "editor" | "terminal" | "tab"
 
 export type CodeBlockPrimitives = Readonly<{
   Root: React.ElementType
-  Header: React.ElementType | React.LazyExoticComponent<any>
+  Header: React.ElementType
   Title: React.ElementType
   Actions: React.ElementType
   CopyButton: React.ElementType

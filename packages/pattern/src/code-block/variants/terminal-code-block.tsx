@@ -1,7 +1,7 @@
 import { createCodeBlock } from "../core"
-import { LazyTerminalHeader } from "../headers/lazy-headers"
+import { TerminalHeader } from "../headers/terminal-header"
 import { defaultCodeBlockPrimitives } from "./default-code-block"
 
 export const TerminalCodeBlock = createCodeBlock(defaultCodeBlockPrimitives, {
-  Header: LazyTerminalHeader,
+  Header: TerminalHeader,
 })
