@@ -41,12 +41,6 @@ import FloatingFolderTabsExampleRaw from "./floating-folder-tabs-example.tsx?raw
   turbopackAs: "*.js",
 }
 
-import SidebarTabsExample from "./sidebar-tabs-example"
-import SidebarTabsExampleRaw from "./sidebar-tabs-example.tsx?raw" with {
-  turbopackLoader: "raw-loader",
-  turbopackAs: "*.js",
-}
-
 const tabsShowcaseItems: readonly ShowcaseItem[] = [
   {
     id: "segmented-tabs",
@@ -71,14 +65,6 @@ const tabsShowcaseItems: readonly ShowcaseItem[] = [
       "Classic file-folder index tabs floating directly above a standalone bordered content card.",
     code: FloatingFolderTabsExampleRaw,
     preview: <FloatingFolderTabsExample />,
-  },
-  {
-    id: "sidebar-tabs",
-    title: "Sidebar Settings Variant (Notion / Vercel)",
-    description:
-      "Vertical navigation layout featuring stacked triggers with icons and badges alongside a content pane.",
-    code: SidebarTabsExampleRaw,
-    preview: <SidebarTabsExample />,
   },
   {
     id: "card-tabs",

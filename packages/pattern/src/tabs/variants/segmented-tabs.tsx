@@ -37,8 +37,8 @@ const Trigger = ({
     className={cn(
       "inline-flex h-7 items-center justify-center gap-2 rounded-md border border-transparent px-3 text-xs font-medium whitespace-nowrap text-muted-foreground transition-all duration-150 select-none cursor-pointer outline-none hover:text-foreground",
       "focus-visible:ring-2 focus-visible:ring-ring/50",
-      "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:font-medium data-[state=active]:border-border/80 data-[state=active]:shadow-xs",
-      "dark:data-[state=active]:bg-secondary dark:data-[state=active]:text-foreground dark:data-[state=active]:border-border/70 dark:data-[state=active]:shadow-xs",
+      "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:font-medium data-[state=active]:shadow-xs",
+      "dark:data-[state=active]:bg-secondary dark:data-[state=active]:text-foreground dark:data-[state=active]:shadow-xs",
       "disabled:pointer-events-none disabled:opacity-50",
       className
     )}
@@ -69,7 +69,7 @@ export const segmentedTabsSlots: TabsSlots = {
 export type SegmentedTabsProps = TabsProps & {
   /**
    * Whether to render with fully rounded capsule pill geometry instead of standard rounded-lg.
-   * Defaults to false.
+   * Defaults to true.
    */
   pill?: boolean
   /**
@@ -83,7 +83,7 @@ export type SegmentedTabsProps = TabsProps & {
  * Segmented control component inspired by Apple/macOS and Linear design systems.
  */
 export function SegmentedTabs({
-  pill = false,
+  pill = true,
   fullWidth = false,
   className,
   $list,
