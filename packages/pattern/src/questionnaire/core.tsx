@@ -7,46 +7,22 @@ import { cn } from "@workspace/shadcn-ui/lib/utils"
  * Grid Column Mapping (Static Tailwind classes for bundler safelist)
  * ========================================================================== */
 
-const columnClasses: Record<1 | 2 | 3 | 4, string> = {
-  1: "grid-cols-1",
-  2: "grid-cols-1 sm:grid-cols-2",
-  3: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3",
-  4: "grid-cols-1 sm:grid-cols-2 md:grid-cols-4",
-}
+const breakpointMap = {
+  default: { 1: "grid-cols-1", 2: "grid-cols-2", 3: "grid-cols-3", 4: "grid-cols-4" },
+  sm: { 1: "sm:grid-cols-1", 2: "sm:grid-cols-2", 3: "sm:grid-cols-3", 4: "sm:grid-cols-4" },
+  md: { 1: "md:grid-cols-1", 2: "md:grid-cols-2", 3: "md:grid-cols-3", 4: "md:grid-cols-4" },
+  lg: { 1: "lg:grid-cols-1", 2: "lg:grid-cols-2", 3: "lg:grid-cols-3", 4: "lg:grid-cols-4" },
+} as const
 
-function resolveColumnClass(columns?: QuestionnaireColumns): string | undefined {
+function resolveColumnClass(columns?: QuestionnaireColumns) {
   if (!columns) return undefined
   if (typeof columns === "number") {
-    return columnClasses[columns]
+    return breakpointMap.sm[columns] ? `grid-cols-1 ${breakpointMap.sm[columns]}` : "grid-cols-1"
   }
-
-  const classes: string[] = []
-  if (columns.default) {
-    if (columns.default === 1) classes.push("grid-cols-1")
-    else if (columns.default === 2) classes.push("grid-cols-2")
-    else if (columns.default === 3) classes.push("grid-cols-3")
-    else if (columns.default === 4) classes.push("grid-cols-4")
-  }
-  if (columns.sm) {
-    if (columns.sm === 1) classes.push("sm:grid-cols-1")
-    else if (columns.sm === 2) classes.push("sm:grid-cols-2")
-    else if (columns.sm === 3) classes.push("sm:grid-cols-3")
-    else if (columns.sm === 4) classes.push("sm:grid-cols-4")
-  }
-  if (columns.md) {
-    if (columns.md === 1) classes.push("md:grid-cols-1")
-    else if (columns.md === 2) classes.push("md:grid-cols-2")
-    else if (columns.md === 3) classes.push("md:grid-cols-3")
-    else if (columns.md === 4) classes.push("md:grid-cols-4")
-  }
-  if (columns.lg) {
-    if (columns.lg === 1) classes.push("lg:grid-cols-1")
-    else if (columns.lg === 2) classes.push("lg:grid-cols-2")
-    else if (columns.lg === 3) classes.push("lg:grid-cols-3")
-    else if (columns.lg === 4) classes.push("lg:grid-cols-4")
-  }
-
-  return classes.length > 0 ? classes.join(" ") : undefined
+  return Object.entries(columns)
+    .map(([bp, count]) => breakpointMap[bp as keyof typeof breakpointMap]?.[count as 1 | 2 | 3 | 4])
+    .filter(Boolean)
+    .join(" ") || undefined
 }
 
 /* ========================================================================== *\
@@ -56,60 +32,13 @@ function resolveColumnClass(columns?: QuestionnaireColumns): string | undefined 
 /**
  * Creates a data-driven Questionnaire component configured with the provided primitives.
  */
-export function createQuestionnaire<
-  const TPrimitives extends QuestionnairePrimitives,
->(
+export function createQuestionnaire<const TPrimitives extends QuestionnairePrimitives>(
   defaultPrimitives: TPrimitives,
-  slots?: {
-    Root?: TPrimitives["Root"]
-    Progress?: TPrimitives["Progress"]
-    Item?: TPrimitives["Item"]
-    Title?: TPrimitives["Title"]
-    Description?: TPrimitives["Description"]
-    Choices?: TPrimitives["Choices"]
-    Choice?: TPrimitives["Choice"]
-    Input?: TPrimitives["Input"]
-    Error?: TPrimitives["Error"]
-    Actions?: TPrimitives["Actions"]
-    Previous?: TPrimitives["Previous"]
-    Skip?: TPrimitives["Skip"]
-    Next?: TPrimitives["Next"]
-    Submit?: TPrimitives["Submit"]
-  }
+  slots?: Partial<TPrimitives>
 ) {
-  const Root = slots?.Root ?? defaultPrimitives.Root
-  const Progress = slots?.Progress ?? defaultPrimitives.Progress
-  const Item = slots?.Item ?? defaultPrimitives.Item
-  const Title = slots?.Title ?? defaultPrimitives.Title
-  const Description = slots?.Description ?? defaultPrimitives.Description
-  const Choices = slots?.Choices ?? defaultPrimitives.Choices
-  const Choice = slots?.Choice ?? defaultPrimitives.Choice
-  const Input = slots?.Input ?? defaultPrimitives.Input
-  const Error = slots?.Error ?? defaultPrimitives.Error
-  const Actions = slots?.Actions ?? defaultPrimitives.Actions
-  const Previous = slots?.Previous ?? defaultPrimitives.Previous
-  const Skip = slots?.Skip ?? defaultPrimitives.Skip
-  const Next = slots?.Next ?? defaultPrimitives.Next
-  const Submit = slots?.Submit ?? defaultPrimitives.Submit
+  const P = { ...defaultPrimitives, ...slots }
 
-  function Questionnaire(
-    props: QuestionnaireProps<
-      TPrimitives["Root"],
-      TPrimitives["Progress"],
-      TPrimitives["Item"],
-      TPrimitives["Title"],
-      TPrimitives["Description"],
-      TPrimitives["Choices"],
-      TPrimitives["Choice"],
-      TPrimitives["Input"],
-      TPrimitives["Error"],
-      TPrimitives["Actions"],
-      TPrimitives["Previous"],
-      TPrimitives["Skip"],
-      TPrimitives["Next"],
-      TPrimitives["Submit"]
-    >
-  ) {
+  function Questionnaire(props: QuestionnaireProps<TPrimitives>) {
     const {
       questions,
       progress,
@@ -144,11 +73,11 @@ export function createQuestionnaire<
     }))
 
     return (
-      <Root items={itemDefinitions} {...rootProps}>
-        {progress !== false && <Progress {...$progress} />}
+      <P.Root items={itemDefinitions} {...rootProps}>
+        {progress !== false && <P.Progress {...$progress} />}
 
         {questions.map((q) => (
-          <Item
+          <P.Item
             key={q.name}
             name={q.name}
             required={q.required}
@@ -157,25 +86,21 @@ export function createQuestionnaire<
             invalid={q.invalid}
             {...$item}
           >
-            {q.title && (
-              <Title {...$title}>
-                {q.title}
-              </Title>
-            )}
+            {q.title && <P.Title {...$title}>{q.title}</P.Title>}
 
             {q.description && (
-              <Description {...$description}>
+              <P.Description {...$description}>
                 {q.description}
-              </Description>
+              </P.Description>
             )}
 
             {((q.choices && q.choices.length > 0) || q.input) && (
-              <Choices
+              <P.Choices
                 {...$choices}
                 className={cn(resolveColumnClass(q.columns), $choices?.className)}
               >
                 {q.choices?.map((choice) => (
-                  <Choice
+                  <P.Choice
                     key={choice.value}
                     value={choice.value}
                     disabled={choice.disabled}
@@ -194,37 +119,33 @@ export function createQuestionnaire<
                     ) : (
                       choice.label ?? choice.value
                     )}
-                  </Choice>
+                  </P.Choice>
                 ))}
 
                 {q.input && (
                   <div className={cn(q.columns ? "col-span-full" : undefined)}>
-                    <Input
+                    <P.Input
                       {...(typeof q.input === "object" ? q.input : {})}
                       {...$input}
                     />
                   </div>
                 )}
-              </Choices>
+              </P.Choices>
             )}
 
-            {q.error && (
-              <Error {...$error}>
-                {q.error}
-              </Error>
-            )}
-          </Item>
+            {q.error && <P.Error {...$error}>{q.error}</P.Error>}
+          </P.Item>
         ))}
 
         {actions !== false && (
-          <Actions {...$actions}>
-            <Previous {...$previous} />
-            <Skip {...$skip} />
-            <Next {...$next} />
-            <Submit {...$submit} />
-          </Actions>
+          <P.Actions {...$actions}>
+            <P.Previous {...$previous} />
+            <P.Skip {...$skip} />
+            <P.Next {...$next} />
+            <P.Submit {...$submit} />
+          </P.Actions>
         )}
-      </Root>
+      </P.Root>
     )
   }
 
@@ -235,72 +156,43 @@ export function createQuestionnaire<
  * Questionnaire Types
  * ========================================================================== */
 
-export type QuestionnaireProps<
-  TRoot extends React.ElementType = React.ElementType,
-  TProgress extends React.ElementType = React.ElementType,
-  TItem extends React.ElementType = React.ElementType,
-  TTitle extends React.ElementType = React.ElementType,
-  TDescription extends React.ElementType = React.ElementType,
-  TChoices extends React.ElementType = React.ElementType,
-  TChoice extends React.ElementType = React.ElementType,
-  TInput extends React.ElementType = React.ElementType,
-  TError extends React.ElementType = React.ElementType,
-  TActions extends React.ElementType = React.ElementType,
-  TPrevious extends React.ElementType = React.ElementType,
-  TSkip extends React.ElementType = React.ElementType,
-  TNext extends React.ElementType = React.ElementType,
-  TSubmit extends React.ElementType = React.ElementType,
-> = Omit<React.ComponentPropsWithoutRef<TRoot>, "children"> & {
-  questions: readonly QuestionnaireQuestionData[]
-  progress?: boolean
-  actions?: boolean
-  $progress?: React.ComponentPropsWithoutRef<TProgress>
-  $item?: Omit<React.ComponentPropsWithoutRef<TItem>, "children" | "name">
-  $title?: React.ComponentPropsWithoutRef<TTitle>
-  $description?: React.ComponentPropsWithoutRef<TDescription>
-  $choices?: React.ComponentPropsWithoutRef<TChoices>
-  $choice?: Omit<React.ComponentPropsWithoutRef<TChoice>, "children" | "value">
-  $input?: React.ComponentPropsWithoutRef<TInput>
-  $error?: React.ComponentPropsWithoutRef<TError>
-  $actions?: React.ComponentPropsWithoutRef<TActions>
-  $previous?: React.ComponentPropsWithoutRef<TPrevious>
-  $skip?: React.ComponentPropsWithoutRef<TSkip>
-  $next?: React.ComponentPropsWithoutRef<TNext>
-  $submit?: React.ComponentPropsWithoutRef<TSubmit>
-}
-
-/** The main primitives used by the data-driven Questionnaire. */
-export type QuestionnairePrimitives<
-  TRoot extends React.ElementType = React.ElementType,
-  TProgress extends React.ElementType = React.ElementType,
-  TItem extends React.ElementType = React.ElementType,
-  TTitle extends React.ElementType = React.ElementType,
-  TDescription extends React.ElementType = React.ElementType,
-  TChoices extends React.ElementType = React.ElementType,
-  TChoice extends React.ElementType = React.ElementType,
-  TInput extends React.ElementType = React.ElementType,
-  TError extends React.ElementType = React.ElementType,
-  TActions extends React.ElementType = React.ElementType,
-  TPrevious extends React.ElementType = React.ElementType,
-  TSkip extends React.ElementType = React.ElementType,
-  TNext extends React.ElementType = React.ElementType,
-  TSubmit extends React.ElementType = React.ElementType,
-> = Readonly<{
-  Root: TRoot
-  Progress: TProgress
-  Item: TItem
-  Title: TTitle
-  Description: TDescription
-  Choices: TChoices
-  Choice: TChoice
-  Input: TInput
-  Error: TError
-  Actions: TActions
-  Previous: TPrevious
-  Skip: TSkip
-  Next: TNext
-  Submit: TSubmit
+/** The primitives record used by the data-driven Questionnaire. */
+export type QuestionnairePrimitives = Readonly<{
+  Root: React.ElementType
+  Progress: React.ElementType
+  Item: React.ElementType
+  Title: React.ElementType
+  Description: React.ElementType
+  Choices: React.ElementType
+  Choice: React.ElementType
+  Input: React.ElementType
+  Error: React.ElementType
+  Actions: React.ElementType
+  Previous: React.ElementType
+  Skip: React.ElementType
+  Next: React.ElementType
+  Submit: React.ElementType
 }>
+
+export type QuestionnaireProps<TPrimitives extends QuestionnairePrimitives> =
+  Omit<React.ComponentPropsWithoutRef<TPrimitives["Root"]>, "children"> & {
+    questions: readonly QuestionnaireQuestionData[]
+    progress?: boolean
+    actions?: boolean
+    $progress?: React.ComponentPropsWithoutRef<TPrimitives["Progress"]>
+    $item?: Omit<React.ComponentPropsWithoutRef<TPrimitives["Item"]>, "children" | "name">
+    $title?: React.ComponentPropsWithoutRef<TPrimitives["Title"]>
+    $description?: React.ComponentPropsWithoutRef<TPrimitives["Description"]>
+    $choices?: React.ComponentPropsWithoutRef<TPrimitives["Choices"]>
+    $choice?: Omit<React.ComponentPropsWithoutRef<TPrimitives["Choice"]>, "children" | "value">
+    $input?: React.ComponentPropsWithoutRef<TPrimitives["Input"]>
+    $error?: React.ComponentPropsWithoutRef<TPrimitives["Error"]>
+    $actions?: React.ComponentPropsWithoutRef<TPrimitives["Actions"]>
+    $previous?: React.ComponentPropsWithoutRef<TPrimitives["Previous"]>
+    $skip?: React.ComponentPropsWithoutRef<TPrimitives["Skip"]>
+    $next?: React.ComponentPropsWithoutRef<TPrimitives["Next"]>
+    $submit?: React.ComponentPropsWithoutRef<TPrimitives["Submit"]>
+  }
 
 export type QuestionnaireChoiceData = Readonly<{
   value: string
@@ -334,4 +226,3 @@ export type QuestionnaireQuestionData = Readonly<{
   invalid?: boolean
   error?: React.ReactNode
 }>
-
