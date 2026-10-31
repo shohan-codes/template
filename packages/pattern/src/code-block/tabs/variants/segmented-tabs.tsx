@@ -1,6 +1,6 @@
 import * as React from "react"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
-import { CodeBlock } from "../../single/variants/default-code-block"
+import { CodeBlock } from "../../single/variants/code-block"
 import {
   MultiTabCodeBlockCore,
   type MultiTabCodeBlockProps,
@@ -35,20 +35,25 @@ const TabTrigger = ({
   />
 )
 
-export const defaultSegmentedCodeBlockSlots: MultiTabCodeBlockSlots = {
+export const defaultSegmentedTabsSlots: MultiTabCodeBlockSlots = {
   Root,
   TabsList,
   TabTrigger,
   CodeBlock,
 }
 
+/** Backwards compatibility alias */
+export const defaultSegmentedCodeBlockSlots = defaultSegmentedTabsSlots
+
 /**
  * Segmented/Pill-styled multi-tab CodeBlock ideal for package manager switchers (pnpm, npm, bun, yarn).
  */
-export const SegmentedCodeBlock = (props: MultiTabCodeBlockProps) => (
+export const SegmentedTabs = (props: MultiTabCodeBlockProps) => (
   <MultiTabCodeBlockCore
-    defaultSlots={defaultSegmentedCodeBlockSlots}
+    defaultSlots={defaultSegmentedTabsSlots}
     {...props}
   />
 )
 
+/** Backwards compatibility alias */
+export const SegmentedCodeBlock = SegmentedTabs

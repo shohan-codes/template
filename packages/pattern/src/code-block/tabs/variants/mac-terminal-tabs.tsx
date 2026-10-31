@@ -1,6 +1,6 @@
 import * as React from "react"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
-import { TerminalCodeBlock } from "../../single/variants/terminal-code-block"
+import { MacTerminal } from "../../single/variants/mac-terminal"
 import {
   MultiTabCodeBlockCore,
   type MultiTabCodeBlockProps,
@@ -35,20 +35,25 @@ const TabTrigger = ({
   />
 )
 
-export const defaultTerminalTabsCodeBlockSlots: MultiTabCodeBlockSlots = {
+export const defaultMacTerminalTabsSlots: MultiTabCodeBlockSlots = {
   Root,
   TabsList,
   TabTrigger,
-  CodeBlock: TerminalCodeBlock,
+  CodeBlock: MacTerminal,
 }
+
+/** Backwards compatibility alias */
+export const defaultTerminalTabsCodeBlockSlots = defaultMacTerminalTabsSlots
 
 /**
  * Terminal-styled multi-tab CodeBlock with macOS traffic-light window dots alongside the tabs.
  */
-export const TerminalTabsCodeBlock = (props: MultiTabCodeBlockProps) => (
+export const MacTerminalTabs = (props: MultiTabCodeBlockProps) => (
   <MultiTabCodeBlockCore
-    defaultSlots={defaultTerminalTabsCodeBlockSlots}
+    defaultSlots={defaultMacTerminalTabsSlots}
     {...props}
   />
 )
 
+/** Backwards compatibility alias */
+export const TerminalTabsCodeBlock = MacTerminalTabs

@@ -1,6 +1,6 @@
 "use client"
 
-import { TerminalCodeBlock } from "@workspace/pattern"
+import { Terminal, MacTerminal } from "@workspace/pattern"
 
 const shellScript = `# Install project dependencies
 pnpm install
@@ -10,13 +10,24 @@ pnpm dev --turbo`
 
 export default function TerminalExample() {
   return (
-    <div className="max-w-2xl">
-      <TerminalCodeBlock
-        title="bash"
-        language="bash"
-        code={shellScript}
-      />
+    <div className="grid gap-6 max-w-2xl">
+      <div>
+        <h4 className="text-sm font-medium text-muted-foreground mb-2">CLI Terminal (Prompt Icon)</h4>
+        <Terminal
+          title="bash"
+          language="bash"
+          code={shellScript}
+        />
+      </div>
+
+      <div>
+        <h4 className="text-sm font-medium text-muted-foreground mb-2">Mac Terminal (Traffic-light Dots)</h4>
+        <MacTerminal
+          title="zsh"
+          language="bash"
+          code={shellScript}
+        />
+      </div>
     </div>
   )
 }
-

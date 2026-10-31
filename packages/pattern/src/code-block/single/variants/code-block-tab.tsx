@@ -3,14 +3,14 @@ import { cn } from "@workspace/shadcn-ui/lib/utils"
 import {
   defaultCodeBlockSlots,
   type CodeBlockProps,
-} from "./default-code-block"
+} from "./code-block"
 import { CodeBlockCore, type CodeBlockSlots } from "../core"
 
 /**
- * Tab Header:
+ * CodeBlock Tab Header:
  * VS Code style active tab title bar where the file title is enclosed in an editor tab.
  */
-export function TabHeader({
+export function CodeBlockTabHeader({
   className,
   children,
   ...props
@@ -31,15 +31,26 @@ export function TabHeader({
   )
 }
 
-export const tabCodeBlockSlots: CodeBlockSlots = {
+/** Backwards compatibility alias */
+export const TabHeader = CodeBlockTabHeader
+
+export const codeBlockTabSlots: CodeBlockSlots = {
   ...defaultCodeBlockSlots,
-  Header: TabHeader,
+  Header: CodeBlockTabHeader,
 }
 
-export const TabCodeBlock = (props: CodeBlockProps) => (
+/** Backwards compatibility alias */
+export const tabCodeBlockSlots = codeBlockTabSlots
+
+/**
+ * Single file CodeBlock with an active editor tab header.
+ */
+export const CodeBlockTab = (props: CodeBlockProps) => (
   <CodeBlockCore
-    defaultSlots={tabCodeBlockSlots}
+    defaultSlots={codeBlockTabSlots}
     {...props}
   />
 )
 
+/** Backwards compatibility alias */
+export const TabCodeBlock = CodeBlockTab

@@ -18,7 +18,7 @@ import {
 
 /**
  * Default Editor Header:
- * A clean, modern editor title bar with a subtle bottom border and unified min-h-9 height.
+ * A clean editor title bar with a subtle bottom border and unified min-h-9 height.
  */
 export function EditorHeader({
   className,
@@ -58,4 +58,3 @@ export const CodeBlock = (props: CodeBlockProps) => (
     {...props}
   />
 )
-

@@ -3,7 +3,7 @@ import { cn } from "@workspace/shadcn-ui/lib/utils"
 import {
   defaultCodeBlockSlots,
   type CodeBlockProps,
-} from "../../single/variants/default-code-block"
+} from "../../single/variants/code-block"
 import { CodeBlockCore } from "../../single/core"
 import {
   MultiTabCodeBlockCore,
@@ -32,7 +32,7 @@ const TabsHeader = ({
   </div>
 )
 
-const TabsCodeBlockBase = (props: CodeBlockProps) => (
+const CodeBlockTabsBase = (props: CodeBlockProps) => (
   <CodeBlockCore
     defaultSlots={{
       ...defaultCodeBlockSlots,
@@ -45,7 +45,7 @@ const TabsCodeBlockBase = (props: CodeBlockProps) => (
 const TabsList = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div
     className={cn(
-      "flex h-full items-stretch overflow-x-auto overflow-y-hidden scrollbar-none [&::-webkit-scrollbar]:hidden",
+      "flex h-full items-stretch overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
       className
     )}
     {...props}
@@ -66,19 +66,25 @@ const TabTrigger = ({
   />
 )
 
-export const defaultTabsCodeBlockSlots: MultiTabCodeBlockSlots = {
+export const defaultCodeBlockTabsSlots: MultiTabCodeBlockSlots = {
   Root,
   TabsList,
   TabTrigger,
-  CodeBlock: TabsCodeBlockBase,
+  CodeBlock: CodeBlockTabsBase,
 }
+
+/** Backwards compatibility alias */
+export const defaultTabsCodeBlockSlots = defaultCodeBlockTabsSlots
 
 /**
  * Editor-styled multi-tab CodeBlock where tabs are rendered as classic file editor tabs.
  */
-export const TabsCodeBlock = (props: MultiTabCodeBlockProps) => (
+export const CodeBlockTabs = (props: MultiTabCodeBlockProps) => (
   <MultiTabCodeBlockCore
-    defaultSlots={defaultTabsCodeBlockSlots}
+    defaultSlots={defaultCodeBlockTabsSlots}
     {...props}
   />
 )
+
+/** Backwards compatibility alias */
+export const TabsCodeBlock = CodeBlockTabs

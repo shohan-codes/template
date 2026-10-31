@@ -1,13 +1,13 @@
 "use client"
 
-import { TabsCodeBlock, type CodeBlockTab } from "@workspace/pattern"
+import { CodeBlockTabs, type CodeTab } from "@workspace/pattern"
 
-const files: readonly CodeBlockTab[] = [
+const files: readonly CodeTab[] = [
   {
     id: "page.tsx",
     label: "app/page.tsx",
     language: "tsx",
-    code: `import { TabsCodeBlock } from "@workspace/pattern"
+    code: `import { CodeBlockTabs } from "@workspace/pattern"
 
 export default function Page() {
   return (
@@ -44,8 +44,7 @@ export async function submitTelemetry(event: string) {
 export default function MultiTabExample() {
   return (
     <div className="max-w-2xl">
-      <TabsCodeBlock defaultValue="page.tsx" tabs={files} />
+      <CodeBlockTabs defaultValue="page.tsx" tabs={files} />
     </div>
   )
 }
-

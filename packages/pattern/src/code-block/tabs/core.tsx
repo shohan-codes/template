@@ -8,7 +8,7 @@ import type { CodeBlockCoreProps } from "../single/core"
  * MultiTab CodeBlock Core Types
  * ========================================================================== */
 
-export type CodeBlockTab = Readonly<{
+export type CodeTab = Readonly<{
   /** Unique identifier for the tab (e.g. "pnpm", "app/page.tsx"). */
   id: string
   /** Tab label rendered inside the tab trigger. */
@@ -39,6 +39,9 @@ export type CodeBlockTab = Readonly<{
   wrap?: boolean
 }>
 
+export type CodeBlockTabItem = CodeTab
+export type CodeTabItem = CodeTab
+
 export type MultiTabCodeBlockSlots = Readonly<{
   Root: React.ElementType
   TabsList: React.ElementType
@@ -51,7 +54,7 @@ export type MultiTabCodeBlockBaseProps = Omit<
   "children" | "defaultValue" | "onChange"
 > & {
   /** Array of tabs to display. */
-  tabs: readonly CodeBlockTab[]
+  tabs: readonly CodeTab[]
   /** Controlled active tab ID. */
   value?: string
   /** Uncontrolled default active tab ID. */

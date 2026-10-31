@@ -3,14 +3,14 @@ import { cn } from "@workspace/shadcn-ui/lib/utils"
 import {
   defaultCodeBlockSlots,
   type CodeBlockProps,
-} from "./default-code-block"
+} from "./code-block"
 import { CodeBlockCore, type CodeBlockSlots } from "../core"
 
 /**
- * Terminal Header:
- * macOS terminal window title bar with 3 traffic-light window controls and unified min-h-9 height.
+ * Mac Terminal Header:
+ * macOS terminal window title bar featuring 3 traffic-light window controls.
  */
-export function TerminalHeader({
+export function MacTerminalHeader({
   className,
   children,
   ...props
@@ -34,15 +34,17 @@ export function TerminalHeader({
   )
 }
 
-export const terminalCodeBlockSlots: CodeBlockSlots = {
+export const macTerminalSlots: CodeBlockSlots = {
   ...defaultCodeBlockSlots,
-  Header: TerminalHeader,
+  Header: MacTerminalHeader,
 }
 
-export const TerminalCodeBlock = (props: CodeBlockProps) => (
+/**
+ * macOS terminal-styled CodeBlock with 3 traffic-light window controls.
+ */
+export const MacTerminal = (props: CodeBlockProps) => (
   <CodeBlockCore
-    defaultSlots={terminalCodeBlockSlots}
+    defaultSlots={macTerminalSlots}
     {...props}
   />
 )
-

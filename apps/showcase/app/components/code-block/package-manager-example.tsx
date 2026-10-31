@@ -1,12 +1,13 @@
 "use client"
 
 import {
-  SegmentedCodeBlock,
-  TerminalTabsCodeBlock,
-  type CodeBlockTab,
+  SegmentedTabs,
+  TerminalTabs,
+  MacTerminalTabs,
+  type CodeTab,
 } from "@workspace/pattern"
 
-const installTabs: readonly CodeBlockTab[] = [
+const installTabs: readonly CodeTab[] = [
   {
     id: "pnpm",
     label: "pnpm",
@@ -40,16 +41,22 @@ export default function PackageManagerExample() {
         <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
           Segmented Switcher (Package Manager)
         </h4>
-        <SegmentedCodeBlock defaultValue="pnpm" tabs={installTabs} />
+        <SegmentedTabs defaultValue="pnpm" tabs={installTabs} />
       </div>
 
       <div>
         <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-          Terminal Multi-Tab (macOS Dots + Tabs)
+          Terminal Tabs (CLI Prompt Icon + Tabs)
         </h4>
-        <TerminalTabsCodeBlock defaultValue="pnpm" tabs={installTabs} />
+        <TerminalTabs defaultValue="pnpm" tabs={installTabs} />
+      </div>
+
+      <div>
+        <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+          Mac Terminal Tabs (macOS Dots + Tabs)
+        </h4>
+        <MacTerminalTabs defaultValue="pnpm" tabs={installTabs} />
       </div>
     </div>
   )
 }
-

@@ -1,6 +1,6 @@
 "use client"
 
-import { TabCodeBlock } from "@workspace/pattern"
+import { CodeBlockTab } from "@workspace/pattern"
 
 const queryCode = `import { useQuery } from "@tanstack/react-query"
 
@@ -15,7 +15,7 @@ export function useUserProfile(userId: string) {
 export default function TabHeaderExample() {
   return (
     <div className="max-w-2xl">
-      <TabCodeBlock
+      <CodeBlockTab
         title="use-user-profile.ts"
         language="typescript"
         code={queryCode}
@@ -24,4 +24,3 @@ export default function TabHeaderExample() {
     </div>
   )
 }
-

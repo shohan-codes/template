@@ -1,5 +1,5 @@
 export * from "./core"
-export * from "./variants/default-code-block"
-export * from "./variants/terminal-code-block"
-export * from "./variants/tab-code-block"
-
+export * from "./variants/code-block"
+export * from "./variants/code-block-tab"
+export * from "./variants/mac-terminal"
+export * from "./variants/terminal"
