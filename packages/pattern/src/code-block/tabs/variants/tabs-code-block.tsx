@@ -73,19 +73,12 @@ export const defaultTabsCodeBlockSlots: MultiTabCodeBlockSlots = {
   CodeBlock: TabsCodeBlockBase,
 }
 
-export type TabsCodeBlockProps = MultiTabCodeBlockProps
-
 /**
  * Editor-styled multi-tab CodeBlock where tabs are rendered as classic file editor tabs.
  */
-export function TabsCodeBlock({
-  defaultSlots: customDefaultSlots,
-  ...props
-}: TabsCodeBlockProps) {
-  return (
-    <MultiTabCodeBlockCore
-      defaultSlots={customDefaultSlots ?? defaultTabsCodeBlockSlots}
-      {...props}
-    />
-  )
-}
+export const TabsCodeBlock = (props: MultiTabCodeBlockProps) => (
+  <MultiTabCodeBlockCore
+    defaultSlots={defaultTabsCodeBlockSlots}
+    {...props}
+  />
+)

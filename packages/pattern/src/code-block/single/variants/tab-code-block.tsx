@@ -36,11 +36,10 @@ export const tabCodeBlockSlots: CodeBlockSlots = {
   Header: TabHeader,
 }
 
-export function TabCodeBlock(props: CodeBlockProps) {
-  return (
-    <CodeBlockCore
-      defaultSlots={tabCodeBlockSlots}
-      {...props}
-    />
-  )
-}
+export const TabCodeBlock = (props: CodeBlockProps) => (
+  <CodeBlockCore
+    defaultSlots={tabCodeBlockSlots}
+    {...props}
+  />
+)
+

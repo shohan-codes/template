@@ -42,19 +42,13 @@ export const defaultTerminalTabsCodeBlockSlots: MultiTabCodeBlockSlots = {
   CodeBlock: TerminalCodeBlock,
 }
 
-export type TerminalTabsCodeBlockProps = MultiTabCodeBlockProps
-
 /**
  * Terminal-styled multi-tab CodeBlock with macOS traffic-light window dots alongside the tabs.
  */
-export function TerminalTabsCodeBlock({
-  defaultSlots: customDefaultSlots,
-  ...props
-}: TerminalTabsCodeBlockProps) {
-  return (
-    <MultiTabCodeBlockCore
-      defaultSlots={customDefaultSlots ?? defaultTerminalTabsCodeBlockSlots}
-      {...props}
-    />
-  )
-}
+export const TerminalTabsCodeBlock = (props: MultiTabCodeBlockProps) => (
+  <MultiTabCodeBlockCore
+    defaultSlots={defaultTerminalTabsCodeBlockSlots}
+    {...props}
+  />
+)
+

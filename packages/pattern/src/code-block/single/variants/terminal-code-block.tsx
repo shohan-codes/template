@@ -39,11 +39,10 @@ export const terminalCodeBlockSlots: CodeBlockSlots = {
   Header: TerminalHeader,
 }
 
-export function TerminalCodeBlock(props: CodeBlockProps) {
-  return (
-    <CodeBlockCore
-      defaultSlots={terminalCodeBlockSlots}
-      {...props}
-    />
-  )
-}
+export const TerminalCodeBlock = (props: CodeBlockProps) => (
+  <CodeBlockCore
+    defaultSlots={terminalCodeBlockSlots}
+    {...props}
+  />
+)
+

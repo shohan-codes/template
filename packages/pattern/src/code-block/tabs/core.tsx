@@ -85,10 +85,7 @@ export type MultiTabCodeBlockCoreProps = MultiTabCodeBlockBaseProps & {
   defaultSlots: MultiTabCodeBlockSlots
 }
 
-export type MultiTabCodeBlockProps = MultiTabCodeBlockBaseProps & {
-  /** Optional custom default slots override. */
-  defaultSlots?: MultiTabCodeBlockSlots
-}
+export type MultiTabCodeBlockProps = MultiTabCodeBlockBaseProps
 
 /* ========================================================================== *\
  * Headless MultiTab CodeBlock Core Component

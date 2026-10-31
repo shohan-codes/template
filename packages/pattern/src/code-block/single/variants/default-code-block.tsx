@@ -50,10 +50,7 @@ export const defaultCodeBlockSlots: CodeBlockSlots = {
   Footer,
 }
 
-export type CodeBlockProps = Omit<CodeBlockCoreProps, "defaultSlots"> & {
-  /** Optional custom default slots override. */
-  defaultSlots?: CodeBlockSlots
-}
+export type CodeBlockProps = Omit<CodeBlockCoreProps, "defaultSlots">
 
 export const CodeBlock = (props: CodeBlockProps) => (
   <CodeBlockCore
@@ -61,3 +58,4 @@ export const CodeBlock = (props: CodeBlockProps) => (
     {...props}
   />
 )
+

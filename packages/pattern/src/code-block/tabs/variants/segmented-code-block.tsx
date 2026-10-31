@@ -42,19 +42,13 @@ export const defaultSegmentedCodeBlockSlots: MultiTabCodeBlockSlots = {
   CodeBlock,
 }
 
-export type SegmentedCodeBlockProps = MultiTabCodeBlockProps
-
 /**
  * Segmented/Pill-styled multi-tab CodeBlock ideal for package manager switchers (pnpm, npm, bun, yarn).
  */
-export function SegmentedCodeBlock({
-  defaultSlots: customDefaultSlots,
-  ...props
-}: SegmentedCodeBlockProps) {
-  return (
-    <MultiTabCodeBlockCore
-      defaultSlots={customDefaultSlots ?? defaultSegmentedCodeBlockSlots}
-      {...props}
-    />
-  )
-}
+export const SegmentedCodeBlock = (props: MultiTabCodeBlockProps) => (
+  <MultiTabCodeBlockCore
+    defaultSlots={defaultSegmentedCodeBlockSlots}
+    {...props}
+  />
+)
+
