@@ -1,12 +1,21 @@
 import * as React from "react"
 import { TabHeader } from "../headers/tab-header"
-import { CodeBlock, type CodeBlockProps } from "./default-code-block"
+import {
+  defaultCodeBlockSlots,
+  type CodeBlockProps,
+} from "./default-code-block"
+import { CodeBlockCore, type CodeBlockSlots } from "../core"
 
-export function TabCodeBlock({ slots, ...props }: CodeBlockProps) {
+export const tabCodeBlockSlots: CodeBlockSlots = {
+  ...defaultCodeBlockSlots,
+  Header: TabHeader,
+}
+
+export function TabCodeBlock(props: CodeBlockProps) {
   return (
-    <CodeBlock
+    <CodeBlockCore
+      defaultSlots={tabCodeBlockSlots}
       {...props}
-      slots={{ ...(slots ?? {}), Header: TabHeader }}
     />
   )
 }

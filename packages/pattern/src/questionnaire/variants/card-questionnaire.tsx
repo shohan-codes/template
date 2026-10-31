@@ -19,7 +19,8 @@ import {
 } from "@workspace/shadcn-ui"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
 
-import { createQuestionnaire } from "../core"
+import { Questionnaire, type QuestionnaireProps } from "./default-questionnaire"
+import type { QuestionnaireSlots } from "../core"
 
 const Root = ({
   className,
@@ -53,7 +54,10 @@ const Item = ({
   className,
   ...props
 }: React.ComponentProps<typeof ItemPrimitive>) => (
-  <ItemPrimitive {...props} className={cn("space-y-5", className)} />
+  <ItemPrimitive
+    {...props}
+    className={cn("space-y-4 pt-2 first:pt-0", className)}
+  />
 )
 
 const Title = ({
@@ -80,10 +84,7 @@ const Choices = ({
   className,
   ...props
 }: React.ComponentProps<typeof ChoicesPrimitive>) => (
-  <ChoicesPrimitive
-    {...props}
-    className={cn("grid gap-2.5 sm:grid-cols-1", className)}
-  />
+  <ChoicesPrimitive {...props} className={cn("grid gap-3 pt-2", className)} />
 )
 
 const Choice = ({
@@ -93,9 +94,7 @@ const Choice = ({
   <ChoicePrimitive
     {...props}
     className={cn(
-      "min-h-12 items-center px-4 py-3 rounded-lg border border-border/70 bg-card/60 transition-all",
-      "hover:bg-accent/40 hover:border-border",
-      "data-checked:border-primary data-checked:bg-primary/10 dark:data-checked:bg-primary/15",
+      "relative flex cursor-pointer items-start gap-3 rounded-lg border bg-card/50 p-4 shadow-2xs transition-all hover:bg-accent/40 data-[state=checked]:border-primary data-[state=checked]:bg-primary/5",
       className
     )}
   />
@@ -118,7 +117,7 @@ const Actions = ({
   </CardFooter>
 )
 
-export const cardQuestionnairePrimitives = {
+export const cardQuestionnaireSlots: QuestionnaireSlots = {
   Root,
   Progress,
   Item,
@@ -133,6 +132,21 @@ export const cardQuestionnairePrimitives = {
   Skip: SkipPrimitive,
   Next: NextPrimitive,
   Submit: SubmitPrimitive,
-} as const
+}
 
-export const CardQuestionnaire = createQuestionnaire(cardQuestionnairePrimitives)
+/** Backwards-compatibility alias. */
+export const cardQuestionnairePrimitives = cardQuestionnaireSlots
+
+export type CardQuestionnaireProps = QuestionnaireProps
+
+/**
+ * Card-styled Questionnaire featuring an enclosed container and custom choice cards.
+ */
+export function CardQuestionnaire(props: CardQuestionnaireProps) {
+  return (
+    <Questionnaire
+      defaultSlots={cardQuestionnaireSlots}
+      {...props}
+    />
+  )
+}

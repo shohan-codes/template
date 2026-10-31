@@ -7,13 +7,20 @@ import {
 } from "@workspace/shadcn-ui"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
 
-import { createAccordion } from "../core"
+import { Accordion, type AccordionProps } from "./default-accordion"
+import type { AccordionSlots } from "../core"
 
-const Root = ({ className, ...props }: React.ComponentProps<typeof AccordionRoot>) => (
+const Root = ({
+  className,
+  ...props
+}: React.ComponentProps<typeof AccordionRoot>) => (
   <AccordionRoot {...props} className={cn("w-full space-y-2.5", className)} />
 )
 
-const Item = ({ className, ...props }: React.ComponentProps<typeof AccordionItem>) => (
+const Item = ({
+  className,
+  ...props
+}: React.ComponentProps<typeof AccordionItem>) => (
   <AccordionItem
     {...props}
     className={cn(
@@ -23,32 +30,49 @@ const Item = ({ className, ...props }: React.ComponentProps<typeof AccordionItem
   />
 )
 
-const Trigger = ({ className, ...props }: React.ComponentProps<typeof AccordionTrigger>) => (
+const Trigger = ({
+  className,
+  ...props
+}: React.ComponentProps<typeof AccordionTrigger>) => (
   <AccordionTrigger
     {...props}
     className={cn("py-3 text-start font-medium hover:no-underline", className)}
   />
 )
 
-const Content = ({ className, ...props }: React.ComponentProps<typeof AccordionContent>) => (
+const Content = ({
+  className,
+  ...props
+}: React.ComponentProps<typeof AccordionContent>) => (
   <AccordionContent
     {...props}
-    className={cn("pt-1 pb-3 text-sm text-muted-foreground leading-relaxed", className)}
+    className={cn(
+      "pt-1 pb-3 text-sm text-muted-foreground leading-relaxed",
+      className
+    )}
   />
 )
 
-const CardAccordionBase = createAccordion({
+export const cardAccordionSlots: AccordionSlots = {
   Root,
   Item,
   Trigger,
   Content,
-})
+}
 
-export type CardAccordionProps = React.ComponentProps<typeof CardAccordionBase>
+/** Backwards-compatibility alias. */
+export const cardAccordionPrimitives = cardAccordionSlots
+
+export type CardAccordionProps = AccordionProps
 
 /**
  * Card-styled Accordion where each item is rendered as an independent rounded card.
  */
-export const CardAccordion = React.memo(CardAccordionBase)
-
-
+export function CardAccordion(props: CardAccordionProps) {
+  return (
+    <Accordion
+      defaultSlots={cardAccordionSlots}
+      {...props}
+    />
+  )
+}

@@ -1,3 +1,4 @@
+import * as React from "react"
 import {
   Questionnaire as Root,
   QuestionnaireProgress as Progress,
@@ -15,9 +16,13 @@ import {
   QuestionnaireSubmit as Submit,
 } from "@workspace/shadcn-ui"
 
-import { createQuestionnaire } from "../core"
+import {
+  QuestionnaireCore,
+  type QuestionnaireProps,
+  type QuestionnaireSlots,
+} from "../core"
 
-export const defaultQuestionnairePrimitives = {
+export const defaultQuestionnaireSlots: QuestionnaireSlots = {
   Root,
   Progress,
   Item,
@@ -32,6 +37,18 @@ export const defaultQuestionnairePrimitives = {
   Skip,
   Next,
   Submit,
-} as const
+}
 
-export const Questionnaire = createQuestionnaire(defaultQuestionnairePrimitives)
+/** Backwards-compatibility alias. */
+export const defaultQuestionnairePrimitives = defaultQuestionnaireSlots
+
+export type { QuestionnaireProps }
+
+export function Questionnaire(props: QuestionnaireProps) {
+  return (
+    <QuestionnaireCore
+      defaultSlots={defaultQuestionnaireSlots}
+      {...props}
+    />
+  )
+}

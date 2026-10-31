@@ -1,3 +1,4 @@
+import * as React from "react"
 import {
   Accordion as Root,
   AccordionItem as Item,
@@ -5,20 +6,29 @@ import {
   AccordionContent as Content,
 } from "@workspace/shadcn-ui"
 
-import { createAccordion } from "../core"
-import React from "react"
+import {
+  AccordionCore,
+  type AccordionProps,
+  type AccordionSlots,
+} from "../core"
 
-export const defaultAccordionPrimitives = {
+export const defaultAccordionSlots: AccordionSlots = {
   Root,
   Item,
   Trigger,
   Content,
-} as const
+}
 
+/** Backwards-compatibility alias. */
+export const defaultAccordionPrimitives = defaultAccordionSlots
 
-const AccordionBase = createAccordion(defaultAccordionPrimitives)
+export type { AccordionProps }
 
-export const Accordion = React.memo(AccordionBase)
-
-Accordion.displayName = "Accordion"
-
+export function Accordion(props: AccordionProps) {
+  return (
+    <AccordionCore
+      defaultSlots={defaultAccordionSlots}
+      {...props}
+    />
+  )
+}

@@ -6,138 +6,131 @@ import { cn } from "@workspace/shadcn-ui/lib/utils"
 import { resolveColumnClass, type QuestionnaireColumns } from "./utilities/columns"
 
 /* ========================================================================== *\
- * Questionnaire Factory
+ * Headless Questionnaire Core Component
  * ========================================================================== */
 
 /**
- * Creates a data-driven Questionnaire component configured with the provided primitives.
+ * Headless, data-driven Questionnaire core component.
+ * Expects `defaultSlots` to be injected from outside, achieving loose coupling.
  */
-export function createQuestionnaire<const TPrimitives extends QuestionnairePrimitives>(
-  defaultPrimitives: TPrimitives,
-  slots?: Partial<TPrimitives>
-) {
-  const P = { ...defaultPrimitives, ...slots }
+export function QuestionnaireCore({
+  questions,
+  progress,
+  actions,
+  defaultSlots,
+  slots,
+  $progress,
+  $item,
+  $title,
+  $description,
+  $choices,
+  $choice,
+  $input,
+  $error,
+  $actions,
+  $previous,
+  $skip,
+  $next,
+  $submit,
+  ...rootProps
+}: QuestionnaireCoreProps) {
+  if (questions.length === 0) return null
 
-  function Questionnaire(props: QuestionnaireProps<TPrimitives>) {
-    const {
-      questions,
-      progress,
-      actions,
-      $progress,
-      $item,
-      $title,
-      $description,
-      $choices,
-      $choice,
-      $input,
-      $error,
-      $actions,
-      $previous,
-      $skip,
-      $next,
-      $submit,
-      ...rootProps
-    } = props
+  const P = slots ? { ...defaultSlots, ...slots } : defaultSlots
 
-    if (questions.length === 0) return null
+  // Automatically derive the item definitions for Root state tracking
+  const itemDefinitions = questions.map((q) => ({
+    name: q.name,
+    required: q.required,
+    disabled: q.disabled,
+    choices: q.choices?.map((c) => ({
+      value: c.value,
+      disabled: c.disabled,
+    })),
+  }))
 
-    // Automatically derive the item definitions for Root state tracking
-    const itemDefinitions = questions.map((q) => ({
-      name: q.name,
-      required: q.required,
-      disabled: q.disabled,
-      choices: q.choices?.map((c) => ({
-        value: c.value,
-        disabled: c.disabled,
-      })),
-    }))
+  return (
+    <P.Root items={itemDefinitions} {...rootProps}>
+      {progress !== false && <P.Progress {...$progress} />}
 
-    return (
-      <P.Root items={itemDefinitions} {...rootProps}>
-        {progress !== false && <P.Progress {...$progress} />}
+      {questions.map((q) => (
+        <P.Item
+          key={q.name}
+          name={q.name}
+          required={q.required}
+          disabled={q.disabled}
+          multiple={q.multiple}
+          invalid={q.invalid}
+          {...$item}
+        >
+          {q.title && <P.Title {...$title}>{q.title}</P.Title>}
 
-        {questions.map((q) => (
-          <P.Item
-            key={q.name}
-            name={q.name}
-            required={q.required}
-            disabled={q.disabled}
-            multiple={q.multiple}
-            invalid={q.invalid}
-            {...$item}
-          >
-            {q.title && <P.Title {...$title}>{q.title}</P.Title>}
+          {q.description && (
+            <P.Description {...$description}>
+              {q.description}
+            </P.Description>
+          )}
 
-            {q.description && (
-              <P.Description {...$description}>
-                {q.description}
-              </P.Description>
-            )}
+          {((q.choices && q.choices.length > 0) || q.input) && (
+            <P.Choices
+              {...$choices}
+              className={cn(resolveColumnClass(q.columns), $choices?.className)}
+            >
+              {q.choices?.map((choice) => (
+                <P.Choice
+                  key={choice.value}
+                  value={choice.value}
+                  disabled={choice.disabled}
+                  {...$choice}
+                >
+                  {choice.description ? (
+                    <>
+                      <span>{choice.label ?? choice.value}</span>
+                      <span
+                        data-slot="questionnaire-choice-description"
+                        className="text-muted-foreground text-xs"
+                      >
+                        {choice.description}
+                      </span>
+                    </>
+                  ) : (
+                    choice.label ?? choice.value
+                  )}
+                </P.Choice>
+              ))}
 
-            {((q.choices && q.choices.length > 0) || q.input) && (
-              <P.Choices
-                {...$choices}
-                className={cn(resolveColumnClass(q.columns), $choices?.className)}
-              >
-                {q.choices?.map((choice) => (
-                  <P.Choice
-                    key={choice.value}
-                    value={choice.value}
-                    disabled={choice.disabled}
-                    {...$choice}
-                  >
-                    {choice.description ? (
-                      <>
-                        <span>{choice.label ?? choice.value}</span>
-                        <span
-                          data-slot="questionnaire-choice-description"
-                          className="text-muted-foreground text-xs"
-                        >
-                          {choice.description}
-                        </span>
-                      </>
-                    ) : (
-                      choice.label ?? choice.value
-                    )}
-                  </P.Choice>
-                ))}
+              {q.input && (
+                <div className={cn(q.columns ? "col-span-full" : undefined)}>
+                  <P.Input
+                    {...(typeof q.input === "object" ? q.input : {})}
+                    {...$input}
+                  />
+                </div>
+              )}
+            </P.Choices>
+          )}
 
-                {q.input && (
-                  <div className={cn(q.columns ? "col-span-full" : undefined)}>
-                    <P.Input
-                      {...(typeof q.input === "object" ? q.input : {})}
-                      {...$input}
-                    />
-                  </div>
-                )}
-              </P.Choices>
-            )}
+          {q.error && <P.Error {...$error}>{q.error}</P.Error>}
+        </P.Item>
+      ))}
 
-            {q.error && <P.Error {...$error}>{q.error}</P.Error>}
-          </P.Item>
-        ))}
-
-        {actions !== false && (
-          <P.Actions {...$actions}>
-            <P.Previous {...$previous} />
-            <P.Skip {...$skip} />
-            <P.Next {...$next} />
-            <P.Submit {...$submit} />
-          </P.Actions>
-        )}
-      </P.Root>
-    )
-  }
-
-  return Questionnaire
+      {actions !== false && (
+        <P.Actions {...$actions}>
+          <P.Previous {...$previous} />
+          <P.Skip {...$skip} />
+          <P.Next {...$next} />
+          <P.Submit {...$submit} />
+        </P.Actions>
+      )}
+    </P.Root>
+  )
 }
 
 /* ========================================================================== *\
  * Questionnaire Types
  * ========================================================================== */
 
-/** The primitives record used by the data-driven Questionnaire. */
-export type QuestionnairePrimitives = Readonly<{
+export type QuestionnaireSlots = Readonly<{
   Root: React.ElementType
   Progress: React.ElementType
   Item: React.ElementType
@@ -154,25 +147,47 @@ export type QuestionnairePrimitives = Readonly<{
   Submit: React.ElementType
 }>
 
-export type QuestionnaireProps<TPrimitives extends QuestionnairePrimitives> =
-  Omit<React.ComponentPropsWithoutRef<TPrimitives["Root"]>, "children"> & {
-    questions: readonly QuestionnaireQuestionData[]
-    progress?: boolean
-    actions?: boolean
-    $progress?: React.ComponentPropsWithoutRef<TPrimitives["Progress"]>
-    $item?: Omit<React.ComponentPropsWithoutRef<TPrimitives["Item"]>, "children" | "name">
-    $title?: React.ComponentPropsWithoutRef<TPrimitives["Title"]>
-    $description?: React.ComponentPropsWithoutRef<TPrimitives["Description"]>
-    $choices?: React.ComponentPropsWithoutRef<TPrimitives["Choices"]>
-    $choice?: Omit<React.ComponentPropsWithoutRef<TPrimitives["Choice"]>, "children" | "value">
-    $input?: React.ComponentPropsWithoutRef<TPrimitives["Input"]>
-    $error?: React.ComponentPropsWithoutRef<TPrimitives["Error"]>
-    $actions?: React.ComponentPropsWithoutRef<TPrimitives["Actions"]>
-    $previous?: React.ComponentPropsWithoutRef<TPrimitives["Previous"]>
-    $skip?: React.ComponentPropsWithoutRef<TPrimitives["Skip"]>
-    $next?: React.ComponentPropsWithoutRef<TPrimitives["Next"]>
-    $submit?: React.ComponentPropsWithoutRef<TPrimitives["Submit"]>
-  }
+/** Backwards-compatibility alias. */
+export type QuestionnairePrimitives = QuestionnaireSlots
+
+export type QuestionnaireShortcutMode = "letters" | "numbers"
+
+export type QuestionnaireBaseProps = Omit<
+  React.ComponentPropsWithoutRef<"form">,
+  "children" | "defaultValue" | "value"
+> & {
+  questions: readonly QuestionnaireQuestionData[]
+  progress?: boolean
+  actions?: boolean
+  defaultItem?: string
+  item?: string
+  onItemChange?: (item: string) => void
+  shortcuts?: QuestionnaireShortcutMode
+  slots?: Partial<QuestionnaireSlots>
+  $progress?: Record<string, unknown>
+  $item?: Record<string, unknown>
+  $title?: Record<string, unknown>
+  $description?: Record<string, unknown>
+  $choices?: Record<string, unknown> & { className?: string }
+  $choice?: Record<string, unknown>
+  $input?: Record<string, unknown>
+  $error?: Record<string, unknown>
+  $actions?: Record<string, unknown>
+  $previous?: Record<string, unknown>
+  $skip?: Record<string, unknown>
+  $next?: Record<string, unknown>
+  $submit?: Record<string, unknown>
+}
+
+export type QuestionnaireCoreProps = QuestionnaireBaseProps & {
+  /** Injected default slots for loosely coupled primitives. */
+  defaultSlots: QuestionnaireSlots
+}
+
+export type QuestionnaireProps = QuestionnaireBaseProps & {
+  /** Optional custom default slots override. */
+  defaultSlots?: QuestionnaireSlots
+}
 
 export type QuestionnaireChoiceData = Readonly<{
   value: string
