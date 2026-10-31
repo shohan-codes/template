@@ -171,3 +171,4 @@ export type CodeBlockProps<TPrimitives extends CodeBlockPrimitives = CodeBlockPr
   /** Slot props passed directly to the Footer primitive. */
   $footer?: Omit<React.ComponentPropsWithoutRef<TPrimitives["Footer"]>, "children">
 }
+

@@ -23,3 +23,4 @@ export const defaultCodeBlockPrimitives = {
 } as const
 
 export const CodeBlock = createCodeBlock(defaultCodeBlockPrimitives)
+
