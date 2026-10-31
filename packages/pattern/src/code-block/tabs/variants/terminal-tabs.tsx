@@ -72,11 +72,3 @@ export const TerminalTabs = ({
     {...props}
   />
 )
-
-/** Backwards compatibility alias for macOS terminal tabs */
-export const MacTerminalTabs = (props: TerminalTabsProps) => (
-  <TerminalTabs indicator="macos" {...props} />
-)
-
-/** Backwards compatibility alias */
-export const TerminalTabsCodeBlock = TerminalTabs

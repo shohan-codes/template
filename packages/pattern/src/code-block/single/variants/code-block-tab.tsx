@@ -6,41 +6,54 @@ import {
 } from "./code-block"
 import { CodeBlockCore, type CodeBlockSlots } from "../core"
 
-/**
- * CodeBlock Tab Header:
- * VS Code style active tab title bar where the file title is enclosed in an editor tab.
- */
-export function CodeBlockTabHeader({
+export const CodeBlockTabHeader = ({
   className,
-  children,
   ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="code-block-header"
-      className={cn(
-        "flex min-h-9 min-w-0 shrink-0 items-stretch border-b border-border bg-muted/20 px-0 py-0 text-muted-foreground",
-        "*:data-[slot=code-block-title]:inline-flex *:data-[slot=code-block-title]:items-center *:data-[slot=code-block-title]:border-r *:data-[slot=code-block-title]:border-border *:data-[slot=code-block-title]:bg-background *:data-[slot=code-block-title]:px-4 *:data-[slot=code-block-title]:text-foreground *:data-[slot=code-block-title]:font-mono *:data-[slot=code-block-title]:text-xs *:data-[slot=code-block-title]:h-9",
-        "*:data-[slot=code-block-actions]:pe-3 *:data-[slot=code-block-actions]:my-auto",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  )
-}
+}: React.ComponentProps<"div">) => (
+  <div
+    data-slot="code-block-header"
+    className={cn(
+      "flex min-h-9 min-w-0 shrink-0 items-stretch border-b border-border bg-muted/20 px-0 py-0 text-muted-foreground",
+      className
+    )}
+    {...props}
+  />
+)
 
-/** Backwards compatibility alias */
-export const TabHeader = CodeBlockTabHeader
+export const CodeBlockTabTitle = ({
+  className,
+  ...props
+}: React.ComponentProps<"div">) => (
+  <div
+    data-slot="code-block-title"
+    className={cn(
+      "inline-flex h-9 items-center border-r border-border bg-background px-4 font-mono text-xs text-foreground",
+      className
+    )}
+    {...props}
+  />
+)
+
+export const CodeBlockTabActions = ({
+  className,
+  ...props
+}: React.ComponentProps<"div">) => (
+  <div
+    data-slot="code-block-actions"
+    className={cn(
+      "ms-auto flex shrink-0 items-center gap-1 pe-3 my-auto",
+      className
+    )}
+    {...props}
+  />
+)
 
 export const codeBlockTabSlots: CodeBlockSlots = {
   ...defaultCodeBlockSlots,
   Header: CodeBlockTabHeader,
+  Title: CodeBlockTabTitle,
+  Actions: CodeBlockTabActions,
 }
-
-/** Backwards compatibility alias */
-export const tabCodeBlockSlots = codeBlockTabSlots
 
 /**
  * Single file CodeBlock with an active editor tab header.
@@ -51,7 +64,3 @@ export const CodeBlockTab = (props: CodeBlockProps) => (
     {...props}
   />
 )
-
-/** Backwards compatibility alias */
-export const TabCodeBlock = CodeBlockTab
-

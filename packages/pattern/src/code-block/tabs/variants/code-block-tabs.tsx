@@ -17,19 +17,30 @@ const Root = ({ className, ...props }: React.ComponentProps<"div">) => (
 
 const TabsHeader = ({
   className,
-  children,
   ...props
 }: React.ComponentProps<"div">) => (
   <div
     data-slot="code-block-header"
     className={cn(
-      "flex min-h-9 min-w-0 shrink-0 items-stretch border-b border-border bg-muted/20 px-0 py-0 text-muted-foreground *:data-[slot=code-block-actions]:pe-3 *:data-[slot=code-block-actions]:my-auto",
+      "flex min-h-9 min-w-0 shrink-0 items-stretch border-b border-border bg-muted/20 px-0 py-0 text-muted-foreground",
       className
     )}
     {...props}
-  >
-    {children}
-  </div>
+  />
+)
+
+const TabsActions = ({
+  className,
+  ...props
+}: React.ComponentProps<"div">) => (
+  <div
+    data-slot="code-block-actions"
+    className={cn(
+      "ms-auto flex shrink-0 items-center gap-1 pe-3 my-auto",
+      className
+    )}
+    {...props}
+  />
 )
 
 const CodeBlockTabsBase = (props: CodeBlockProps) => (
@@ -37,6 +48,7 @@ const CodeBlockTabsBase = (props: CodeBlockProps) => (
     defaultSlots={{
       ...defaultCodeBlockSlots,
       Header: TabsHeader,
+      Actions: TabsActions,
     }}
     {...props}
   />
@@ -73,9 +85,6 @@ export const defaultCodeBlockTabsSlots: MultiTabCodeBlockSlots = {
   CodeBlock: CodeBlockTabsBase,
 }
 
-/** Backwards compatibility alias */
-export const defaultTabsCodeBlockSlots = defaultCodeBlockTabsSlots
-
 /**
  * Editor-styled multi-tab CodeBlock where tabs are rendered as classic file editor tabs.
  */
@@ -85,7 +94,3 @@ export const CodeBlockTabs = (props: MultiTabCodeBlockProps) => (
     {...props}
   />
 )
-
-/** Backwards compatibility alias */
-export const TabsCodeBlock = CodeBlockTabs
-

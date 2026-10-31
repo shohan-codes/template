@@ -39,9 +39,6 @@ export type CodeTab = Readonly<{
   wrap?: boolean
 }>
 
-export type CodeBlockTabItem = CodeTab
-export type CodeTabItem = CodeTab
-
 export type MultiTabCodeBlockSlots = Readonly<{
   Root: React.ElementType
   TabsList: React.ElementType

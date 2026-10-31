@@ -85,11 +85,3 @@ export const Terminal = ({
     {...props}
   />
 )
-
-/** Backwards-compatibility alias for macOS terminal */
-export const MacTerminal = (props: TerminalProps) => (
-  <Terminal indicator="macos" {...props} />
-)
-
-/** Backwards-compatibility alias */
-export const TerminalCodeBlock = Terminal
