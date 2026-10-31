@@ -35,6 +35,12 @@ import FolderTabsExampleRaw from "./folder-tabs-example.tsx?raw" with {
   turbopackAs: "*.js",
 }
 
+import EditorTabsExample from "./editor-tabs-example"
+import EditorTabsExampleRaw from "./editor-tabs-example.tsx?raw" with {
+  turbopackLoader: "raw-loader",
+  turbopackAs: "*.js",
+}
+
 import SidebarTabsExample from "./sidebar-tabs-example"
 import SidebarTabsExampleRaw from "./sidebar-tabs-example.tsx?raw" with {
   turbopackLoader: "raw-loader",
@@ -51,10 +57,18 @@ const tabsShowcaseItems: readonly ShowcaseItem[] = [
     preview: <SegmentedTabsExample />,
   },
   {
-    id: "folder-tabs",
-    title: "Connected Folder Tabs (VS Code / GitHub)",
+    id: "editor-tabs",
+    title: "Code Editor & IDE Tabs (VS Code / Zed)",
     description:
-      "Classic browser & code-editor tab bar where the active tab seamlessly merges with the content container below.",
+      "Flush developer window tab strip with vertical borders, line-numbered syntax viewer, and status bar.",
+    code: EditorTabsExampleRaw,
+    preview: <EditorTabsExample />,
+  },
+  {
+    id: "folder-tabs",
+    title: "Connected Folder Tabs (macOS Finder / Browser)",
+    description:
+      "Classic file-folder index tabs where rounded tab caps smoothly merge into the resource card container below.",
     code: FolderTabsExampleRaw,
     preview: <FolderTabsExample />,
   },
