@@ -1,13 +1,8 @@
 "use client"
 
 import * as React from "react"
+import { Tabs as TabsPrimitive } from "radix-ui"
 import { Card } from "@workspace/shadcn-ui"
-import {
-  Tabs as RootPrimitive,
-  TabsList as ListPrimitive,
-  TabsTrigger as TriggerPrimitive,
-  TabsContent as ContentPrimitive,
-} from "@workspace/shadcn-ui"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
 
 import { TabsCore, type TabsProps, type TabsSlots } from "../core"
@@ -15,9 +10,9 @@ import { TabsCore, type TabsProps, type TabsSlots } from "../core"
 const Root = ({
   className,
   ...props
-}: React.ComponentProps<typeof RootPrimitive>) => (
+}: React.ComponentProps<typeof TabsPrimitive.Root>) => (
   <Card className="w-full bg-card/20 overflow-hidden border shadow-sm">
-    <RootPrimitive
+    <TabsPrimitive.Root
       className={cn("w-full flex flex-col gap-0", className)}
       {...props}
     />
@@ -27,10 +22,13 @@ const Root = ({
 const List = ({
   className,
   ...props
-}: React.ComponentProps<typeof ListPrimitive>) => (
+}: React.ComponentProps<typeof TabsPrimitive.List>) => (
   <div className="flex w-full items-center border-b border-border bg-muted/20 px-3 py-2 sm:px-4">
-    <ListPrimitive
-      className={cn("h-8 bg-muted/60 p-0.5", className)}
+    <TabsPrimitive.List
+      className={cn(
+        "inline-flex h-8 items-center rounded-lg border border-border/60 bg-muted/60 p-0.5 text-muted-foreground",
+        className
+      )}
       {...props}
     />
   </div>
@@ -39,10 +37,14 @@ const List = ({
 const Trigger = ({
   className,
   ...props
-}: React.ComponentProps<typeof TriggerPrimitive>) => (
-  <TriggerPrimitive
+}: React.ComponentProps<typeof TabsPrimitive.Trigger>) => (
+  <TabsPrimitive.Trigger
     className={cn(
-      "px-3 text-xs font-medium",
+      "inline-flex h-7 items-center justify-center gap-1.5 rounded-md border border-transparent px-3 text-xs font-medium whitespace-nowrap text-muted-foreground transition-all duration-150 select-none cursor-pointer outline-none hover:text-foreground",
+      "focus-visible:ring-2 focus-visible:ring-ring/50",
+      "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:border-border/80 data-[state=active]:shadow-xs",
+      "dark:data-[state=active]:bg-secondary dark:data-[state=active]:text-foreground dark:data-[state=active]:border-border/70 dark:data-[state=active]:shadow-xs",
+      "disabled:pointer-events-none disabled:opacity-50",
       className
     )}
     {...props}
@@ -52,8 +54,8 @@ const Trigger = ({
 const Content = ({
   className,
   ...props
-}: React.ComponentProps<typeof ContentPrimitive>) => (
-  <ContentPrimitive
+}: React.ComponentProps<typeof TabsPrimitive.Content>) => (
+  <TabsPrimitive.Content
     className={cn(
       "p-4 sm:p-6 text-sm text-foreground focus-visible:outline-hidden",
       className

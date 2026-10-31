@@ -11,7 +11,7 @@ const Root = ({
   ...props
 }: React.ComponentProps<typeof TabsPrimitive.Root>) => (
   <TabsPrimitive.Root
-    className={cn("w-full flex flex-col gap-4", className)}
+    className={cn("w-full flex flex-col items-start gap-4", className)}
     {...props}
   />
 )
@@ -22,7 +22,7 @@ const List = ({
 }: React.ComponentProps<typeof TabsPrimitive.List>) => (
   <TabsPrimitive.List
     className={cn(
-      "inline-flex h-9 items-center rounded-lg border border-border/60 bg-muted/40 p-1 text-muted-foreground shadow-2xs backdrop-blur-xs",
+      "inline-flex h-9 w-fit items-center rounded-lg border border-border/60 bg-muted/40 p-1 text-muted-foreground shadow-2xs backdrop-blur-xs",
       className
     )}
     {...props}
@@ -37,7 +37,8 @@ const Trigger = ({
     className={cn(
       "inline-flex h-7 items-center justify-center gap-2 rounded-md border border-transparent px-3 text-xs font-medium whitespace-nowrap text-muted-foreground transition-all duration-150 select-none cursor-pointer outline-none hover:text-foreground",
       "focus-visible:ring-2 focus-visible:ring-ring/50",
-      "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:font-medium data-[state=active]:border-border/80 data-[state=active]:shadow-xs dark:data-[state=active]:bg-card dark:data-[state=active]:border-border/70",
+      "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:font-medium data-[state=active]:border-border/80 data-[state=active]:shadow-xs",
+      "dark:data-[state=active]:bg-secondary dark:data-[state=active]:text-foreground dark:data-[state=active]:border-border/70 dark:data-[state=active]:shadow-xs",
       "disabled:pointer-events-none disabled:opacity-50",
       className
     )}
@@ -71,6 +72,11 @@ export type SegmentedTabsProps = TabsProps & {
    * Defaults to false.
    */
   pill?: boolean
+  /**
+   * Whether the segmented control should expand to fill the full container width.
+   * Defaults to false.
+   */
+  fullWidth?: boolean
 }
 
 /**
@@ -78,6 +84,8 @@ export type SegmentedTabsProps = TabsProps & {
  */
 export function SegmentedTabs({
   pill = false,
+  fullWidth = false,
+  className,
   $list,
   $trigger,
   ...props
@@ -85,9 +93,14 @@ export function SegmentedTabs({
   return (
     <TabsCore
       defaultSlots={segmentedTabsSlots}
+      className={cn(fullWidth ? "items-stretch" : "items-start", className)}
       $list={{
         ...$list,
-        className: cn(pill && "rounded-full", $list?.className),
+        className: cn(
+          fullWidth ? "w-full grid grid-flow-col auto-cols-fr" : "w-fit",
+          pill && "rounded-full",
+          $list?.className
+        ),
       }}
       $trigger={{
         ...$trigger,
