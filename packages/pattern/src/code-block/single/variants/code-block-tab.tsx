@@ -54,3 +54,4 @@ export const CodeBlockTab = (props: CodeBlockProps) => (
 
 /** Backwards compatibility alias */
 export const TabCodeBlock = CodeBlockTab
+

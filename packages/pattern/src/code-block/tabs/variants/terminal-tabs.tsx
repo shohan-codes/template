@@ -1,6 +1,9 @@
 import * as React from "react"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
-import { Terminal } from "../../single/variants/terminal"
+import {
+  Terminal,
+  type TerminalIndicator,
+} from "../../single/variants/terminal"
 import {
   MultiTabCodeBlockCore,
   type MultiTabCodeBlockProps,
@@ -28,7 +31,7 @@ const TabTrigger = ({
   <button
     className={cn(
       "inline-flex cursor-pointer items-center gap-1.5 rounded-md px-2.5 py-1 font-mono text-xs text-muted-foreground transition-all hover:text-foreground hover:bg-muted/50 focus-visible:outline-hidden",
-      "data-[state=active]:bg-background/80 data-[state=active]:text-foreground data-[state=active]:shadow-2xs data-[state=active]:border data-[state=active]:border-border/60",
+      "data-[state=active]:bg-muted/80 data-[state=active]:text-foreground data-[state=active]:shadow-2xs data-[state=active]:border data-[state=active]:border-border/60",
       className
     )}
     {...props}
@@ -42,12 +45,38 @@ export const defaultTerminalTabsSlots: MultiTabCodeBlockSlots = {
   CodeBlock: Terminal,
 }
 
+export type TerminalTabsProps = MultiTabCodeBlockProps & {
+  /**
+   * Terminal header indicator:
+   * - `"prompt"` (default): CLI prompt icon (`>_`)
+   * - `"macos"`: 3 traffic-light window controls (`🔴 🟡 🟢`)
+   * - Custom ReactNode icon
+   */
+  indicator?: TerminalIndicator | React.ReactNode
+}
+
 /**
- * Clean CLI Terminal multi-tab CodeBlock with a terminal prompt icon alongside the tabs.
+ * Terminal multi-tab CodeBlock with switchable indicator (CLI prompt or macOS window controls).
  */
-export const TerminalTabs = (props: MultiTabCodeBlockProps) => (
+export const TerminalTabs = ({
+  indicator = "prompt",
+  $codeBlock,
+  ...props
+}: TerminalTabsProps) => (
   <MultiTabCodeBlockCore
     defaultSlots={defaultTerminalTabsSlots}
+    $codeBlock={{
+      ...$codeBlock,
+      $header: { indicator, ...$codeBlock?.$header },
+    }}
     {...props}
   />
 )
+
+/** Backwards compatibility alias for macOS terminal tabs */
+export const MacTerminalTabs = (props: TerminalTabsProps) => (
+  <TerminalTabs indicator="macos" {...props} />
+)
+
+/** Backwards compatibility alias */
+export const TerminalTabsCodeBlock = TerminalTabs

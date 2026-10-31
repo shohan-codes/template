@@ -1,9 +1,7 @@
 "use client"
 
 import {
-  SegmentedTabs,
   TerminalTabs,
-  MacTerminalTabs,
   type CodeTab,
 } from "@workspace/pattern"
 
@@ -39,23 +37,16 @@ export default function PackageManagerExample() {
     <div className="space-y-6 max-w-2xl">
       <div>
         <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-          Segmented Switcher (Package Manager)
-        </h4>
-        <SegmentedTabs defaultValue="pnpm" tabs={installTabs} />
-      </div>
-
-      <div>
-        <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-          Terminal Tabs (CLI Prompt Icon + Tabs)
+          Terminal Tabs (CLI Prompt Icon)
         </h4>
         <TerminalTabs defaultValue="pnpm" tabs={installTabs} />
       </div>
 
       <div>
         <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-          Mac Terminal Tabs (macOS Dots + Tabs)
+          Terminal Tabs (macOS Dots Indicator)
         </h4>
-        <MacTerminalTabs defaultValue="pnpm" tabs={installTabs} />
+        <TerminalTabs indicator="macos" defaultValue="pnpm" tabs={installTabs} />
       </div>
     </div>
   )

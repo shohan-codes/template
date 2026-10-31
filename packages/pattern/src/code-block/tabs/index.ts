@@ -1,5 +1,3 @@
 export * from "./core"
 export * from "./variants/code-block-tabs"
-export * from "./variants/mac-terminal-tabs"
 export * from "./variants/terminal-tabs"
-export * from "./variants/segmented-tabs"

@@ -88,3 +88,4 @@ export const CodeBlockTabs = (props: MultiTabCodeBlockProps) => (
 
 /** Backwards compatibility alias */
 export const TabsCodeBlock = CodeBlockTabs
+

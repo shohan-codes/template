@@ -103,10 +103,10 @@ const codeBlockShowcaseItems: readonly ShowcaseItem[] = [
     preview: <MultiTabExample />,
   },
   {
-    id: "package-manager-code-block",
-    title: "Segmented & Terminal Tabs Variants",
+    id: "terminal-tabs-code-block",
+    title: "Terminal Tabs Variants",
     description:
-      "Segmented pill-style package manager switcher and macOS terminal tabs with traffic-light window dots.",
+      "CLI prompt icon and macOS traffic-light window controls for terminal command tabs.",
     code: PackageManagerExampleRaw,
     preview: <PackageManagerExample />,
   },

@@ -1,6 +1,6 @@
 "use client"
 
-import { Terminal, MacTerminal } from "@workspace/pattern"
+import { Terminal } from "@workspace/pattern"
 
 const shellScript = `# Install project dependencies
 pnpm install
@@ -22,7 +22,8 @@ export default function TerminalExample() {
 
       <div>
         <h4 className="text-sm font-medium text-muted-foreground mb-2">Mac Terminal (Traffic-light Dots)</h4>
-        <MacTerminal
+        <Terminal
+          indicator="macos"
           title="zsh"
           language="bash"
           code={shellScript}
