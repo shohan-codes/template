@@ -147,9 +147,6 @@ export type QuestionnaireSlots = Readonly<{
   Submit: React.ElementType
 }>
 
-/** Backwards-compatibility alias. */
-export type QuestionnairePrimitives = QuestionnaireSlots
-
 export type QuestionnaireShortcutMode = "letters" | "numbers"
 
 export type QuestionnaireBaseProps = Omit<

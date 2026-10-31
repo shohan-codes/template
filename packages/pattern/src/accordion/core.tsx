@@ -86,9 +86,6 @@ export type AccordionSlots = Readonly<{
   Content: React.ElementType
 }>
 
-/** Backwards-compatibility alias for AccordionSlots. */
-export type AccordionPrimitives = AccordionSlots
-
 type AccordionSingleProps = {
   mode?: "single"
   value?: string

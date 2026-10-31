@@ -142,9 +142,6 @@ export const cardQuestionnaireSlots: QuestionnaireSlots = {
   Submit: SubmitPrimitive,
 }
 
-/** Backwards-compatibility alias. */
-export const cardQuestionnairePrimitives = cardQuestionnaireSlots
-
 export type CardQuestionnaireProps = QuestionnaireProps
 
 /**

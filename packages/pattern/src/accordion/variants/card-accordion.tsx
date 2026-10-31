@@ -60,9 +60,6 @@ export const cardAccordionSlots: AccordionSlots = {
   Content,
 }
 
-/** Backwards-compatibility alias. */
-export const cardAccordionPrimitives = cardAccordionSlots
-
 export type CardAccordionProps = AccordionProps
 
 /**

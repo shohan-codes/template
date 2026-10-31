@@ -19,9 +19,6 @@ export const defaultAccordionSlots: AccordionSlots = {
   Content,
 }
 
-/** Backwards-compatibility alias. */
-export const defaultAccordionPrimitives = defaultAccordionSlots
-
 export type { AccordionProps }
 
 export function Accordion(props: AccordionProps) {

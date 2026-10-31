@@ -39,9 +39,6 @@ export const defaultQuestionnaireSlots: QuestionnaireSlots = {
   Submit,
 }
 
-/** Backwards-compatibility alias. */
-export const defaultQuestionnairePrimitives = defaultQuestionnaireSlots
-
 export type { QuestionnaireProps }
 
 export function Questionnaire(props: QuestionnaireProps) {
