@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-
 import { cn } from "@workspace/shadcn-ui/lib/utils"
 
 /* ========================================================================== *\
@@ -9,33 +8,15 @@ import { cn } from "@workspace/shadcn-ui/lib/utils"
  * ========================================================================== */
 
 /**
- * Creates a data-driven Accordion with optional replacements for its four
- * main primitives. Advanced customization can use the raw Radix primitives.
+ * Creates a data-driven Accordion with optional replacements for its four main primitives.
  */
-export function createAccordion<
-  const TPrimitives extends AccordionPrimitives,
->(
+export function createAccordion<const TPrimitives extends AccordionPrimitives>(
   defaultPrimitives: TPrimitives,
-  slots?: {
-    Root?: TPrimitives["Root"]
-    Item?: TPrimitives["Item"]
-    Trigger?: TPrimitives["Trigger"]
-    Content?: TPrimitives["Content"]
-  }
+  slots?: Partial<TPrimitives>
 ) {
-  const Root = slots?.Root ?? defaultPrimitives.Root
-  const Item = slots?.Item ?? defaultPrimitives.Item
-  const Trigger = slots?.Trigger ?? defaultPrimitives.Trigger
-  const Content = slots?.Content ?? defaultPrimitives.Content
+  const P = { ...defaultPrimitives, ...slots }
 
-  function Accordion(
-    props: AccordionProps<
-      TPrimitives["Root"],
-      TPrimitives["Item"],
-      TPrimitives["Trigger"],
-      TPrimitives["Content"]
-    >
-  ) {
+  function Accordion(props: AccordionProps<TPrimitives>) {
     const {
       items,
       $item,
@@ -51,53 +32,40 @@ export function createAccordion<
 
     if (items.length === 0) return null
 
-    const content = items.map((item, index) => {
-      const value = item.id ?? String(index)
-
-      return (
-        <Item
-          {...$item}
-          key={value}
-          value={value}
-          disabled={item.disabled}
-        >
-          <Trigger
-            key="trigger"
-            {...$trigger}
-            className={cn("flex min-w-0 items-center gap-2", $trigger?.className)}
-          >
-            {item.icon}
-            {item.title}
-            {item.badge}
-          </Trigger>
-
-          <Content key="content" {...$content}>
-            {item.content}
-          </Content>
-        </Item>
-      )
-    })
-
     const rootBehaviorProps: AccordionRootBehaviorProps =
       mode === "multiple"
-        ? {
-            type: "multiple",
-            value,
-            defaultValue,
-            onValueChange,
-          }
-        : {
-            type: "single",
-            value,
-            defaultValue,
-            onValueChange,
-            collapsible: collapsible ?? true,
-          }
+        ? { type: "multiple", value, defaultValue, onValueChange }
+        : { type: "single", value, defaultValue, onValueChange, collapsible: collapsible ?? true }
 
     return (
-      <Root {...$root} {...rootBehaviorProps}>
-        {content}
-      </Root>
+      <P.Root {...$root} {...rootBehaviorProps}>
+        {items.map((item, index) => {
+          const itemValue = item.id ?? String(index)
+
+          return (
+            <P.Item
+              {...$item}
+              key={itemValue}
+              value={itemValue}
+              disabled={item.disabled}
+            >
+              <P.Trigger
+                key="trigger"
+                {...$trigger}
+                className={cn("flex min-w-0 items-center gap-2", $trigger?.className)}
+              >
+                {item.icon}
+                {item.title}
+                {item.badge}
+              </P.Trigger>
+
+              <P.Content key="content" {...$content}>
+                {item.content}
+              </P.Content>
+            </P.Item>
+          )
+        })}
+      </P.Root>
     )
   }
 
@@ -107,6 +75,13 @@ export function createAccordion<
 /* ========================================================================== *\
  * Accordion Types
  * ========================================================================== */
+
+export type AccordionPrimitives = Readonly<{
+  Root: React.ElementType
+  Item: React.ElementType
+  Trigger: React.ElementType
+  Content: React.ElementType
+}>
 
 type AccordionSingleProps = {
   mode?: "single"
@@ -126,35 +101,6 @@ type AccordionMultipleProps = {
 
 type AccordionBehaviorProps = AccordionSingleProps | AccordionMultipleProps
 
-export type AccordionProps<
-  TRoot extends React.ElementType = React.ElementType,
-  TItem extends React.ElementType = React.ElementType,
-  TTrigger extends React.ElementType = React.ElementType,
-  TContent extends React.ElementType = React.ElementType,
-> = Omit<
-  React.ComponentPropsWithoutRef<TRoot>,
-  | "children"
-  | "type"
-  | "value"
-  | "defaultValue"
-  | "onValueChange"
-  | "collapsible"
-> & {
-  items: readonly AccordionItemData[]
-  $item?: Omit<
-    React.ComponentPropsWithoutRef<TItem>,
-    "children" | "value" | "disabled"
-  >
-  $trigger?: Omit<
-    React.ComponentPropsWithoutRef<TTrigger>,
-    "children" | "asChild"
-  > & { className?: string }
-  $content?: Omit<
-    React.ComponentPropsWithoutRef<TContent>,
-    "children" | "asChild"
-  >
-} & AccordionBehaviorProps
-
 type AccordionRootBehaviorProps =
   | {
       type: "single"
@@ -170,23 +116,27 @@ type AccordionRootBehaviorProps =
       onValueChange?: (value: string[]) => void
     }
 
-
-
-/** The four main primitives used by the data-driven Accordion. */
-export type AccordionPrimitives<
-  TRoot extends React.ElementType = React.ElementType,
-  TItem extends React.ElementType = React.ElementType,
-  TTrigger extends React.ElementType = React.ElementType,
-  TContent extends React.ElementType = React.ElementType,
-> = Readonly<{
-  Root: TRoot
-  Item: TItem
-  Trigger: TTrigger
-  Content: TContent
-}>
+export type AccordionProps<TPrimitives extends AccordionPrimitives> = Omit<
+  React.ComponentPropsWithoutRef<TPrimitives["Root"]>,
+  "children" | "type" | "value" | "defaultValue" | "onValueChange" | "collapsible"
+> & {
+  items: readonly AccordionItemData[]
+  $item?: Omit<
+    React.ComponentPropsWithoutRef<TPrimitives["Item"]>,
+    "children" | "value" | "disabled"
+  >
+  $trigger?: Omit<
+    React.ComponentPropsWithoutRef<TPrimitives["Trigger"]>,
+    "children" | "asChild"
+  > & { className?: string }
+  $content?: Omit<
+    React.ComponentPropsWithoutRef<TPrimitives["Content"]>,
+    "children" | "asChild"
+  >
+} & AccordionBehaviorProps
 
 /** Data for one item in the data-driven Accordion. */
-type AccordionItemData = Readonly<{
+export type AccordionItemData = Readonly<{
   id?: string
   icon?: React.ReactNode
   title: React.ReactNode
