@@ -6,7 +6,7 @@ import { cn } from "@workspace/shadcn-ui/lib/utils"
 
 import { TabsCore, type TabsProps, type TabsSlots } from "../core"
 
-const Root = ({
+const EnclosedRoot = ({
   className,
   ...props
 }: React.ComponentProps<typeof TabsPrimitive.Root>) => (
@@ -19,13 +19,36 @@ const Root = ({
   />
 )
 
-const List = ({
+const FloatingRoot = ({
+  className,
+  ...props
+}: React.ComponentProps<typeof TabsPrimitive.Root>) => (
+  <TabsPrimitive.Root
+    className={cn("w-full flex flex-col gap-0", className)}
+    {...props}
+  />
+)
+
+const EnclosedList = ({
   className,
   ...props
 }: React.ComponentProps<typeof TabsPrimitive.List>) => (
   <TabsPrimitive.List
     className={cn(
       "flex w-full items-end gap-1 border-b border-border bg-muted/30 px-3 pt-2.5",
+      className
+    )}
+    {...props}
+  />
+)
+
+const FloatingList = ({
+  className,
+  ...props
+}: React.ComponentProps<typeof TabsPrimitive.List>) => (
+  <TabsPrimitive.List
+    className={cn(
+      "flex w-full items-end gap-1 border-b border-border px-2 pt-2",
       className
     )}
     {...props}
@@ -48,7 +71,7 @@ const Trigger = ({
   />
 )
 
-const Content = ({
+const EnclosedContent = ({
   className,
   ...props
 }: React.ComponentProps<typeof TabsPrimitive.Content>) => (
@@ -61,22 +84,59 @@ const Content = ({
   />
 )
 
-export const folderTabsSlots: TabsSlots = {
-  Root,
-  List,
+const FloatingContent = ({
+  className,
+  ...props
+}: React.ComponentProps<typeof TabsPrimitive.Content>) => (
+  <TabsPrimitive.Content
+    className={cn(
+      "rounded-b-xl rounded-tr-xl border border-border bg-background p-5 sm:p-6 text-sm text-foreground shadow-2xs focus-visible:outline-hidden",
+      className
+    )}
+    {...props}
+  />
+)
+
+export const enclosedFolderTabsSlots: TabsSlots = {
+  Root: EnclosedRoot,
+  List: EnclosedList,
   Trigger,
-  Content,
+  Content: EnclosedContent,
 }
 
-export type FolderTabsProps = TabsProps
+export const floatingFolderTabsSlots: TabsSlots = {
+  Root: FloatingRoot,
+  List: FloatingList,
+  Trigger,
+  Content: FloatingContent,
+}
+
+export type FolderTabsProps = TabsProps & {
+  /**
+   * Layout style of the folder tabs container:
+   * - "enclosed" (default): Tabs hosted inside an enclosed window header strip.
+   * - "floating": Classic folder tabs floating directly above a standalone bordered content card.
+   */
+  variant?: "enclosed" | "floating"
+}
 
 /**
  * Connected folder tabs component where rounded tabs smoothly merge with the content container.
  */
-export function FolderTabs(props: FolderTabsProps) {
+export function FolderTabs({
+  variant = "enclosed",
+  defaultSlots,
+  ...props
+}: FolderTabsProps) {
+  const slotsToUse =
+    defaultSlots ??
+    (variant === "floating"
+      ? floatingFolderTabsSlots
+      : enclosedFolderTabsSlots)
+
   return (
     <TabsCore
-      defaultSlots={folderTabsSlots}
+      defaultSlots={slotsToUse}
       {...props}
     />
   )

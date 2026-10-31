@@ -35,8 +35,8 @@ import FolderTabsExampleRaw from "./folder-tabs-example.tsx?raw" with {
   turbopackAs: "*.js",
 }
 
-import EditorTabsExample from "./editor-tabs-example"
-import EditorTabsExampleRaw from "./editor-tabs-example.tsx?raw" with {
+import FloatingFolderTabsExample from "./floating-folder-tabs-example"
+import FloatingFolderTabsExampleRaw from "./floating-folder-tabs-example.tsx?raw" with {
   turbopackLoader: "raw-loader",
   turbopackAs: "*.js",
 }
@@ -57,20 +57,20 @@ const tabsShowcaseItems: readonly ShowcaseItem[] = [
     preview: <SegmentedTabsExample />,
   },
   {
-    id: "editor-tabs",
-    title: "Code Editor & IDE Tabs (VS Code / Zed)",
+    id: "folder-tabs-enclosed",
+    title: "Enclosed Folder Tabs (macOS Window)",
     description:
-      "Flush developer window tab strip with vertical borders, line-numbered syntax viewer, and status bar.",
-    code: EditorTabsExampleRaw,
-    preview: <EditorTabsExample />,
-  },
-  {
-    id: "folder-tabs",
-    title: "Connected Folder Tabs (macOS Finder / Browser)",
-    description:
-      "Classic file-folder index tabs where rounded tab caps smoothly merge into the resource card container below.",
+      "Connected folder tabs with an integrated header tab strip, seamless cutout, and enclosed content window.",
     code: FolderTabsExampleRaw,
     preview: <FolderTabsExample />,
+  },
+  {
+    id: "folder-tabs-floating",
+    title: "Floating Folder Tabs (Classic Filing Tabs)",
+    description:
+      "Classic file-folder index tabs floating directly above a standalone bordered content card.",
+    code: FloatingFolderTabsExampleRaw,
+    preview: <FloatingFolderTabsExample />,
   },
   {
     id: "sidebar-tabs",
