@@ -17,12 +17,6 @@ import LineTabsExampleRaw from "./line-tabs-example.tsx?raw" with {
   turbopackAs: "*.js",
 }
 
-import CardTabsExample from "./card-tabs-example"
-import CardTabsExampleRaw from "./card-tabs-example.tsx?raw" with {
-  turbopackLoader: "raw-loader",
-  turbopackAs: "*.js",
-}
-
 import SegmentedTabsExample from "./segmented-tabs-example"
 import SegmentedTabsExampleRaw from "./segmented-tabs-example.tsx?raw" with {
   turbopackLoader: "raw-loader",
@@ -65,14 +59,6 @@ const tabsShowcaseItems: readonly ShowcaseItem[] = [
       "Classic file-folder index tabs floating directly above a standalone bordered content card.",
     code: FloatingFolderTabsExampleRaw,
     preview: <FloatingFolderTabsExample />,
-  },
-  {
-    id: "card-tabs",
-    title: "Card Container Variant",
-    description:
-      "Enclosed card container with header tabs and bordered content panel.",
-    code: CardTabsExampleRaw,
-    preview: <CardTabsExample />,
   },
   {
     id: "default-tabs",
