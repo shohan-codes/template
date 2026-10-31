@@ -6,6 +6,9 @@ import {
   RiMoonLine,
   RiStackLine,
   RiSunLine,
+  RiLayoutTopLine,
+  RiCodeBoxLine,
+  RiQuestionAnswerLine,
 } from "@remixicon/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -41,16 +44,22 @@ const navItems = [
         icon: <RiStackLine className="size-4" />,
       },
       {
+        id: "nav-tabs",
+        href: "/components/tabs",
+        title: "Tabs",
+        icon: <RiLayoutTopLine className="size-4" />,
+      },
+      {
         id: "nav-code-block",
         href: "/components/code-block",
         title: "Code Block",
-        icon: <RiStackLine className="size-4" />,
+        icon: <RiCodeBoxLine className="size-4" />,
       },
       {
         id: "nav-questionnaire",
         href: "/components/questionnaire",
         title: "Questionnaire",
-        icon: <RiStackLine className="size-4" />,
+        icon: <RiQuestionAnswerLine className="size-4" />,
       },
     ],
   },

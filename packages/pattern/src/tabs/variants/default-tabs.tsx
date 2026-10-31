@@ -34,3 +34,4 @@ export function Tabs({ variant, $list, ...props }: DefaultTabsProps) {
     />
   )
 }
+
