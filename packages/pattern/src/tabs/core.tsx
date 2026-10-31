@@ -93,37 +93,7 @@ export function TabsCore({
 
   const defaultTab = defaultValue ?? items[0]?.id
 
-  const triggers = items.map((item) => (
-    <P.Trigger
-      key={item.id}
-      value={item.id}
-      disabled={item.disabled}
-      {...$trigger}
-      className={cn(
-        "inline-flex items-center gap-2",
-        $trigger?.className
-      )}
-    >
-      {item.icon}
-      <span>{item.label}</span>
-      {item.badge}
-    </P.Trigger>
-  ))
-
-  const listNode = actions ? (
-    <div className="flex items-center justify-between gap-4">
-      <P.List
-        {...$list}
-        className={cn(
-          orientation === "vertical" ? "flex-col items-stretch" : "items-center",
-          $list?.className
-        )}
-      >
-        {triggers}
-      </P.List>
-      <div data-slot="tabs-actions">{actions}</div>
-    </div>
-  ) : (
+  const listNode = (
     <P.List
       {...$list}
       className={cn(
@@ -131,7 +101,22 @@ export function TabsCore({
         $list?.className
       )}
     >
-      {triggers}
+      {items.map((item) => (
+        <P.Trigger
+          key={item.id}
+          value={item.id}
+          disabled={item.disabled}
+          {...$trigger}
+          className={cn(
+            "inline-flex items-center gap-2",
+            $trigger?.className
+          )}
+        >
+          {item.icon}
+          <span>{item.label}</span>
+          {item.badge}
+        </P.Trigger>
+      ))}
     </P.List>
   )
 
@@ -145,7 +130,14 @@ export function TabsCore({
       className={cn("w-full", className)}
       {...rootProps}
     >
-      {listNode}
+      {actions ? (
+        <div className="flex items-center justify-between gap-4">
+          {listNode}
+          <div data-slot="tabs-actions">{actions}</div>
+        </div>
+      ) : (
+        listNode
+      )}
 
       {items.map((item) => (
         <P.Content
