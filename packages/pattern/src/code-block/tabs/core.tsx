@@ -133,12 +133,8 @@ export function MultiTabCodeBlockCore({
   className,
   ...rootProps
 }: MultiTabCodeBlockCoreProps) {
-  if (!tabs || tabs.length === 0) return null
-
-  const P = slots ? { ...defaultSlots, ...slots } : defaultSlots
-
   const [uncontrolledId, setUncontrolledId] = React.useState<string>(
-    () => value ?? defaultValue ?? tabs[0]?.id ?? ""
+    () => value ?? defaultValue ?? tabs?.[0]?.id ?? ""
   )
 
   const activeId = value !== undefined ? value : uncontrolledId
@@ -153,43 +149,43 @@ export function MultiTabCodeBlockCore({
     [value, onValueChange]
   )
 
+  if (!tabs || tabs.length === 0) return null
+
+  const P = slots ? { ...defaultSlots, ...slots } : defaultSlots
+
   const activeTab = tabs.find((t) => t.id === activeId) ?? tabs[0]
   if (!activeTab) return null
 
   const tabsListNode = (
     <P.TabsList
-      role="tablist"
-      aria-orientation="horizontal"
       {...$tabsList}
       className={cn("flex items-center", $tabsList?.className)}
     >
-      {tabs.map((tab) => {
-        const isActive = tab.id === activeTab.id
-        return (
-          <P.TabTrigger
-            key={tab.id}
-            role="tab"
-            type="button"
-            aria-selected={isActive}
-            data-state={isActive ? "active" : "inactive"}
-            tabIndex={isActive ? 0 : -1}
-            onClick={() => handleTabChange(tab.id)}
-            {...$tabTrigger}
-            className={cn(
-              "inline-flex items-center gap-1.5 select-none transition-colors",
-              $tabTrigger?.className
-            )}
-          >
-            {tab.icon}
-            {tab.label}
-          </P.TabTrigger>
-        )
-      })}
+      {tabs.map((tab) => (
+        <P.TabTrigger
+          key={tab.id}
+          value={tab.id}
+          onClick={() => handleTabChange(tab.id)}
+          {...$tabTrigger}
+          className={cn(
+            "inline-flex items-center gap-1.5 select-none transition-colors",
+            $tabTrigger?.className
+          )}
+        >
+          {tab.icon}
+          {tab.label}
+        </P.TabTrigger>
+      ))}
     </P.TabsList>
   )
 
   return (
-    <P.Root className={cn("w-full", className)} {...rootProps}>
+    <P.Root
+      value={activeId}
+      onValueChange={handleTabChange}
+      className={cn("w-full", className)}
+      {...rootProps}
+    >
       <P.CodeBlock
         code={activeTab.code}
         language={activeTab.language ?? language}
