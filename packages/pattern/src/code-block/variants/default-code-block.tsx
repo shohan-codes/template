@@ -1,3 +1,4 @@
+import * as React from "react"
 import {
   CodeBlock as Root,
   CodeBlockTitle as Title,
@@ -9,9 +10,13 @@ import {
 } from "@workspace/shadcn-ui"
 
 import { EditorHeader as Header } from "../headers/editor-header"
-import { createCodeBlock } from "../core"
+import {
+  CodeBlockCore,
+  type CodeBlockCoreProps,
+  type CodeBlockSlots,
+} from "../core"
 
-export const defaultCodeBlockPrimitives = {
+export const defaultCodeBlockSlots: CodeBlockSlots = {
   Root,
   Header,
   Title,
@@ -20,6 +25,17 @@ export const defaultCodeBlockPrimitives = {
   Content,
   Line,
   Footer,
-} as const
+}
 
-export const CodeBlock = createCodeBlock(defaultCodeBlockPrimitives)
+export type CodeBlockProps = Omit<CodeBlockCoreProps, "defaultSlots"> & {
+  /** Optional custom default slots override. */
+  defaultSlots?: CodeBlockSlots
+}
+
+export const CodeBlock = (props: CodeBlockProps) => (
+  <CodeBlockCore
+    defaultSlots={defaultCodeBlockSlots}
+    {...props}
+  />
+)
+

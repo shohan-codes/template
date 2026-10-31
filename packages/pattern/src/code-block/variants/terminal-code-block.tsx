@@ -1,7 +1,12 @@
-import { createCodeBlock } from "../core"
+import * as React from "react"
 import { TerminalHeader } from "../headers/terminal-header"
-import { defaultCodeBlockPrimitives } from "./default-code-block"
+import { CodeBlock, type CodeBlockProps } from "./default-code-block"
 
-export const TerminalCodeBlock = createCodeBlock(defaultCodeBlockPrimitives, {
-  Header: TerminalHeader,
-})
+export function TerminalCodeBlock({ slots, ...props }: CodeBlockProps) {
+  return (
+    <CodeBlock
+      {...props}
+      slots={{ ...(slots ?? {}), Header: TerminalHeader }}
+    />
+  )
+}

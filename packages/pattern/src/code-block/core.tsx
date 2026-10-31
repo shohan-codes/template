@@ -8,75 +8,73 @@ import {
   parseCodeNotations,
   getLineVariantClassName,
   type CodeBlockLineVariant,
+  type ParsedLineData,
 } from "./utilities/notations"
-import { TerminalHeader } from "./headers/terminal-header"
-import { TabHeader } from "./headers/tab-header"
 
 /* ========================================================================== *\
- * CodeBlock Factory
+ * Line State Helpers
  * ========================================================================== */
 
 /**
- * Creates a data-driven CodeBlock with optional replacements for its primitives.
+ * Pure function resolving the primitive line variant and styling classes.
  */
-export function createCodeBlock<const TPrimitives extends CodeBlockPrimitives>(
-  defaultPrimitives: TPrimitives,
-  slots?: Partial<CodeBlockPrimitives>
+function getLineState(
+  parsedLine: ParsedLineData | undefined,
+  hasFocusedLines: boolean
 ) {
-  const P = { ...defaultPrimitives, ...slots }
+  const isBlurred = hasFocusedLines && !parsedLine?.isFocused
+  const variant = parsedLine?.variant
+  const primitiveVariant =
+    variant === "added" || variant === "removed" || variant === "highlighted"
+      ? variant
+      : "default"
+  const className = getLineVariantClassName(variant, isBlurred)
 
-  function CodeBlock(props: CodeBlockProps<TPrimitives>) {
-    const {
-      code = "",
-      language = "",
-      title,
-      header,
-      headerVariant,
-      actions,
-      footer,
-      copyable = true,
-      lineNumbers = false,
-      startLine = 1,
-      wrap = false,
-      notations = true,
-      diff = false,
-      highlightLines,
-      addedLines,
-      removedLines,
-      filterRemovedOnCopy = true,
-      getLineVariant,
-      slots: propSlots,
-      $header,
-      $title,
-      $actions,
-      $copyButton,
-      $content,
-      $line,
-      $footer,
-      ...rootProps
-    } = props
+  return { primitiveVariant, className }
+}
 
-    const Header =
-      headerVariant === "terminal"
-        ? TerminalHeader
-        : headerVariant === "tab"
-          ? TabHeader
-          : propSlots?.Header ?? P.Header
+/* ========================================================================== *\
+ * Headless CodeBlock Core Component
+ * ========================================================================== */
 
-    const parsed = React.useMemo(
-      () =>
-        parseCodeNotations(code, {
-          notations,
-          diff,
-          highlightLines,
-          addedLines,
-          removedLines,
-          filterRemovedOnCopy,
-          getLineVariant,
-          startLine,
-        }),
-      [
-        code,
+/**
+ * Headless, data-driven CodeBlock core component.
+ * Expects `defaultSlots` to be injected from outside, achieving loose coupling.
+ */
+export function CodeBlockCore({
+  code = "",
+  language = "",
+  title,
+  header,
+  actions,
+  footer,
+  copyable = true,
+  lineNumbers = false,
+  startLine = 1,
+  wrap = false,
+  notations = true,
+  diff = false,
+  highlightLines,
+  addedLines,
+  removedLines,
+  filterRemovedOnCopy = true,
+  getLineVariant,
+  defaultSlots,
+  slots,
+  $header,
+  $title,
+  $actions,
+  $copyButton,
+  $content,
+  $line,
+  $footer,
+  ...rootProps
+}: CodeBlockCoreProps) {
+  const P = slots ? { ...defaultSlots, ...slots } : defaultSlots
+
+  const parsed = React.useMemo(
+    () =>
+      parseCodeNotations(code, {
         notations,
         diff,
         highlightLines,
@@ -85,82 +83,78 @@ export function createCodeBlock<const TPrimitives extends CodeBlockPrimitives>(
         filterRemovedOnCopy,
         getLineVariant,
         startLine,
-      ]
-    )
+      }),
+    [
+      code,
+      notations,
+      diff,
+      highlightLines,
+      addedLines,
+      removedLines,
+      filterRemovedOnCopy,
+      getLineVariant,
+      startLine,
+    ]
+  )
 
-    const lines = useHighlightedCode(parsed.displayCode, language)
-    const copyValue = $copyButton?.value ?? parsed.copyCode
+  const lines = useHighlightedCode(parsed.displayCode, language)
+  const copyValue = $copyButton?.value ?? parsed.copyCode
 
-    const hasActions = Boolean(actions || (copyable && Boolean(parsed.copyCode)))
-    const hasHeader = Boolean(header || title)
+  const canCopy = copyable && Boolean(parsed.copyCode)
+  const hasActions = Boolean(actions || canCopy)
+  const hasHeader = Boolean(header || title)
 
-    return (
-      <P.Root {...rootProps}>
-        {hasHeader ? (
-          <Header {...$header}>
-            {header ?? (
-              <>
-                {title && <P.Title {...$title}>{title}</P.Title>}
-                {hasActions && (
-                  <P.Actions {...$actions}>
-                    {actions}
-                    {copyable && Boolean(parsed.copyCode) && (
-                      <P.CopyButton value={copyValue} {...$copyButton} />
-                    )}
-                  </P.Actions>
-                )}
-              </>
-            )}
-          </Header>
-        ) : hasActions ? (
-          <P.Actions {...$actions}>
-            {actions}
-            {copyable && Boolean(parsed.copyCode) && (
-              <P.CopyButton value={copyValue} {...$copyButton} />
-            )}
-          </P.Actions>
-        ) : null}
+  const actionsContent = hasActions && (
+    <P.Actions {...$actions}>
+      {actions}
+      {canCopy && <P.CopyButton value={copyValue} {...$copyButton} />}
+    </P.Actions>
+  )
 
-        <P.Content
-          wrap={wrap}
-          lineNumbers={lineNumbers}
-          startLine={startLine}
-          {...$content}
-        >
-          {lines.map((line, index) => {
-            const parsedLine = parsed.lines[index]
-            const lineNumber = startLine + index
-            const isBlurred = parsed.hasFocusedLines && !parsedLine?.isFocused
-            const variant = parsedLine?.variant
+  return (
+    <P.Root {...rootProps}>
+      {hasHeader && (
+        <P.Header {...$header}>
+          {header ?? (
+            <>
+              {title && <P.Title {...$title}>{title}</P.Title>}
+              {actionsContent}
+            </>
+          )}
+        </P.Header>
+      )}
 
-            const mappedPrimitiveVariant =
-              variant === "added" ||
-              variant === "removed" ||
-              variant === "highlighted"
-                ? variant
-                : "default"
+      {!hasHeader && actionsContent}
 
-            const variantClassName = getLineVariantClassName(variant, isBlurred)
+      <P.Content
+        wrap={wrap}
+        lineNumbers={lineNumbers}
+        startLine={startLine}
+        {...$content}
+      >
+        {lines.map((line, index) => {
+          const lineNumber = startLine + index
+          const { primitiveVariant, className } = getLineState(
+            parsed.lines[index],
+            parsed.hasFocusedLines
+          )
 
-            return (
-              <P.Line
-                key={lineNumber}
-                variant={mappedPrimitiveVariant}
-                {...$line}
-                className={cn(variantClassName, $line?.className)}
-              >
-                {line}
-              </P.Line>
-            )
-          })}
-        </P.Content>
+          return (
+            <P.Line
+              key={lineNumber}
+              variant={primitiveVariant}
+              {...$line}
+              className={cn(className, $line?.className)}
+            >
+              {line}
+            </P.Line>
+          )
+        })}
+      </P.Content>
 
-        {footer && <P.Footer {...$footer}>{footer}</P.Footer>}
-      </P.Root>
-    )
-  }
-
-  return CodeBlock
+      {footer && <P.Footer {...$footer}>{footer}</P.Footer>}
+    </P.Root>
+  )
 }
 
 /* ========================================================================== *\
@@ -169,9 +163,7 @@ export function createCodeBlock<const TPrimitives extends CodeBlockPrimitives>(
 
 export type { CodeBlockLineVariant } from "./utilities/notations"
 
-export type CodeBlockHeaderVariant = "editor" | "terminal" | "tab"
-
-export type CodeBlockPrimitives = Readonly<{
+export type CodeBlockSlots = Readonly<{
   Root: React.ElementType
   Header: React.ElementType
   Title: React.ElementType
@@ -182,9 +174,10 @@ export type CodeBlockPrimitives = Readonly<{
   Footer: React.ElementType
 }>
 
-export type CodeBlockProps<
-  TPrimitives extends CodeBlockPrimitives = CodeBlockPrimitives,
-> = Omit<React.ComponentPropsWithoutRef<TPrimitives["Root"]>, "children"> & {
+export type CodeBlockCoreProps = Omit<
+  React.ComponentPropsWithoutRef<"div">,
+  "title"
+> & {
   /** The code string to display and highlight. */
   code?: string
   /** Programming language identifier for syntax highlighting (e.g. "typescript", "bash", "json"). */
@@ -193,8 +186,6 @@ export type CodeBlockProps<
   title?: React.ReactNode
   /** Custom header element to replace the standard header. */
   header?: React.ReactNode
-  /** Header styling variant: "editor" (default), "terminal" (macOS dots), or "tab" (VS Code tab). */
-  headerVariant?: CodeBlockHeaderVariant
   /** Extra action buttons rendered inside the action container. */
   actions?: React.ReactNode
   /** Optional footer content rendered below the code content. */
@@ -224,37 +215,22 @@ export type CodeBlockProps<
     lineNumber: number,
     lineText: string
   ) => CodeBlockLineVariant | undefined
-  /** Slot overrides for primitives passed per-instance. */
-  slots?: Partial<CodeBlockPrimitives>
+  /** Injected default slots for loosely coupled primitives. */
+  defaultSlots: CodeBlockSlots
+  /** Runtime slot overrides passed per instance. */
+  slots?: Partial<CodeBlockSlots>
   /** Slot props passed directly to the Header primitive. */
-  $header?: Omit<
-    React.ComponentPropsWithoutRef<TPrimitives["Header"]>,
-    "children"
-  >
+  $header?: Record<string, unknown>
   /** Slot props passed directly to the Title primitive. */
-  $title?: Omit<React.ComponentPropsWithoutRef<TPrimitives["Title"]>, "children">
+  $title?: Record<string, unknown>
   /** Slot props passed directly to the Actions primitive. */
-  $actions?: Omit<
-    React.ComponentPropsWithoutRef<TPrimitives["Actions"]>,
-    "children"
-  >
+  $actions?: Record<string, unknown>
   /** Slot props passed directly to the CopyButton primitive. */
-  $copyButton?: Partial<
-    React.ComponentPropsWithoutRef<TPrimitives["CopyButton"]>
-  >
+  $copyButton?: Record<string, unknown> & { value?: string }
   /** Slot props passed directly to the Content primitive. */
-  $content?: Omit<
-    React.ComponentPropsWithoutRef<TPrimitives["Content"]>,
-    "children" | "wrap" | "lineNumbers" | "startLine"
-  >
+  $content?: Record<string, unknown>
   /** Slot props passed directly to the Line primitive. */
-  $line?: Omit<
-    React.ComponentPropsWithoutRef<TPrimitives["Line"]>,
-    "children" | "variant"
-  >
+  $line?: Record<string, unknown> & { className?: string }
   /** Slot props passed directly to the Footer primitive. */
-  $footer?: Omit<
-    React.ComponentPropsWithoutRef<TPrimitives["Footer"]>,
-    "children"
-  >
+  $footer?: Record<string, unknown>
 }
