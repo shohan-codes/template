@@ -1,4 +1,3 @@
-import * as React from "react"
 import {
   Questionnaire as Root,
   QuestionnaireProgress as Progress,
@@ -35,9 +34,4 @@ export const defaultQuestionnairePrimitives = {
   Submit,
 } as const
 
-const QuestionnaireBase = createQuestionnaire(defaultQuestionnairePrimitives)
-
-export const Questionnaire = React.memo(QuestionnaireBase)
-
-Questionnaire.displayName = "Questionnaire"
-
+export const Questionnaire = createQuestionnaire(defaultQuestionnairePrimitives)

@@ -119,9 +119,6 @@ export const cardQuestionnairePrimitives = {
   Submit: SubmitPrimitive,
 } as const
 
-const CardQuestionnaireBase = createQuestionnaire(cardQuestionnairePrimitives)
+export const CardQuestionnaire = createQuestionnaire(cardQuestionnairePrimitives)
 
-export const CardQuestionnaire = React.memo(CardQuestionnaireBase)
-
-CardQuestionnaire.displayName = "CardQuestionnaire"
 
