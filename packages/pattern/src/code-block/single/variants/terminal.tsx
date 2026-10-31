@@ -13,6 +13,27 @@ export interface TerminalHeaderProps extends React.ComponentProps<"div"> {
   indicator?: TerminalIndicator | React.ReactNode
 }
 
+function getTerminalIndicator(indicator: TerminalHeaderProps["indicator"]) {
+  switch (indicator) {
+    case "macos":
+    case "dots":
+      return (
+        <div className="flex shrink-0 items-center gap-1.5" aria-hidden="true">
+          <span className="size-2.5 rounded-full bg-rose-500/90 border border-rose-600/30 shadow-xs" />
+          <span className="size-2.5 rounded-full bg-amber-400/90 border border-amber-500/30 shadow-xs" />
+          <span className="size-2.5 rounded-full bg-emerald-500/90 border border-emerald-600/30 shadow-xs" />
+        </div>
+      )
+    case "prompt":
+    case "cli":
+      return (
+        <TerminalIcon className="size-3.5 shrink-0 opacity-70" aria-hidden="true" />
+      )
+    default:
+      return React.isValidElement(indicator) ? indicator : null
+  }
+}
+
 /**
  * Terminal Header:
  * Window title bar supporting CLI prompt icon (`>_`) or macOS traffic-light window controls.
@@ -23,29 +44,7 @@ export function TerminalHeader({
   children,
   ...props
 }: TerminalHeaderProps) {
-  let indicatorNode: React.ReactNode = null
-
-  switch (indicator) {
-    case "macos":
-    case "dots":
-      indicatorNode = (
-        <div className="flex shrink-0 items-center gap-1.5" aria-hidden="true">
-          <span className="size-2.5 rounded-full bg-rose-500/90 border border-rose-600/30 shadow-xs" />
-          <span className="size-2.5 rounded-full bg-amber-400/90 border border-amber-500/30 shadow-xs" />
-          <span className="size-2.5 rounded-full bg-emerald-500/90 border border-emerald-600/30 shadow-xs" />
-        </div>
-      )
-      break
-    case "prompt":
-    case "cli":
-      indicatorNode = (
-        <TerminalIcon className="size-3.5 shrink-0 opacity-70" aria-hidden="true" />
-      )
-      break
-    default:
-      indicatorNode = React.isValidElement(indicator) ? indicator : null
-      break
-  }
+  const indicatorNode = getTerminalIndicator(indicator)
 
   return (
     <div
