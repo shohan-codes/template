@@ -78,3 +78,4 @@ export function SegmentedTabs(props: SegmentedTabsProps) {
     />
   )
 }
+

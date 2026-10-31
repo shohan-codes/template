@@ -81,3 +81,4 @@ export function SidebarTabs({ orientation = "vertical", ...props }: SidebarTabsP
     />
   )
 }
+
