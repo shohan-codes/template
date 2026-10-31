@@ -14,6 +14,8 @@ import {
   QuestionnaireSkip as SkipPrimitive,
   QuestionnaireNext as NextPrimitive,
   QuestionnaireSubmit as SubmitPrimitive,
+  Card,
+  CardFooter,
 } from "@workspace/shadcn-ui"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
 
@@ -21,15 +23,17 @@ import { createQuestionnaire } from "../core"
 
 const Root = ({
   className,
+  children,
   ...props
 }: React.ComponentProps<typeof RootPrimitive>) => (
-  <RootPrimitive
-    {...props}
-    className={cn(
-      "w-full rounded-xl border p-6 text-card-foreground shadow-sm transition-all sm:p-8",
-      className
-    )}
-  />
+  <Card className="w-full">
+    <RootPrimitive
+      {...props}
+      className={cn("w-full p-6 sm:p-8", className)}
+    >
+      {children}
+    </RootPrimitive>
+  </Card>
 )
 
 const Progress = ({
@@ -96,10 +100,12 @@ const Actions = ({
   className,
   ...props
 }: React.ComponentProps<typeof ActionsPrimitive>) => (
-  <ActionsPrimitive
-    {...props}
-    className={cn("mt-6 pt-4 border-t border-border/60 justify-end gap-3", className)}
-  />
+  <CardFooter className={cn("mt-6 p-0 border-t pt-4 bg-transparent", className)}>
+    <ActionsPrimitive
+      {...props}
+      className="w-full justify-end gap-3"
+    />
+  </CardFooter>
 )
 
 export const cardQuestionnairePrimitives = {
@@ -120,5 +126,3 @@ export const cardQuestionnairePrimitives = {
 } as const
 
 export const CardQuestionnaire = createQuestionnaire(cardQuestionnairePrimitives)
-
-
