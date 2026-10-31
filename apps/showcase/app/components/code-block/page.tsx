@@ -23,12 +23,6 @@ import TerminalExampleRaw from "./terminal-example.tsx?raw" with {
   turbopackAs: "*.js",
 }
 
-import TabHeaderExample from "./tab-header-example"
-import TabHeaderExampleRaw from "./tab-header-example.tsx?raw" with {
-  turbopackLoader: "raw-loader",
-  turbopackAs: "*.js",
-}
-
 import DiffExample from "./diff-example"
 import DiffExampleRaw from "./diff-example.tsx?raw" with {
   turbopackLoader: "raw-loader",
@@ -64,19 +58,11 @@ const codeBlockShowcaseItems: readonly ShowcaseItem[] = [
   },
   {
     id: "terminal-code-block",
-    title: "Terminal Header Variant (Lazy)",
+    title: "Terminal Variants (CLI & macOS)",
     description:
-      "macOS traffic light window controls loaded on demand via lazy slot architecture.",
+      "CLI prompt icon and macOS traffic light window controls for terminal code snippets.",
     code: TerminalExampleRaw,
     preview: <TerminalExample />,
-  },
-  {
-    id: "tab-header-code-block",
-    title: "Tab Header Variant (Lazy)",
-    description:
-      "VS Code style active tab title bar where the file name is enclosed in a dedicated bordered tab.",
-    code: TabHeaderExampleRaw,
-    preview: <TabHeaderExample />,
   },
   {
     id: "line-numbers-and-highlight",
