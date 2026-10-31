@@ -9,6 +9,7 @@ import {
   getLineVariantClassName,
   type CodeBlockLineVariant,
 } from "./utilities/notations"
+import { LazyTerminalHeader, LazyTabHeader } from "./headers/lazy-headers"
 
 /* ========================================================================== *\
  * CodeBlock Factory
@@ -19,9 +20,9 @@ import {
  */
 export function createCodeBlock<const TPrimitives extends CodeBlockPrimitives>(
   defaultPrimitives: TPrimitives,
-  slots?: Partial<TPrimitives>
+  slots?: Partial<CodeBlockPrimitives>
 ) {
-  const P = { ...defaultPrimitives, ...slots }
+  const mergedPrimitives = { ...defaultPrimitives, ...slots }
 
   function CodeBlock(props: CodeBlockProps<TPrimitives>) {
     const {
@@ -29,6 +30,7 @@ export function createCodeBlock<const TPrimitives extends CodeBlockPrimitives>(
       language = "",
       title,
       header,
+      headerVariant,
       actions,
       footer,
       copyable = true,
@@ -42,6 +44,7 @@ export function createCodeBlock<const TPrimitives extends CodeBlockPrimitives>(
       removedLines,
       filterRemovedOnCopy = true,
       getLineVariant,
+      slots: propSlots,
       $header,
       $title,
       $actions,
@@ -51,6 +54,22 @@ export function createCodeBlock<const TPrimitives extends CodeBlockPrimitives>(
       $footer,
       ...rootProps
     } = props
+
+    const P = { ...mergedPrimitives, ...propSlots }
+    const Root = P.Root as React.ElementType
+    const Actions = P.Actions as React.ElementType
+    const CopyButton = P.CopyButton as React.ElementType
+    const Content = P.Content as React.ElementType
+    const Line = P.Line as React.ElementType
+    const Title = P.Title as React.ElementType
+    const Footer = P.Footer as React.ElementType
+
+    const HeaderComponent: React.ElementType =
+      headerVariant === "terminal"
+        ? LazyTerminalHeader
+        : headerVariant === "tab"
+          ? LazyTabHeader
+          : (P.Header as React.ElementType)
 
     const parsed = React.useMemo(
       () =>
@@ -84,33 +103,42 @@ export function createCodeBlock<const TPrimitives extends CodeBlockPrimitives>(
     const hasHeader = Boolean(header || title)
 
     return (
-      <P.Root {...rootProps}>
+      <Root {...rootProps}>
         {hasHeader ? (
-          <P.Header {...$header}>
-            {header ?? (
-              <>
-                {title && <P.Title {...$title}>{title}</P.Title>}
-                {hasActions && (
-                  <P.Actions {...$actions}>
-                    {actions}
-                    {copyable && Boolean(parsed.copyCode) && (
-                      <P.CopyButton value={copyValue} {...$copyButton} />
-                    )}
-                  </P.Actions>
-                )}
-              </>
-            )}
-          </P.Header>
+          <React.Suspense
+            fallback={
+              <div
+                data-slot="code-block-header"
+                className="h-9 min-w-0 border-b border-border bg-muted/40 px-3.5 py-1.5 animate-pulse"
+              />
+            }
+          >
+            <HeaderComponent {...$header}>
+              {header ?? (
+                <>
+                  {title && <Title {...$title}>{title}</Title>}
+                  {hasActions && (
+                    <Actions {...$actions}>
+                      {actions}
+                      {copyable && Boolean(parsed.copyCode) && (
+                        <CopyButton value={copyValue} {...$copyButton} />
+                      )}
+                    </Actions>
+                  )}
+                </>
+              )}
+            </HeaderComponent>
+          </React.Suspense>
         ) : hasActions ? (
-          <P.Actions {...$actions}>
+          <Actions {...$actions}>
             {actions}
             {copyable && Boolean(parsed.copyCode) && (
-              <P.CopyButton value={copyValue} {...$copyButton} />
+              <CopyButton value={copyValue} {...$copyButton} />
             )}
-          </P.Actions>
+          </Actions>
         ) : null}
 
-        <P.Content
+        <Content
           wrap={wrap}
           lineNumbers={lineNumbers}
           startLine={startLine}
@@ -132,20 +160,20 @@ export function createCodeBlock<const TPrimitives extends CodeBlockPrimitives>(
             const variantClassName = getLineVariantClassName(variant, isBlurred)
 
             return (
-              <P.Line
+              <Line
                 key={lineNumber}
                 variant={mappedPrimitiveVariant}
                 {...$line}
                 className={cn(variantClassName, $line?.className)}
               >
                 {line}
-              </P.Line>
+              </Line>
             )
           })}
-        </P.Content>
+        </Content>
 
-        {footer && <P.Footer {...$footer}>{footer}</P.Footer>}
-      </P.Root>
+        {footer && <Footer {...$footer}>{footer}</Footer>}
+      </Root>
     )
   }
 
@@ -158,9 +186,11 @@ export function createCodeBlock<const TPrimitives extends CodeBlockPrimitives>(
 
 export type { CodeBlockLineVariant } from "./utilities/notations"
 
+export type CodeBlockHeaderVariant = "editor" | "terminal" | "tab"
+
 export type CodeBlockPrimitives = Readonly<{
   Root: React.ElementType
-  Header: React.ElementType
+  Header: React.ElementType | React.LazyExoticComponent<any>
   Title: React.ElementType
   Actions: React.ElementType
   CopyButton: React.ElementType
@@ -180,6 +210,8 @@ export type CodeBlockProps<
   title?: React.ReactNode
   /** Custom header element to replace the standard header. */
   header?: React.ReactNode
+  /** Header styling variant: "editor" (default), "terminal" (macOS dots), or "tab" (VS Code tab). */
+  headerVariant?: CodeBlockHeaderVariant
   /** Extra action buttons rendered inside the action container. */
   actions?: React.ReactNode
   /** Optional footer content rendered below the code content. */
@@ -209,6 +241,8 @@ export type CodeBlockProps<
     lineNumber: number,
     lineText: string
   ) => CodeBlockLineVariant | undefined
+  /** Slot overrides for primitives passed per-instance. */
+  slots?: Partial<CodeBlockPrimitives>
   /** Slot props passed directly to the Header primitive. */
   $header?: Omit<
     React.ComponentPropsWithoutRef<TPrimitives["Header"]>,

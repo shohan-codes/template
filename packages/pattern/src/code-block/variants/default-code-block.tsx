@@ -1,6 +1,5 @@
 import {
   CodeBlock as Root,
-  CodeBlockHeader as Header,
   CodeBlockTitle as Title,
   CodeBlockActions as Actions,
   CodeBlockCopyButton as CopyButton,
@@ -9,6 +8,7 @@ import {
   CodeBlockFooter as Footer,
 } from "@workspace/shadcn-ui"
 
+import { EditorHeader as Header } from "../headers/editor-header"
 import { createCodeBlock } from "../core"
 
 export const defaultCodeBlockPrimitives = {
@@ -23,4 +23,3 @@ export const defaultCodeBlockPrimitives = {
 } as const
 
 export const CodeBlock = createCodeBlock(defaultCodeBlockPrimitives)
-
