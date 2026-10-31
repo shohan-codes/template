@@ -3,11 +3,11 @@
 import { CodeBlock } from "@workspace/pattern"
 
 const diffCode = `// Authenticate incoming request
-const user = await legacyAuth(req.headers)
-const session = await auth.verifySessionToken(token)
-if (!session.isValid) {
-  throw new UnauthorizedError("Session expired")
-}
+const user = await legacyAuth(req.headers) // [!code --]
+const session = await auth.verifySessionToken(token) // [!code ++]
+if (!session.isValid) { // [!code ++]
+  throw new UnauthorizedError("Session expired") // [!code ++]
+} // [!code ++]
 return session.user`
 
 export default function DiffExample() {
@@ -18,13 +18,7 @@ export default function DiffExample() {
         language="typescript"
         code={diffCode}
         lineNumbers
-        getLineVariant={(lineNumber) => {
-          if (lineNumber === 2) return "removed"
-          if (lineNumber >= 3 && lineNumber <= 6) return "added"
-          return undefined
-        }}
       />
     </div>
   )
 }
-

@@ -32,6 +32,16 @@ export interface ShowcaseCardProps extends Omit<
   readonly code?: string
   /** Programming language for syntax highlighting (defaults to "tsx"). */
   readonly language?: string
+  /** Line numbers or range to visually highlight in code preview (e.g. `[3, 4]` or `"3-5"`). */
+  readonly highlightLines?: readonly number[] | string
+  /** Line numbers or range marked as added (+) in code preview. */
+  readonly addedLines?: readonly number[] | string
+  /** Line numbers or range marked as removed (−) in code preview. */
+  readonly removedLines?: readonly number[] | string
+  /** Whether to auto-detect diff (+/-) lines in code preview. */
+  readonly diff?: boolean
+  /** Whether to display line numbers in code preview. */
+  readonly lineNumbers?: boolean
   /** Component interactive preview content. */
   readonly children: React.ReactNode
 }
@@ -49,6 +59,11 @@ export function ShowcaseCard({
   controls,
   code,
   language = "tsx",
+  highlightLines,
+  addedLines,
+  removedLines,
+  diff,
+  lineNumbers,
   children,
   className,
   ...props
@@ -107,6 +122,11 @@ export function ShowcaseCard({
             code={code ?? ""}
             language={language}
             className="max-h-96"
+            lineNumbers={lineNumbers}
+            highlightLines={highlightLines}
+            addedLines={addedLines}
+            removedLines={removedLines}
+            diff={diff}
             copyable
           />
         )}

@@ -23,6 +23,12 @@ import DiffExampleRaw from "./diff-example.tsx?raw" with {
   turbopackAs: "*.js",
 }
 
+import FocusExample from "./focus-example"
+import FocusExampleRaw from "./focus-example.tsx?raw" with {
+  turbopackLoader: "raw-loader",
+  turbopackAs: "*.js",
+}
+
 const codeBlockShowcaseItems: readonly ShowcaseItem[] = [
   {
     id: "basic-code-block",
@@ -42,11 +48,19 @@ const codeBlockShowcaseItems: readonly ShowcaseItem[] = [
   },
   {
     id: "diff-code-block",
-    title: "Diff Highlighting",
+    title: "Diff Notations (Added & Removed)",
     description:
-      "Code block demonstrating added and removed line variants via getLineVariant callback.",
+      "Fumadocs Shiki comment notations (// [!code ++] and // [!code --]) with automatic clean clipboard copying.",
     code: DiffExampleRaw,
     preview: <DiffExample />,
+  },
+  {
+    id: "focus-code-block",
+    title: "Focus & Blur Notation",
+    description:
+      "Focus notation (// [!code focus]) keeping the target line clear while other lines are subtly dimmed and blurred with hover reveal.",
+    code: FocusExampleRaw,
+    preview: <FocusExample />,
   },
 ]
 
@@ -59,4 +73,3 @@ export default function CodeBlockShowcase() {
     />
   )
 }
-
