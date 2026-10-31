@@ -41,6 +41,18 @@ import FocusExampleRaw from "./focus-example.tsx?raw" with {
   turbopackAs: "*.js",
 }
 
+import MultiTabExample from "./multi-tab-example"
+import MultiTabExampleRaw from "./multi-tab-example.tsx?raw" with {
+  turbopackLoader: "raw-loader",
+  turbopackAs: "*.js",
+}
+
+import PackageManagerExample from "./package-manager-example"
+import PackageManagerExampleRaw from "./package-manager-example.tsx?raw" with {
+  turbopackLoader: "raw-loader",
+  turbopackAs: "*.js",
+}
+
 const codeBlockShowcaseItems: readonly ShowcaseItem[] = [
   {
     id: "basic-code-block",
@@ -81,6 +93,22 @@ const codeBlockShowcaseItems: readonly ShowcaseItem[] = [
       "Fumadocs Shiki comment notations (// [!code ++] and // [!code --]) with automatic clean clipboard copying.",
     code: DiffExampleRaw,
     preview: <DiffExample />,
+  },
+  {
+    id: "multi-tab-code-block",
+    title: "Multi-Tab Editor Variant",
+    description:
+      "Editor-styled multi-tab switcher for browsing multiple files with isolated code, notations, and dynamic clipboard copying.",
+    code: MultiTabExampleRaw,
+    preview: <MultiTabExample />,
+  },
+  {
+    id: "package-manager-code-block",
+    title: "Segmented & Terminal Tabs Variants",
+    description:
+      "Segmented pill-style package manager switcher and macOS terminal tabs with traffic-light window dots.",
+    code: PackageManagerExampleRaw,
+    preview: <PackageManagerExample />,
   },
   {
     id: "focus-code-block",

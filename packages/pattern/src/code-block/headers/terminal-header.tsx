@@ -14,7 +14,7 @@ export function TerminalHeader({
     <div
       data-slot="code-block-header"
       className={cn(
-        "flex min-w-0 shrink-0 items-center gap-3 border-b border-border bg-muted/50 px-3.5 py-2 text-muted-foreground",
+        "flex min-h-9 min-w-0 shrink-0 items-center gap-3 border-b border-border bg-muted/50 px-3.5 py-1 text-muted-foreground",
         className
       )}
       {...props}

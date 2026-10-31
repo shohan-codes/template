@@ -14,7 +14,9 @@ export function TabHeader({
     <div
       data-slot="code-block-header"
       className={cn(
-        "flex min-w-0 shrink-0 items-center border-b border-border bg-muted/20 px-0 py-0 text-muted-foreground *:data-[slot=code-block-title]:inline-flex *:data-[slot=code-block-title]:items-center *:data-[slot=code-block-title]:border-r *:data-[slot=code-block-title]:border-border *:data-[slot=code-block-title]:bg-background *:data-[slot=code-block-title]:px-3.5 *:data-[slot=code-block-title]:py-2 *:data-[slot=code-block-title]:text-foreground *:data-[slot=code-block-title]:font-mono *:data-[slot=code-block-title]:text-xs *:data-[slot=code-block-actions]:pe-3",
+        "flex min-h-9 min-w-0 shrink-0 items-stretch border-b border-border bg-muted/20 px-0 py-0 text-muted-foreground",
+        "*:data-[slot=code-block-title]:inline-flex *:data-[slot=code-block-title]:items-center *:data-[slot=code-block-title]:border-r *:data-[slot=code-block-title]:border-border *:data-[slot=code-block-title]:bg-background *:data-[slot=code-block-title]:px-4 *:data-[slot=code-block-title]:text-foreground *:data-[slot=code-block-title]:font-mono *:data-[slot=code-block-title]:text-xs *:data-[slot=code-block-title]:h-9",
+        "*:data-[slot=code-block-actions]:pe-3 *:data-[slot=code-block-actions]:my-auto",
         className
       )}
       {...props}
