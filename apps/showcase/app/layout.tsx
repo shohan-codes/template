@@ -46,7 +46,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      data-theme="blue"
+      data-theme="neutral"
       className={cn(
         "antialiased",
         fontMono.variable,

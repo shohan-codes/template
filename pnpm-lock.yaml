@@ -203,6 +203,9 @@ importers:
 
   packages/pattern:
     dependencies:
+      '@shadcn/react':
+        specifier: ^0.3.1
+        version: 0.3.1(@types/react@19.3.0)(react@19.3.1)
       '@workspace/shadcn-ui':
         specifier: workspace:*
         version: link:../shadcn-ui

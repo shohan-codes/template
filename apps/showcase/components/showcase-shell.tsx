@@ -40,6 +40,12 @@ const navItems = [
         title: "Accordion",
         icon: <RiStackLine className="size-4" />,
       },
+      {
+        id: "nav-questionnaire",
+        href: "/components/questionnaire",
+        title: "Questionnaire",
+        icon: <RiStackLine className="size-4" />,
+      },
     ],
   },
 ]
