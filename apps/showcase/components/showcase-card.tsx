@@ -4,6 +4,7 @@ import { RiCodeSSlashLine, RiEyeLine } from "@remixicon/react"
 import * as React from "react"
 
 import { Button } from "@workspace/shadcn-ui"
+import { CodeBlock } from "@workspace/pattern"
 import {
   Card,
   CardAction,
@@ -29,6 +30,8 @@ export interface ShowcaseCardProps extends Omit<
   readonly controls?: React.ReactNode
   /** Optional code preview string displayed in an expandable tab. */
   readonly code?: string
+  /** Programming language for syntax highlighting (defaults to "tsx"). */
+  readonly language?: string
   /** Component interactive preview content. */
   readonly children: React.ReactNode
 }
@@ -45,6 +48,7 @@ export function ShowcaseCard({
   badge,
   controls,
   code,
+  language = "tsx",
   children,
   className,
   ...props
@@ -99,9 +103,12 @@ export function ShowcaseCard({
         {viewMode === "preview" ? (
           <div className="min-w-0">{children}</div>
         ) : (
-          <pre className="max-h-96 overflow-x-auto rounded-lg bg-muted/50 p-4 font-mono text-xs leading-relaxed text-foreground">
-            <code>{code}</code>
-          </pre>
+          <CodeBlock
+            code={code ?? ""}
+            language={language}
+            className="max-h-96"
+            copyable
+          />
         )}
       </CardContent>
     </Card>
