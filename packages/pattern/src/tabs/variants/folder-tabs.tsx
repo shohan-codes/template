@@ -48,7 +48,7 @@ const FloatingList = ({
 }: React.ComponentProps<typeof TabsPrimitive.List>) => (
   <TabsPrimitive.List
     className={cn(
-      "flex w-full items-end gap-1 border-b border-border px-3 pt-2",
+      "flex w-full items-end gap-1 border-b border-border px-0 pt-2",
       className
     )}
     {...props}
@@ -90,7 +90,7 @@ const FloatingContent = ({
 }: React.ComponentProps<typeof TabsPrimitive.Content>) => (
   <TabsPrimitive.Content
     className={cn(
-      "rounded-xl border border-border -mt-px bg-background p-5 sm:p-6 text-sm text-foreground shadow-2xs focus-visible:outline-hidden",
+      "rounded-b-xl border border-border -mt-px bg-background p-5 sm:p-6 text-sm text-foreground shadow-2xs focus-visible:outline-hidden",
       className
     )}
     {...props}
