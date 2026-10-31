@@ -25,20 +25,26 @@ export function TerminalHeader({
 }: TerminalHeaderProps) {
   let indicatorNode: React.ReactNode = null
 
-  if (indicator === "macos" || indicator === "dots") {
-    indicatorNode = (
-      <div className="flex shrink-0 items-center gap-1.5" aria-hidden="true">
-        <span className="size-2.5 rounded-full bg-rose-500/90 border border-rose-600/30 shadow-xs" />
-        <span className="size-2.5 rounded-full bg-amber-400/90 border border-amber-500/30 shadow-xs" />
-        <span className="size-2.5 rounded-full bg-emerald-500/90 border border-emerald-600/30 shadow-xs" />
-      </div>
-    )
-  } else if (indicator === "prompt" || indicator === "cli") {
-    indicatorNode = (
-      <TerminalIcon className="size-3.5 shrink-0 opacity-70" aria-hidden="true" />
-    )
-  } else if (React.isValidElement(indicator)) {
-    indicatorNode = indicator
+  switch (indicator) {
+    case "macos":
+    case "dots":
+      indicatorNode = (
+        <div className="flex shrink-0 items-center gap-1.5" aria-hidden="true">
+          <span className="size-2.5 rounded-full bg-rose-500/90 border border-rose-600/30 shadow-xs" />
+          <span className="size-2.5 rounded-full bg-amber-400/90 border border-amber-500/30 shadow-xs" />
+          <span className="size-2.5 rounded-full bg-emerald-500/90 border border-emerald-600/30 shadow-xs" />
+        </div>
+      )
+      break
+    case "prompt":
+    case "cli":
+      indicatorNode = (
+        <TerminalIcon className="size-3.5 shrink-0 opacity-70" aria-hidden="true" />
+      )
+      break
+    default:
+      indicatorNode = React.isValidElement(indicator) ? indicator : null
+      break
   }
 
   return (
