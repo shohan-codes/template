@@ -31,7 +31,7 @@ const TabTrigger = ({
   <button
     className={cn(
       "inline-flex cursor-pointer items-center gap-1.5 rounded-md px-2.5 py-1 font-mono text-xs text-muted-foreground transition-all hover:text-foreground hover:bg-muted/50 focus-visible:outline-hidden",
-      "data-[state=active]:bg-muted/80 data-[state=active]:text-foreground data-[state=active]:shadow-2xs data-[state=active]:border data-[state=active]:border-border/60",
+      "data-[state=active]:bg-background/80 data-[state=active]:text-foreground data-[state=active]:shadow-2xs data-[state=active]:border data-[state=active]:border-border/60",
       className
     )}
     {...props}
