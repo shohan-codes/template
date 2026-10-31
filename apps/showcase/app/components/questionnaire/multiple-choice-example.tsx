@@ -69,12 +69,13 @@ const multipleChoiceQuestions: readonly QuestionnaireQuestionData[] = [
     },
     required: false,
   },
-  // Step 4: 2-column grid layout of multi-select tags
+  // Step 4: 2-column grid layout of multi-select tags via `columns: 2`
   {
     name: "tech_stack",
     title: "Select your preferred tech stack tools",
     description: "Multi-select choices arranged in a modern responsive 2-column grid.",
     multiple: true,
+    columns: 2,
     choices: [
       { value: "nextjs", label: "Next.js 15+" },
       { value: "tailwind", label: "Tailwind CSS v4" },
@@ -83,6 +84,9 @@ const multipleChoiceQuestions: readonly QuestionnaireQuestionData[] = [
       { value: "prisma", label: "Prisma ORM" },
       { value: "trpc", label: "tRPC Endpoints" },
     ],
+    input: {
+      placeholder: "Other tool / framework (e.g. Bun, Drizzle)...",
+    },
     required: true,
   },
 ]
@@ -93,16 +97,12 @@ export default function MultipleChoiceQuestionnaireExample() {
       <Questionnaire
         questions={multipleChoiceQuestions}
         shortcuts="letters"
-        $choices={{
-          className: "grid min-w-0 gap-2 sm:grid-cols-2",
-        }}
         $submit={{
           children: "Submit selections",
         }}
         onSubmit={(e) => {
           e.preventDefault()
           const data = new FormData(e.currentTarget)
-          // eslint-disable-next-line no-console
           console.log("Context submitted:", Object.fromEntries(data.entries()))
           alert("Submitted! Check browser console.")
         }}
