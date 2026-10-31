@@ -1,16 +1,15 @@
 "use client"
 
 import { SegmentedTabs, type TabItemData } from "@workspace/pattern"
-import { Badge } from "@workspace/shadcn-ui"
 
 const filterItems: readonly TabItemData[] = [
   {
     id: "all",
     label: "All Projects",
     badge: (
-      <Badge variant="secondary" className="px-1.5 py-0 text-[10px]">
+      <span className="inline-flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-muted-foreground/15 px-1.5 font-mono text-[10px] font-medium text-foreground">
         18
-      </Badge>
+      </span>
     ),
     content: (
       <div className="rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground">
@@ -22,9 +21,9 @@ const filterItems: readonly TabItemData[] = [
     id: "active",
     label: "In Progress",
     badge: (
-      <Badge variant="secondary" className="px-1.5 py-0 text-[10px]">
+      <span className="inline-flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-muted-foreground/15 px-1.5 font-mono text-[10px] font-medium text-foreground">
         7
-      </Badge>
+      </span>
     ),
     content: (
       <div className="rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground">
