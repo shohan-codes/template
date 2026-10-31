@@ -26,7 +26,7 @@ const Root = ({
   children,
   ...props
 }: React.ComponentProps<typeof RootPrimitive>) => (
-  <Card className="w-full overflow-hidden border shadow-sm">
+  <Card className="w-full bg-card/20 overflow-hidden border shadow-sm">
     <RootPrimitive
       {...props}
       className={cn("w-full p-6 sm:p-8 flex flex-col gap-6", className)}
