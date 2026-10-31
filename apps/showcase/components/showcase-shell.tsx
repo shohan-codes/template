@@ -41,6 +41,12 @@ const navItems = [
         icon: <RiStackLine className="size-4" />,
       },
       {
+        id: "nav-code-block",
+        href: "/components/code-block",
+        title: "Code Block",
+        icon: <RiStackLine className="size-4" />,
+      },
+      {
         id: "nav-questionnaire",
         href: "/components/questionnaire",
         title: "Questionnaire",
