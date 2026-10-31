@@ -42,6 +42,8 @@ export interface ShowcaseCardProps extends Omit<
   readonly diff?: boolean
   /** Whether to display line numbers in code preview. */
   readonly lineNumbers?: boolean
+  /** Whether to parse internal magic notations or display raw code (defaults to false). */
+  readonly notations?: boolean
   /** Component interactive preview content. */
   readonly children: React.ReactNode
 }
@@ -64,6 +66,7 @@ export function ShowcaseCard({
   removedLines,
   diff,
   lineNumbers,
+  notations = false,
   children,
   className,
   ...props
@@ -127,6 +130,7 @@ export function ShowcaseCard({
             addedLines={addedLines}
             removedLines={removedLines}
             diff={diff}
+            notations={notations}
             copyable
           />
         )}
