@@ -30,7 +30,10 @@ const Root = ({
   <Card className="w-full bg-card/20 overflow-hidden border shadow-sm">
     <RootPrimitive
       {...props}
-      className={cn("w-full p-6 sm:p-8 flex flex-col gap-6", className)}
+      className={cn(
+        "w-full p-4 sm:p-6 md:p-8 flex flex-col gap-4 sm:gap-6",
+        className
+      )}
     >
       {children}
     </RootPrimitive>
@@ -66,7 +69,10 @@ const Title = ({
 }: React.ComponentProps<typeof TitlePrimitive>) => (
   <TitlePrimitive
     {...props}
-    className={cn("text-xl font-semibold tracking-tight text-foreground", className)}
+    className={cn(
+      "text-lg sm:text-xl font-semibold tracking-tight text-foreground",
+      className
+    )}
   />
 )
 
@@ -94,7 +100,9 @@ const Choice = ({
   <ChoicePrimitive
     {...props}
     className={cn(
-      "relative flex cursor-pointer items-start gap-3 rounded-lg border bg-card/50 p-4 shadow-2xs transition-all hover:bg-accent/40 data-[state=checked]:border-primary data-[state=checked]:bg-primary/5",
+      "relative flex cursor-pointer items-start gap-3 rounded-lg border bg-card/50 p-3.5 sm:p-4 shadow-2xs transition-all hover:bg-accent/40",
+      "data-checked:border-primary data-checked:bg-primary/5 dark:data-checked:bg-primary/10",
+      "data-[state=checked]:border-primary data-[state=checked]:bg-primary/5",
       className
     )}
   />
@@ -106,13 +114,13 @@ const Actions = ({
 }: React.ComponentProps<typeof ActionsPrimitive>) => (
   <CardFooter
     className={cn(
-      "-mx-6 -mb-6 mt-2 flex items-center border-t bg-muted/30 px-6 py-4 sm:-mx-8 sm:-mb-8 sm:px-8",
+      "-mx-4 -mb-4 mt-2 flex items-center border-t bg-muted/30 px-4 py-3 sm:-mx-6 sm:-mb-6 sm:px-6 sm:py-4 md:-mx-8 md:-mb-8 md:px-8",
       className
     )}
   >
     <ActionsPrimitive
       {...props}
-      className="w-full justify-end gap-2.5"
+      className="w-full gap-2 sm:gap-2.5"
     />
   </CardFooter>
 )
