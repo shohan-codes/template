@@ -3,13 +3,13 @@ import { cn } from "@workspace/shadcn-ui/lib/utils"
 import {
   defaultCodeBlockSlots,
   type CodeBlockProps,
-} from "./default-code-block"
-import { CodeBlockCore } from "../core"
+} from "../../single/variants/default-code-block"
+import { CodeBlockCore } from "../../single/core"
 import {
   MultiTabCodeBlockCore,
   type MultiTabCodeBlockProps,
   type MultiTabCodeBlockSlots,
-} from "../multi-tab-core"
+} from "../core"
 
 const Root = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div className={cn("w-full", className)} {...props} />

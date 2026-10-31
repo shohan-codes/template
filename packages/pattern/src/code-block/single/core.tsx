@@ -9,7 +9,7 @@ import {
   getLineVariantClassName,
   type CodeBlockLineVariant,
   type ParsedLineData,
-} from "./utilities/notations"
+} from "../shared/notations"
 
 /* ========================================================================== *\
  * Line State Helpers
@@ -161,7 +161,7 @@ export function CodeBlockCore({
  * CodeBlock Types
  * ========================================================================== */
 
-export type { CodeBlockLineVariant } from "./utilities/notations"
+export type { CodeBlockLineVariant } from "../shared/notations"
 
 export type CodeBlockSlots = Readonly<{
   Root: React.ElementType

@@ -1,4 +1,5 @@
 import * as React from "react"
+import { cn } from "@workspace/shadcn-ui/lib/utils"
 import {
   CodeBlock as Root,
   CodeBlockTitle as Title,
@@ -9,16 +10,38 @@ import {
   CodeBlockFooter as Footer,
 } from "@workspace/shadcn-ui"
 
-import { EditorHeader as Header } from "../headers/editor-header"
 import {
   CodeBlockCore,
   type CodeBlockCoreProps,
   type CodeBlockSlots,
 } from "../core"
 
+/**
+ * Default Editor Header:
+ * A clean, modern editor title bar with a subtle bottom border and unified min-h-9 height.
+ */
+export function EditorHeader({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="code-block-header"
+      className={cn(
+        "flex min-h-9 min-w-0 shrink-0 items-center gap-2 border-b border-border bg-muted/40 px-3.5 py-1 text-muted-foreground",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  )
+}
+
 export const defaultCodeBlockSlots: CodeBlockSlots = {
   Root,
-  Header,
+  Header: EditorHeader,
   Title,
   Actions,
   CopyButton,
@@ -38,4 +61,3 @@ export const CodeBlock = (props: CodeBlockProps) => (
     {...props}
   />
 )
-

@@ -1,5 +1,10 @@
 import * as React from "react"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
+import {
+  defaultCodeBlockSlots,
+  type CodeBlockProps,
+} from "./default-code-block"
+import { CodeBlockCore, type CodeBlockSlots } from "../core"
 
 /**
  * Tab Header:
@@ -23,5 +28,19 @@ export function TabHeader({
     >
       {children}
     </div>
+  )
+}
+
+export const tabCodeBlockSlots: CodeBlockSlots = {
+  ...defaultCodeBlockSlots,
+  Header: TabHeader,
+}
+
+export function TabCodeBlock(props: CodeBlockProps) {
+  return (
+    <CodeBlockCore
+      defaultSlots={tabCodeBlockSlots}
+      {...props}
+    />
   )
 }

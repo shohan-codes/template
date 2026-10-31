@@ -1,11 +1,11 @@
 import * as React from "react"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
-import { CodeBlock } from "./default-code-block"
+import { CodeBlock } from "../../single/variants/default-code-block"
 import {
   MultiTabCodeBlockCore,
   type MultiTabCodeBlockProps,
   type MultiTabCodeBlockSlots,
-} from "../multi-tab-core"
+} from "../core"
 
 const Root = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div className={cn("w-full", className)} {...props} />
@@ -58,4 +58,3 @@ export function SegmentedCodeBlock({
     />
   )
 }
-

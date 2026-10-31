@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
-import type { CodeBlockCoreProps } from "./core"
+import type { CodeBlockCoreProps } from "../single/core"
 
 /* ========================================================================== *\
  * MultiTab CodeBlock Core Types
