@@ -59,7 +59,6 @@ export default function CardQuestionnaireExample() {
       <CardQuestionnaire
         questions={feedbackQuestions}
         onSubmit={(data) => {
-          // eslint-disable-next-line no-console
           console.log("Card Questionnaire Submitted:", data)
         }}
       />

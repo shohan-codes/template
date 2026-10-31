@@ -26,7 +26,7 @@ const Root = ({
   <RootPrimitive
     {...props}
     className={cn(
-      "w-full rounded-xl border bg-card p-6 text-card-foreground shadow-sm transition-all sm:p-8",
+      "w-full rounded-xl border p-6 text-card-foreground shadow-sm transition-all sm:p-8",
       className
     )}
   />
@@ -124,3 +124,4 @@ const CardQuestionnaireBase = createQuestionnaire(cardQuestionnairePrimitives)
 export const CardQuestionnaire = React.memo(CardQuestionnaireBase)
 
 CardQuestionnaire.displayName = "CardQuestionnaire"
+
