@@ -60,8 +60,8 @@ export type TabsBaseProps = Omit<
 > & {
   /** Array of tabs to render. */
   items: readonly TabItemData[]
-  /** Controlled active tab ID. */
-  value?: string
+  /** Controlled active tab ID. Accepts string, null, or undefined (e.g. from URL query/hash). */
+  value?: string | null
   /** Default active tab ID for uncontrolled usage. */
   defaultValue?: string
   /** Callback fired when the active tab changes. */
@@ -120,7 +120,16 @@ export function TabsCore({
   const LinkSlot = slots?.Link ?? defaultSlots?.Link ?? "a"
   const P = { ...defaultSlots, ...slots, Link: LinkSlot }
 
-  const defaultTab = defaultValue ?? (items[0] ? getTabId(items[0], 0) : undefined)
+  const fallbackTab = defaultValue ?? (items[0] ? getTabId(items[0], 0) : undefined)
+  const hasControlledValue = value !== undefined && value !== null
+  const isValueValid =
+    hasControlledValue &&
+    items.some((item, index) => getTabId(item, index) === value)
+  const resolvedValue = hasControlledValue
+    ? isValueValid
+      ? value
+      : fallbackTab
+    : undefined
 
   const listNode = (
     <P.List
@@ -167,8 +176,8 @@ export function TabsCore({
 
   return (
     <P.Root
-      value={value}
-      defaultValue={defaultTab}
+      value={resolvedValue}
+      defaultValue={fallbackTab}
       onValueChange={onValueChange}
       orientation={orientation}
       activationMode={activationMode}

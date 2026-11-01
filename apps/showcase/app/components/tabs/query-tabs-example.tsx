@@ -94,19 +94,15 @@ const queryItems: readonly TabItemData[] = [
   },
 ]
 
-function QueryTabsContent() {
+function QueryTabsContent({ defaultValue }: { defaultValue?: string }) {
   const searchParams = useSearchParams()
-  const rawTab = searchParams.get("tab")
-  const activeTab =
-    rawTab && queryItems.some((item) => item.id === rawTab)
-      ? rawTab
-      : "deployments"
 
   return (
     <div className="w-full max-w-xl mx-auto">
       <SegmentedTabs
         items={queryItems}
-        value={activeTab}
+        defaultValue={defaultValue ?? "deployments"}
+        value={searchParams.get("tab")}
         slots={{ Link }}
         $link={{ scroll: false }}
       />
@@ -114,14 +110,14 @@ function QueryTabsContent() {
   )
 }
 
-export default function QueryTabsExample() {
+export default function QueryTabsExample({ defaultValue }: { defaultValue?: string }) {
   return (
     <Suspense
       fallback={
         <div className="h-28 w-full max-w-xl mx-auto rounded-xl bg-muted/20 animate-pulse" />
       }
     >
-      <QueryTabsContent />
+      <QueryTabsContent defaultValue={defaultValue} />
     </Suspense>
   )
 }

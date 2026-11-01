@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { useHash } from "@workspace/hooks"
 import { SegmentedTabs, type TabItemData } from "@workspace/pattern"
 import {
@@ -93,21 +92,15 @@ const hashItems: readonly TabItemData[] = [
   },
 ]
 
-export default function HashTabsExample() {
+export default function HashTabsExample({ defaultValue }: { defaultValue?: string }) {
   const currentHash = useHash()
-  const [selectedTab, setSelectedTab] = useState("deployments")
-
-  const activeTab =
-    currentHash && hashItems.some((item) => item.id === currentHash)
-      ? currentHash
-      : selectedTab
 
   return (
     <div className="w-full max-w-xl mx-auto">
       <SegmentedTabs
         items={hashItems}
-        value={activeTab}
-        onValueChange={setSelectedTab}
+        defaultValue={defaultValue ?? "deployments"}
+        value={currentHash}
       />
     </div>
   )
