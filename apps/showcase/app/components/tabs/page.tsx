@@ -35,8 +35,14 @@ import FloatingFolderTabsExampleRaw from "./floating-folder-tabs-example.tsx?raw
   turbopackAs: "*.js",
 }
 
-import NavigationTabsExample from "./navigation-tabs-example"
-import NavigationTabsExampleRaw from "./navigation-tabs-example.tsx?raw" with {
+import QueryTabsExample from "./query-tabs-example"
+import QueryTabsExampleRaw from "./query-tabs-example.tsx?raw" with {
+  turbopackLoader: "raw-loader",
+  turbopackAs: "*.js",
+}
+
+import HashTabsExample from "./hash-tabs-example"
+import HashTabsExampleRaw from "./hash-tabs-example.tsx?raw" with {
   turbopackLoader: "raw-loader",
   turbopackAs: "*.js",
 }
@@ -51,12 +57,20 @@ const tabsShowcaseItems: readonly ShowcaseItem[] = [
     preview: <SegmentedTabsExample />,
   },
   {
-    id: "navigation-tabs",
-    title: "Route Navigation Tabs (Next.js Link Integration)",
+    id: "query-tabs",
+    title: "Query Parameter Tabs (Next.js useSearchParams)",
     description:
-      "URL-driven navigation tab strip with Next.js Link prefetching, href routing, and standalone header layout.",
-    code: NavigationTabsExampleRaw,
-    preview: <NavigationTabsExample />,
+      "SSR-friendly URL query routing using Next.js useSearchParams() without any useEffect or client listeners.",
+    code: QueryTabsExampleRaw,
+    preview: <QueryTabsExample />,
+  },
+  {
+    id: "hash-tabs",
+    title: "Hash Deep-Link Tabs (window.location.hash)",
+    description:
+      "Anchor hash deep-linking with client-side mount synchronization and shareable browser bookmark URLs.",
+    code: HashTabsExampleRaw,
+    preview: <HashTabsExample />,
   },
   {
     id: "folder-tabs-enclosed",
