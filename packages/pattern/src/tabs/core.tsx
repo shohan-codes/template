@@ -8,8 +8,10 @@ import { cn } from "@workspace/shadcn-ui/lib/utils"
  * ========================================================================== */
 
 export type TabItemData = Readonly<{
-  /** Unique identifier for the tab. */
-  id: string
+  /** Optional unique identifier for the tab. Auto-derived from value, href, label, or index if omitted. */
+  id?: string
+  /** Value identifier alias for the tab. */
+  value?: string
   /** Tab label rendered inside the trigger. */
   label: React.ReactNode
   /** Tab content rendered inside the panel. Optional when used purely as navigation tabs. */
@@ -23,6 +25,25 @@ export type TabItemData = Readonly<{
   /** Whether this tab is disabled. */
   disabled?: boolean
 }>
+
+/**
+ * Resolves a unique string identifier for a tab item.
+ * Falls back to value, href, slugified label, or the array index.
+ */
+export function getTabId(item: TabItemData, index: number = 0): string {
+  if (item.id) return item.id
+  if (item.value) return item.value
+  if (item.href) return item.href
+  if (typeof item.label === "string" && item.label.trim().length > 0) {
+    const slug = item.label
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+    if (slug.length > 0) return slug
+  }
+  return String(index)
+}
 
 export type TabsSlots = Readonly<{
   Root: React.ElementType
@@ -100,7 +121,7 @@ export function TabsCore({
     Link: LinkSlot,
   }
 
-  const defaultTab = defaultValue ?? items[0]?.id
+  const defaultTab = defaultValue ?? (items[0] ? getTabId(items[0], 0) : undefined)
 
   const listNode = (
     <P.List
@@ -110,7 +131,8 @@ export function TabsCore({
         $list?.className
       )}
     >
-      {items.map((item) => {
+      {items.map((item, index) => {
+        const tabId = getTabId(item, index)
         const triggerContent = (
           <>
             {item.icon}
@@ -121,8 +143,8 @@ export function TabsCore({
 
         return (
           <P.Trigger
-            key={item.id}
-            value={item.id}
+            key={tabId}
+            value={tabId}
             disabled={item.disabled}
             asChild={Boolean(item.href)}
             {...$trigger}
@@ -163,14 +185,15 @@ export function TabsCore({
         listNode
       )}
 
-      {items.map((item) => {
+      {items.map((item, index) => {
         if (item.content === undefined || item.content === null) {
           return null
         }
+        const tabId = getTabId(item, index)
         return (
           <P.Content
-            key={item.id}
-            value={item.id}
+            key={tabId}
+            value={tabId}
             {...$content}
           >
             {item.content}
