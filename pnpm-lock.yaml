@@ -41,6 +41,9 @@ importers:
       '@workspace/css':
         specifier: workspace:*
         version: link:../../packages/css
+      '@workspace/hooks':
+        specifier: workspace:*
+        version: link:../../packages/hooks
       '@workspace/pattern':
         specifier: workspace:*
         version: link:../../packages/pattern
@@ -200,6 +203,34 @@ importers:
       globals:
         specifier: ^17.13.0
         version: 17.13.0
+
+  packages/hooks:
+    dependencies:
+      react:
+        specifier: 19.3.1
+        version: 19.3.1
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.43
+      '@types/react':
+        specifier: ^19
+        version: 19.3.0
+      '@workspace/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@workspace/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      eslint:
+        specifier: ^10
+        version: 10.13.0(jiti@2.7.0)(supports-color@8.1.1)
+      tsdown:
+        specifier: ^0.23.2
+        version: 0.23.2(typescript@5.9.3)
+      typescript:
+        specifier: ^5
+        version: 5.9.3
 
   packages/pattern:
     dependencies:

@@ -1,7 +1,7 @@
 "use client"
 
-import Link from "next/link"
-import { useSyncExternalStore, useState } from "react"
+import { useState } from "react"
+import { useHash } from "@workspace/hooks"
 import { SegmentedTabs, type TabItemData } from "@workspace/pattern"
 import {
   RiHome4Line,
@@ -93,25 +93,8 @@ const hashItems: readonly TabItemData[] = [
   },
 ]
 
-function subscribeHash(callback: () => void) {
-  window.addEventListener("hashchange", callback)
-  return () => window.removeEventListener("hashchange", callback)
-}
-
-function getHashSnapshot() {
-  return window.location.hash.slice(1)
-}
-
-function getServerHashSnapshot() {
-  return ""
-}
-
 export default function HashTabsExample() {
-  const currentHash = useSyncExternalStore(
-    subscribeHash,
-    getHashSnapshot,
-    getServerHashSnapshot
-  )
+  const currentHash = useHash()
   const [selectedTab, setSelectedTab] = useState("deployments")
 
   const activeTab =
@@ -125,7 +108,6 @@ export default function HashTabsExample() {
         items={hashItems}
         value={activeTab}
         onValueChange={setSelectedTab}
-        slots={{ Link }}
       />
     </div>
   )

@@ -15,6 +15,7 @@
   "dependencies": {
     "@remixicon/react": "^4.9.0",
     "@workspace/css": "workspace:*",
+    "@workspace/hooks": "workspace:*",
     "@workspace/pattern": "workspace:*",
     "@workspace/shadcn-ui": "workspace:*",
     "lucide-react": "^1.62.0",
