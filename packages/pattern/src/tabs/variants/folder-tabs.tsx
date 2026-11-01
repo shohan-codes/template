@@ -102,6 +102,7 @@ export const enclosedFolderTabsSlots: TabsSlots = {
   List: EnclosedList,
   Trigger,
   Content: EnclosedContent,
+  Link: "a",
 }
 
 export const floatingFolderTabsSlots: TabsSlots = {
@@ -109,6 +110,7 @@ export const floatingFolderTabsSlots: TabsSlots = {
   List: FloatingList,
   Trigger,
   Content: FloatingContent,
+  Link: "a",
 }
 
 export type FolderTabsProps = TabsProps & {

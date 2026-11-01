@@ -64,6 +64,7 @@ export const segmentedTabsSlots: TabsSlots = {
   List,
   Trigger,
   Content,
+  Link: "a",
 }
 
 export type SegmentedTabsProps = TabsProps & {

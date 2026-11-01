@@ -35,6 +35,12 @@ import FloatingFolderTabsExampleRaw from "./floating-folder-tabs-example.tsx?raw
   turbopackAs: "*.js",
 }
 
+import NavigationTabsExample from "./navigation-tabs-example"
+import NavigationTabsExampleRaw from "./navigation-tabs-example.tsx?raw" with {
+  turbopackLoader: "raw-loader",
+  turbopackAs: "*.js",
+}
+
 const tabsShowcaseItems: readonly ShowcaseItem[] = [
   {
     id: "segmented-tabs",
@@ -43,6 +49,14 @@ const tabsShowcaseItems: readonly ShowcaseItem[] = [
       "Floating capsule pill switcher with rounded-full geometry, backdrop blur, and micro-elevation.",
     code: SegmentedTabsExampleRaw,
     preview: <SegmentedTabsExample />,
+  },
+  {
+    id: "navigation-tabs",
+    title: "Route Navigation Tabs (Next.js Link Integration)",
+    description:
+      "URL-driven navigation tab strip with Next.js Link prefetching, href routing, and standalone header layout.",
+    code: NavigationTabsExampleRaw,
+    preview: <NavigationTabsExample />,
   },
   {
     id: "folder-tabs-enclosed",

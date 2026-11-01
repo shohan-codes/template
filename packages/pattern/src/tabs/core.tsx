@@ -12,8 +12,10 @@ export type TabItemData = Readonly<{
   id: string
   /** Tab label rendered inside the trigger. */
   label: React.ReactNode
-  /** Tab content rendered inside the panel. */
-  content: React.ReactNode
+  /** Tab content rendered inside the panel. Optional when used purely as navigation tabs. */
+  content?: React.ReactNode
+  /** Optional destination URL when using tabs as navigation links. */
+  href?: string
   /** Optional icon rendered before the label. */
   icon?: React.ReactNode
   /** Optional badge rendered after the label. */
@@ -27,6 +29,8 @@ export type TabsSlots = Readonly<{
   List: React.ElementType
   Trigger: React.ElementType
   Content: React.ElementType
+  /** Optional Link slot for navigation tabs (e.g. Next.js Link). Defaults to "a". */
+  Link?: React.ElementType
 }>
 
 export type TabsBaseProps = Omit<
@@ -89,7 +93,12 @@ export function TabsCore({
 }: TabsCoreProps) {
   if (items.length === 0) return null
 
-  const P = slots ? { ...defaultSlots, ...slots } : defaultSlots
+  const LinkSlot = slots?.Link ?? defaultSlots?.Link ?? "a"
+  const P = {
+    ...defaultSlots,
+    ...slots,
+    Link: LinkSlot,
+  }
 
   const defaultTab = defaultValue ?? items[0]?.id
 
@@ -101,22 +110,50 @@ export function TabsCore({
         $list?.className
       )}
     >
-      {items.map((item) => (
-        <P.Trigger
-          key={item.id}
-          value={item.id}
-          disabled={item.disabled}
-          {...$trigger}
-          className={cn(
-            "inline-flex items-center gap-2",
-            $trigger?.className
-          )}
-        >
-          {item.icon}
-          <span>{item.label}</span>
-          {item.badge}
-        </P.Trigger>
-      ))}
+      {items.map((item) => {
+        const triggerContent = (
+          <>
+            {item.icon}
+            <span>{item.label}</span>
+            {item.badge}
+          </>
+        )
+
+        if (item.href) {
+          return (
+            <P.Trigger
+              key={item.id}
+              value={item.id}
+              disabled={item.disabled}
+              asChild
+              {...$trigger}
+              className={cn(
+                "inline-flex items-center gap-2",
+                $trigger?.className
+              )}
+            >
+              <P.Link href={item.href}>
+                {triggerContent}
+              </P.Link>
+            </P.Trigger>
+          )
+        }
+
+        return (
+          <P.Trigger
+            key={item.id}
+            value={item.id}
+            disabled={item.disabled}
+            {...$trigger}
+            className={cn(
+              "inline-flex items-center gap-2",
+              $trigger?.className
+            )}
+          >
+            {triggerContent}
+          </P.Trigger>
+        )
+      })}
     </P.List>
   )
 
@@ -139,15 +176,20 @@ export function TabsCore({
         listNode
       )}
 
-      {items.map((item) => (
-        <P.Content
-          key={item.id}
-          value={item.id}
-          {...$content}
-        >
-          {item.content}
-        </P.Content>
-      ))}
+      {items.map((item) => {
+        if (item.content === undefined || item.content === null) {
+          return null
+        }
+        return (
+          <P.Content
+            key={item.id}
+            value={item.id}
+            {...$content}
+          >
+            {item.content}
+          </P.Content>
+        )
+      })}
     </P.Root>
   )
 }

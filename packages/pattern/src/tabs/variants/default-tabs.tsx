@@ -15,6 +15,7 @@ export const defaultTabsSlots: TabsSlots = {
   List,
   Trigger,
   Content,
+  Link: "a",
 }
 
 export type DefaultTabsProps = TabsProps & {
