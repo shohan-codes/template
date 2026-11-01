@@ -21,7 +21,7 @@ const filterItems: readonly TabItemData[] = [
       </span>
     ),
     content: (
-      <div className="space-y-3 pt-2">
+      <div className="w-full space-y-3 pt-2">
         {/* Project 1 */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-lg border border-border/70 bg-card p-3.5 shadow-2xs transition-colors hover:border-border">
           <div className="space-y-1">
@@ -139,7 +139,7 @@ const filterItems: readonly TabItemData[] = [
       </span>
     ),
     content: (
-      <div className="space-y-3 pt-2">
+      <div className="w-full space-y-3 pt-2">
         {/* Build 1 */}
         <div className="rounded-lg border border-border/70 bg-card p-4 shadow-2xs">
           <div className="flex items-start justify-between gap-3">
@@ -218,7 +218,7 @@ const filterItems: readonly TabItemData[] = [
     id: "archived",
     label: "Archived",
     content: (
-      <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border/80 bg-muted/20 px-6 py-12 text-center">
+      <div className="w-full flex flex-col items-center justify-center rounded-lg border border-dashed border-border/80 bg-muted/20 px-6 py-12 text-center">
         <div className="flex size-10 items-center justify-center rounded-full bg-muted text-muted-foreground">
           <RiArchiveStackLine className="size-5" />
         </div>
@@ -234,8 +234,8 @@ const filterItems: readonly TabItemData[] = [
 
 export default function SegmentedTabsExample() {
   return (
-    <div className="w-full max-w-xl">
-      <SegmentedTabs items={filterItems} />
+    <div className="w-full max-w-xl mx-auto">
+      <SegmentedTabs $list={{ className: "mx-auto" }} items={filterItems} />
     </div>
   )
 }

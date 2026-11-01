@@ -41,7 +41,7 @@ const navItems: readonly TabItemData[] = [
 
 export default function NavigationTabsExample() {
   return (
-    <div className="w-full max-w-xl">
+    <div className="w-full max-w-xl mx-auto">
       <SegmentedTabs
         items={navItems}
         defaultValue="deployments"

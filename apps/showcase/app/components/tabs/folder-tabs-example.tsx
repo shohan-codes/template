@@ -119,7 +119,7 @@ const folderItems: readonly TabItemData[] = [
 
 export default function FolderTabsExample() {
   return (
-    <div className="w-full max-w-xl">
+    <div className="w-full max-w-xl mx-auto">
       <FolderTabs items={folderItems} />
     </div>
   )

@@ -92,7 +92,7 @@ const overviewItems: readonly TabItemData[] = [
 
 export default function LineTabsExample() {
   return (
-    <div className="w-full max-w-xl">
+    <div className="w-full max-w-xl mx-auto">
       <Tabs
         variant="line"
         items={overviewItems}

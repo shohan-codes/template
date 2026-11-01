@@ -106,7 +106,7 @@ const tabItems: readonly TabItemData[] = [
 
 export default function DefaultTabsExample() {
   return (
-    <div className="w-full max-w-xl">
+    <div className="w-full max-w-xl mx-auto">
       <Tabs items={tabItems} />
     </div>
   )

@@ -99,7 +99,7 @@ const floatingItems: readonly TabItemData[] = [
 
 export default function FloatingFolderTabsExample() {
   return (
-    <div className="w-full max-w-xl">
+    <div className="w-full max-w-xl mx-auto">
       <FolderTabs variant="floating" items={floatingItems} />
     </div>
   )

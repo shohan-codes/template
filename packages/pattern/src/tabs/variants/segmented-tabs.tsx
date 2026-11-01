@@ -11,7 +11,7 @@ const Root = ({
   ...props
 }: React.ComponentProps<typeof TabsPrimitive.Root>) => (
   <TabsPrimitive.Root
-    className={cn("w-full flex flex-col items-start gap-4", className)}
+    className={cn("w-full flex flex-col gap-4", className)}
     {...props}
   />
 )
@@ -52,7 +52,7 @@ const Content = ({
 }: React.ComponentProps<typeof TabsPrimitive.Content>) => (
   <TabsPrimitive.Content
     className={cn(
-      "flex-1 text-sm outline-none focus-visible:outline-hidden",
+      "w-full flex-1 text-sm outline-none focus-visible:outline-hidden",
       className
     )}
     {...props}
@@ -94,7 +94,7 @@ export function SegmentedTabs({
   return (
     <TabsCore
       defaultSlots={segmentedTabsSlots}
-      className={cn(fullWidth ? "items-stretch" : "items-start", className)}
+      className={cn("w-full", className)}
       $list={{
         ...$list,
         className: cn(
