@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
 import { SegmentedTabs, type TabItemData } from "@workspace/pattern"
 import {
   RiHome4Line,
@@ -41,14 +40,11 @@ const navItems: readonly TabItemData[] = [
 ]
 
 export default function NavigationTabsExample() {
-  const [activeTab, setActiveTab] = useState("deployments")
-
   return (
     <div className="w-full max-w-xl">
       <SegmentedTabs
         items={navItems}
-        value={activeTab}
-        onValueChange={setActiveTab}
+        defaultValue="deployments"
         slots={{ Link }}
       />
     </div>
