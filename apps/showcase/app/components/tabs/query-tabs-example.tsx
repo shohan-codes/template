@@ -108,6 +108,7 @@ function QueryTabsContent() {
         items={queryItems}
         value={activeTab}
         slots={{ Link }}
+        $link={{ scroll: false }}
       />
     </div>
   )
@@ -124,3 +125,4 @@ export default function QueryTabsExample() {
     </Suspense>
   )
 }
+

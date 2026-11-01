@@ -78,6 +78,8 @@ export type TabsBaseProps = Omit<
   $trigger?: Record<string, unknown> & { className?: string }
   /** Slot props passed to the Content slots. */
   $content?: Record<string, unknown> & { className?: string }
+  /** Slot props passed to the Link slots (e.g. scroll={false} for Next.js Link). */
+  $link?: Record<string, unknown> & { className?: string }
   /** Extra content rendered next to the tabs list (e.g. actions). */
   actions?: React.ReactNode
 }
@@ -108,6 +110,7 @@ export function TabsCore({
   $list,
   $trigger,
   $content,
+  $link,
   actions,
   className,
   ...rootProps
@@ -154,7 +157,7 @@ export function TabsCore({
             )}
           >
             {item.href ? (
-              <P.Link href={item.href}>
+              <P.Link href={item.href} {...$link}>
                 {triggerContent}
               </P.Link>
             ) : (
