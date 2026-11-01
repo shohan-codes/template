@@ -119,38 +119,25 @@ export function TabsCore({
           </>
         )
 
-        if (item.href) {
-          return (
-            <P.Trigger
-              key={item.id}
-              value={item.id}
-              disabled={item.disabled}
-              asChild
-              {...$trigger}
-              className={cn(
-                "inline-flex items-center gap-2",
-                $trigger?.className
-              )}
-            >
-              <P.Link href={item.href}>
-                {triggerContent}
-              </P.Link>
-            </P.Trigger>
-          )
-        }
-
         return (
           <P.Trigger
             key={item.id}
             value={item.id}
             disabled={item.disabled}
+            asChild={Boolean(item.href)}
             {...$trigger}
             className={cn(
               "inline-flex items-center gap-2",
               $trigger?.className
             )}
           >
-            {triggerContent}
+            {item.href ? (
+              <P.Link href={item.href}>
+                {triggerContent}
+              </P.Link>
+            ) : (
+              triggerContent
+            )}
           </P.Trigger>
         )
       })}
