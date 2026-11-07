@@ -23,10 +23,12 @@ const filterItems: readonly TabItemData[] = [
     content: (
       <div className="w-full space-y-3 pt-2">
         {/* Project 1 */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-lg border border-border/70 bg-card p-3.5 shadow-2xs transition-colors hover:border-border">
+        <div className="flex flex-col justify-between gap-3 rounded-lg border border-border/70 bg-card p-3.5 shadow-2xs transition-colors hover:border-border @min-[640px]/tabs-example:flex-row @min-[640px]/tabs-example:items-center">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="font-mono text-xs font-semibold text-foreground">core-api</span>
+              <span className="font-mono text-xs font-semibold text-foreground">
+                core-api
+              </span>
               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-600 dark:text-emerald-400">
                 <span className="size-1.5 rounded-full bg-emerald-500" />
                 Production
@@ -46,7 +48,9 @@ const filterItems: readonly TabItemData[] = [
           </div>
           <div className="flex items-center gap-3">
             <div className="text-end">
-              <div className="text-[11px] font-medium text-foreground">99.98%</div>
+              <div className="text-[11px] font-medium text-foreground">
+                99.98%
+              </div>
               <div className="text-[10px] text-muted-foreground">42ms p95</div>
             </div>
             <a
@@ -60,10 +64,12 @@ const filterItems: readonly TabItemData[] = [
         </div>
 
         {/* Project 2 */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-lg border border-border/70 bg-card p-3.5 shadow-2xs transition-colors hover:border-border">
+        <div className="flex flex-col justify-between gap-3 rounded-lg border border-border/70 bg-card p-3.5 shadow-2xs transition-colors hover:border-border @min-[640px]/tabs-example:flex-row @min-[640px]/tabs-example:items-center">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="font-mono text-xs font-semibold text-foreground">web-dashboard</span>
+              <span className="font-mono text-xs font-semibold text-foreground">
+                web-dashboard
+              </span>
               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-600 dark:text-emerald-400">
                 <span className="size-1.5 rounded-full bg-emerald-500" />
                 Production
@@ -83,7 +89,9 @@ const filterItems: readonly TabItemData[] = [
           </div>
           <div className="flex items-center gap-3">
             <div className="text-end">
-              <div className="text-[11px] font-medium text-foreground">100%</div>
+              <div className="text-[11px] font-medium text-foreground">
+                100%
+              </div>
               <div className="text-[10px] text-muted-foreground">18ms p95</div>
             </div>
             <a
@@ -97,10 +105,12 @@ const filterItems: readonly TabItemData[] = [
         </div>
 
         {/* Project 3 */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-lg border border-border/70 bg-card p-3.5 shadow-2xs transition-colors hover:border-border">
+        <div className="flex flex-col justify-between gap-3 rounded-lg border border-border/70 bg-card p-3.5 shadow-2xs transition-colors hover:border-border @min-[640px]/tabs-example:flex-row @min-[640px]/tabs-example:items-center">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="font-mono text-xs font-semibold text-foreground">billing-service</span>
+              <span className="font-mono text-xs font-semibold text-foreground">
+                billing-service
+              </span>
               <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium text-amber-600 dark:text-amber-400">
                 <RiLoader4Line className="size-2.5 animate-spin" />
                 Building
@@ -120,7 +130,9 @@ const filterItems: readonly TabItemData[] = [
           </div>
           <div className="flex items-center gap-3">
             <div className="w-24 space-y-1 text-end">
-              <div className="text-[10px] font-mono font-medium text-muted-foreground">72%</div>
+              <div className="font-mono text-[10px] font-medium text-muted-foreground">
+                72%
+              </div>
               <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
                 <div className="h-full w-[72%] rounded-full bg-amber-500" />
               </div>
@@ -146,13 +158,16 @@ const filterItems: readonly TabItemData[] = [
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <RiLoader4Line className="size-4 animate-spin text-amber-500" />
-                <span className="font-mono text-xs font-semibold text-foreground">billing-service</span>
-                <span className="rounded bg-muted px-1.5 py-0.2 font-mono text-[10px] text-muted-foreground">
+                <span className="font-mono text-xs font-semibold text-foreground">
+                  billing-service
+                </span>
+                <span className="py-0.2 rounded bg-muted px-1.5 font-mono text-[10px] text-muted-foreground">
                   #build-904
                 </span>
               </div>
               <p className="text-xs text-muted-foreground">
-                Step 3 of 4: Bundling serverless Lambdas and tree-shaking Prisma client
+                Step 3 of 4: Bundling serverless Lambdas and tree-shaking Prisma
+                client
               </p>
             </div>
             <span className="flex items-center gap-1 font-mono text-[11px] text-muted-foreground">
@@ -170,8 +185,10 @@ const filterItems: readonly TabItemData[] = [
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <RiLoader4Line className="size-4 animate-spin text-amber-500" />
-                <span className="font-mono text-xs font-semibold text-foreground">search-indexer</span>
-                <span className="rounded bg-muted px-1.5 py-0.2 font-mono text-[10px] text-muted-foreground">
+                <span className="font-mono text-xs font-semibold text-foreground">
+                  search-indexer
+                </span>
+                <span className="py-0.2 rounded bg-muted px-1.5 font-mono text-[10px] text-muted-foreground">
                   #build-903
                 </span>
               </div>
@@ -194,13 +211,16 @@ const filterItems: readonly TabItemData[] = [
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <RiLoader4Line className="size-4 animate-spin text-amber-500" />
-                <span className="font-mono text-xs font-semibold text-foreground">auth-worker</span>
-                <span className="rounded bg-muted px-1.5 py-0.2 font-mono text-[10px] text-muted-foreground">
+                <span className="font-mono text-xs font-semibold text-foreground">
+                  auth-worker
+                </span>
+                <span className="py-0.2 rounded bg-muted px-1.5 font-mono text-[10px] text-muted-foreground">
                   #build-902
                 </span>
               </div>
               <p className="text-xs text-muted-foreground">
-                Executing Playwright end-to-end multi-tenant test matrix (34 of 42 passed)
+                Executing Playwright end-to-end multi-tenant test matrix (34 of
+                42 passed)
               </p>
             </div>
             <span className="flex items-center gap-1 font-mono text-[11px] text-muted-foreground">
@@ -218,14 +238,16 @@ const filterItems: readonly TabItemData[] = [
     id: "archived",
     label: "Archived",
     content: (
-      <div className="w-full flex flex-col items-center justify-center rounded-lg border border-dashed border-border/80 bg-muted/20 px-6 py-12 text-center">
+      <div className="flex w-full flex-col items-center justify-center rounded-lg border border-dashed border-border/80 bg-muted/20 px-6 py-12 text-center">
         <div className="flex size-10 items-center justify-center rounded-full bg-muted text-muted-foreground">
           <RiArchiveStackLine className="size-5" />
         </div>
-        <h4 className="mt-3 text-sm font-semibold text-foreground">No archived deployments</h4>
+        <h4 className="mt-3 text-sm font-semibold text-foreground">
+          No archived deployments
+        </h4>
         <p className="mt-1 max-w-sm text-xs text-muted-foreground">
-          All active microservices and applications are healthy and handling ingress traffic.
-          Archived repositories will be retained for 90 days.
+          All active microservices and applications are healthy and handling
+          ingress traffic. Archived repositories will be retained for 90 days.
         </p>
       </div>
     ),
@@ -234,8 +256,10 @@ const filterItems: readonly TabItemData[] = [
 
 export default function SegmentedTabsExample() {
   return (
-    <div className="w-full max-w-xl mx-auto">
-      <SegmentedTabs $list={{ className: "mx-auto" }} items={filterItems} />
+    <div className="@container/tabs-example w-full min-w-0">
+      <div className="mx-auto w-full max-w-xl">
+        <SegmentedTabs $list={{ className: "mx-auto" }} items={filterItems} />
+      </div>
     </div>
   )
 }

@@ -1,7 +1,12 @@
 "use client"
 
 import { Tabs, type TabItemData } from "@workspace/pattern"
-import { RiUserLine, RiLockLine, RiNotification3Line, RiShieldCheckLine } from "@remixicon/react"
+import {
+  RiUserLine,
+  RiLockLine,
+  RiNotification3Line,
+  RiShieldCheckLine,
+} from "@remixicon/react"
 
 const tabItems: readonly TabItemData[] = [
   {
@@ -11,14 +16,18 @@ const tabItems: readonly TabItemData[] = [
     content: (
       <div className="space-y-4 rounded-xl border border-border/70 bg-card p-5 text-sm shadow-2xs">
         <div>
-          <h4 className="font-semibold text-foreground">General Account Information</h4>
+          <h4 className="font-semibold text-foreground">
+            General Account Information
+          </h4>
           <p className="text-xs text-muted-foreground">
             Update your public profile handle and team alias.
           </p>
         </div>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-3 @min-[640px]/tabs-example:grid-cols-2">
           <div className="space-y-1">
-            <span className="text-xs font-medium text-foreground">Account Name</span>
+            <span className="text-xs font-medium text-foreground">
+              Account Name
+            </span>
             <input
               type="text"
               readOnly
@@ -27,7 +36,9 @@ const tabItems: readonly TabItemData[] = [
             />
           </div>
           <div className="space-y-1">
-            <span className="text-xs font-medium text-foreground">Contact Email</span>
+            <span className="text-xs font-medium text-foreground">
+              Contact Email
+            </span>
             <input
               type="email"
               readOnly
@@ -46,17 +57,24 @@ const tabItems: readonly TabItemData[] = [
     content: (
       <div className="space-y-4 rounded-xl border border-border/70 bg-card p-5 text-sm shadow-2xs">
         <div>
-          <h4 className="font-semibold text-foreground">Two-Factor Authentication</h4>
+          <h4 className="font-semibold text-foreground">
+            Two-Factor Authentication
+          </h4>
           <p className="text-xs text-muted-foreground">
-            Secure your credentials with hardware WebAuthn keys and authenticator apps.
+            Secure your credentials with hardware WebAuthn keys and
+            authenticator apps.
           </p>
         </div>
         <div className="flex items-center justify-between rounded-lg border border-border/60 bg-muted/20 p-3 text-xs">
           <div className="flex items-center gap-2.5">
             <RiShieldCheckLine className="size-5 text-emerald-500" />
             <div>
-              <div className="font-medium text-foreground">TOTP Authenticator Active</div>
-              <div className="text-[11px] text-muted-foreground">Last verified today at 11:42 PM</div>
+              <div className="font-medium text-foreground">
+                TOTP Authenticator Active
+              </div>
+              <div className="text-[11px] text-muted-foreground">
+                Last verified today at 11:42 PM
+              </div>
             </div>
           </div>
           <span className="rounded bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-600 dark:text-emerald-400">
@@ -78,25 +96,40 @@ const tabItems: readonly TabItemData[] = [
     content: (
       <div className="space-y-4 rounded-xl border border-border/70 bg-card p-5 text-sm shadow-2xs">
         <div>
-          <h4 className="font-semibold text-foreground">Notification Channels</h4>
+          <h4 className="font-semibold text-foreground">
+            Notification Channels
+          </h4>
           <p className="text-xs text-muted-foreground">
-            Configure alert rules for infrastructure downtime and release updates.
+            Configure alert rules for infrastructure downtime and release
+            updates.
           </p>
         </div>
         <div className="divide-y divide-border/60 rounded-lg border border-border/70 text-xs">
           <div className="flex items-center justify-between p-3">
             <div>
-              <div className="font-medium text-foreground">Deployment Failures</div>
-              <div className="text-[11px] text-muted-foreground">Immediate alerts via SMS and Discord webhook</div>
+              <div className="font-medium text-foreground">
+                Deployment Failures
+              </div>
+              <div className="text-[11px] text-muted-foreground">
+                Immediate alerts via SMS and Discord webhook
+              </div>
             </div>
-            <span className="font-mono text-[10px] text-emerald-500 font-semibold">Active</span>
+            <span className="font-mono text-[10px] font-semibold text-emerald-500">
+              Active
+            </span>
           </div>
           <div className="flex items-center justify-between p-3">
             <div>
-              <div className="font-medium text-foreground">Weekly Performance Digest</div>
-              <div className="text-[11px] text-muted-foreground">Sent every Monday at 9:00 AM UTC</div>
+              <div className="font-medium text-foreground">
+                Weekly Performance Digest
+              </div>
+              <div className="text-[11px] text-muted-foreground">
+                Sent every Monday at 9:00 AM UTC
+              </div>
             </div>
-            <span className="font-mono text-[10px] text-emerald-500 font-semibold">Active</span>
+            <span className="font-mono text-[10px] font-semibold text-emerald-500">
+              Active
+            </span>
           </div>
         </div>
       </div>
@@ -106,8 +139,10 @@ const tabItems: readonly TabItemData[] = [
 
 export default function DefaultTabsExample() {
   return (
-    <div className="w-full max-w-xl mx-auto">
-      <Tabs items={tabItems} />
+    <div className="@container/tabs-example w-full min-w-0">
+      <div className="mx-auto w-full max-w-xl">
+        <Tabs items={tabItems} />
+      </div>
     </div>
   )
 }
