@@ -82,8 +82,9 @@ export const defaultCommandPaletteSlots: CommandPaletteSlots = {
   Title,
   Description,
 }
-export function CommandPalette(props: CommandPaletteProps) {
-  return (
-    <CommandPaletteCore defaultSlots={defaultCommandPaletteSlots} {...props} />
-  )
+export function CommandPalette({
+  defaultSlots = defaultCommandPaletteSlots,
+  ...props
+}: CommandPaletteProps) {
+  return <CommandPaletteCore defaultSlots={defaultSlots} {...props} />
 }

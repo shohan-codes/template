@@ -172,7 +172,7 @@ function Indicator({
     <ChevronRight
       {...props}
       className={cn(
-        "ml-auto size-4 shrink-0 transition-transform data-[state=open]:rotate-90 motion-reduce:transition-none group-data-[collapsible=icon]:hidden",
+        "ml-auto size-4 shrink-0 transition-transform group-data-[collapsible=icon]:hidden data-[state=open]:rotate-90 motion-reduce:transition-none",
         className
       )}
     />
@@ -196,11 +196,15 @@ export const defaultSidebarSlots: SidebarSlots = {
 }
 
 /** Plain docked navigation. Place inside the primitive SidebarProvider. */
-export function Sidebar({ onNavigate, ...props }: SidebarProps) {
+export function Sidebar({
+  defaultSlots = defaultSidebarSlots,
+  onNavigate,
+  ...props
+}: SidebarProps) {
   const { setOpenMobile } = useSidebar()
   return (
     <SidebarCore
-      defaultSlots={defaultSidebarSlots}
+      defaultSlots={defaultSlots}
       {...props}
       onNavigate={(item, event) => {
         onNavigate?.(item, event)

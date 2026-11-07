@@ -26,8 +26,9 @@ export const scrollableBreadcrumbsSlots: BreadcrumbsSlots = {
   List,
 }
 /** Keeps deep trails on one row; focused destinations scroll into view. */
-export function ScrollableBreadcrumbs(props: BreadcrumbsProps) {
-  return (
-    <BreadcrumbsCore defaultSlots={scrollableBreadcrumbsSlots} {...props} />
-  )
+export function ScrollableBreadcrumbs({
+  defaultSlots = scrollableBreadcrumbsSlots,
+  ...props
+}: BreadcrumbsProps) {
+  return <BreadcrumbsCore defaultSlots={defaultSlots} {...props} />
 }

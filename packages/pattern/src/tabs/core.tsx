@@ -1,5 +1,6 @@
 "use client"
 
+import { resolveSlots } from "../utilities/resolve-slots"
 import * as React from "react"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
 import type { Tabs as TabsPrimitive } from "radix-ui"
@@ -208,7 +209,7 @@ function LegacyTabsCore({
   if (items.length === 0) return null
 
   const LinkSlot = slots?.Link ?? defaultSlots?.Link ?? "a"
-  const P = { ...defaultSlots, ...slots, Link: LinkSlot }
+  const P = { ...resolveSlots(defaultSlots, slots), Link: LinkSlot }
 
   const fallbackTab =
     defaultValue ?? (items[0] ? getTabId(items[0], 0) : undefined)

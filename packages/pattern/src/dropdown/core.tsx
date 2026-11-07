@@ -1,5 +1,6 @@
 "use client"
 
+import { resolveSlots } from "../utilities/resolve-slots"
 import type * as React from "react"
 import { Fragment } from "react"
 import type {
@@ -112,7 +113,7 @@ export function DropdownCore({
   $subContent,
   ...root
 }: DropdownCoreProps) {
-  const P = slots ? { ...defaultSlots, ...slots } : defaultSlots
+  const P = resolveSlots(defaultSlots, slots)
 
   function renderItems(entries: readonly DropdownItemData[]): React.ReactNode {
     return entries.map((item) => {

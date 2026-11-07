@@ -72,6 +72,9 @@ export const defaultBreadcrumbsSlots: BreadcrumbsSlots = {
   Page,
   Separator: Primitive.BreadcrumbSeparator,
 }
-export function Breadcrumbs(props: BreadcrumbsProps) {
-  return <BreadcrumbsCore defaultSlots={defaultBreadcrumbsSlots} {...props} />
+export function Breadcrumbs({
+  defaultSlots = defaultBreadcrumbsSlots,
+  ...props
+}: BreadcrumbsProps) {
+  return <BreadcrumbsCore defaultSlots={defaultSlots} {...props} />
 }

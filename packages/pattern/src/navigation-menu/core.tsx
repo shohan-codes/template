@@ -1,5 +1,6 @@
 "use client"
 
+import { resolveSlots } from "../utilities/resolve-slots"
 import {
   Fragment,
   type ComponentProps,
@@ -95,7 +96,7 @@ export function NavigationMenuCore({
   ...root
 }: NavigationMenuCoreProps) {
   if (!items.length) return null
-  const P = { ...defaultSlots, ...slots }
+  const P = resolveSlots(defaultSlots, slots)
   function renderLink(item: NavigationMenuLinkItem) {
     return (
       <P.Link {...$link} asChild active={item.active} onSelect={item.onSelect}>

@@ -21,11 +21,9 @@ export const defaultAccordionSlots: AccordionSlots = {
 
 export type { AccordionProps }
 
-export function Accordion(props: AccordionProps) {
-  return (
-    <AccordionCore
-      defaultSlots={defaultAccordionSlots}
-      {...props}
-    />
-  )
+export function Accordion({
+  defaultSlots = defaultAccordionSlots,
+  ...props
+}: AccordionProps) {
+  return <AccordionCore defaultSlots={defaultSlots} {...props} />
 }

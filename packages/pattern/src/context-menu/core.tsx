@@ -1,5 +1,6 @@
 "use client"
 
+import { resolveSlots } from "../utilities/resolve-slots"
 import type * as React from "react"
 import { Fragment } from "react"
 import type {
@@ -75,7 +76,7 @@ export function ContextMenuCore({
   $subContent,
   ...root
 }: ContextMenuCoreProps) {
-  const P = slots ? { ...defaultSlots, ...slots } : defaultSlots
+  const P = resolveSlots(defaultSlots, slots)
 
   function renderItems(
     entries: readonly ContextMenuItemData[]

@@ -59,6 +59,9 @@ export const cardCollapsibleSlots: CollapsibleSlots = {
 }
 
 /** The original card presentation, now an explicit opt-in variant. */
-export function CardCollapsible(props: CollapsibleProps) {
-  return <CollapsibleCore defaultSlots={cardCollapsibleSlots} {...props} />
+export function CardCollapsible({
+  defaultSlots = cardCollapsibleSlots,
+  ...props
+}: CollapsibleProps) {
+  return <CollapsibleCore defaultSlots={defaultSlots} {...props} />
 }

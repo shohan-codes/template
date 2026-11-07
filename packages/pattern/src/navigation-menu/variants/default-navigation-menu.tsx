@@ -140,8 +140,9 @@ export const defaultNavigationMenuSlots: NavigationMenuSlots = {
   Label,
   Description,
 }
-export function NavigationMenu(props: NavigationMenuProps) {
-  return (
-    <NavigationMenuCore defaultSlots={defaultNavigationMenuSlots} {...props} />
-  )
+export function NavigationMenu({
+  defaultSlots = defaultNavigationMenuSlots,
+  ...props
+}: NavigationMenuProps) {
+  return <NavigationMenuCore defaultSlots={defaultSlots} {...props} />
 }

@@ -1,5 +1,6 @@
 "use client"
 
+import { resolveSlots } from "../../utilities/resolve-slots"
 import * as React from "react"
 import { useHighlightedCode } from "@workspace/shadcn-ui"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
@@ -70,7 +71,7 @@ export function CodeBlockCore({
   $footer,
   ...rootProps
 }: CodeBlockCoreProps) {
-  const P = slots ? { ...defaultSlots, ...slots } : defaultSlots
+  const P = resolveSlots(defaultSlots, slots)
 
   const parsed = React.useMemo(
     () =>

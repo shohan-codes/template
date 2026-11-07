@@ -23,6 +23,9 @@ export const floatingToolbarSlots: ToolbarSlots = {
   Root,
 }
 /** A compact floating surface; placement remains under the host application's control. */
-export function FloatingToolbar(props: ToolbarProps) {
-  return <ToolbarCore defaultSlots={floatingToolbarSlots} {...props} />
+export function FloatingToolbar({
+  defaultSlots = floatingToolbarSlots,
+  ...props
+}: ToolbarProps) {
+  return <ToolbarCore defaultSlots={defaultSlots} {...props} />
 }

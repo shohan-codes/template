@@ -17,7 +17,7 @@ import {
   ContextMenuSubContent as PrimitiveSubContent,
   ContextMenuPortal as Portal,
 } from "@workspace/shadcn-ui"
-import { useId, type ComponentProps } from "react"
+import type { ComponentProps } from "react"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
 import {
   ContextMenuCore,
@@ -34,10 +34,8 @@ function Trigger({
   asChild,
   children,
   className,
-  "aria-describedby": describedBy,
   ...props
 }: ComponentProps<typeof PrimitiveTrigger>) {
-  const hintId = useId()
   return (
     <PrimitiveTrigger
       aria-haspopup="menu"
@@ -45,12 +43,9 @@ function Trigger({
       {...props}
       asChild={asChild}
       disabled={disabled}
-      aria-describedby={
-        asChild ? describedBy : [describedBy, hintId].filter(Boolean).join(" ")
-      }
       className={cn(
         !asChild &&
-          "flex min-h-40 w-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed bg-muted/30 p-6 text-center outline-none focus-visible:ring-2 focus-visible:ring-ring data-disabled:opacity-50",
+          "outline-none focus-visible:ring-2 focus-visible:ring-ring data-disabled:opacity-50",
         className
       )}
       onKeyDown={(event) => {
@@ -79,16 +74,7 @@ function Trigger({
         )
       }}
     >
-      {asChild ? (
-        children
-      ) : (
-        <>
-          <span className="font-medium">{children}</span>
-          <span id={hintId} className="text-xs text-muted-foreground">
-            Right-click, press and hold, or focus and press Shift+F10
-          </span>
-        </>
-      )}
+      {children}
     </PrimitiveTrigger>
   )
 }
@@ -102,7 +88,7 @@ function Content({
       collisionPadding={8}
       {...props}
       className={cn(
-        "w-60 min-w-0 max-w-(--radix-context-menu-content-available-width)",
+        "w-60 max-w-(--radix-context-menu-content-available-width) min-w-0",
         className
       )}
     />
@@ -118,7 +104,7 @@ function SubContent({
       collisionPadding={8}
       {...props}
       className={cn(
-        "w-52 min-w-0 max-w-(--radix-context-menu-content-available-width)",
+        "w-52 max-w-(--radix-context-menu-content-available-width) min-w-0",
         className
       )}
     />
@@ -143,6 +129,9 @@ export const defaultContextMenuSlots: ContextMenuSlots = {
   Portal,
 }
 
-export function ContextMenu(props: ContextMenuProps) {
-  return <ContextMenuCore defaultSlots={defaultContextMenuSlots} {...props} />
+export function ContextMenu({
+  defaultSlots = defaultContextMenuSlots,
+  ...props
+}: ContextMenuProps) {
+  return <ContextMenuCore defaultSlots={defaultSlots} {...props} />
 }

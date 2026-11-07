@@ -105,6 +105,9 @@ export const defaultCollapsibleSlots: CollapsibleSlots = {
 }
 
 /** Neutral default presentation; use CardCollapsible for a bordered card. */
-export function Collapsible(props: CollapsibleProps) {
-  return <CollapsibleCore defaultSlots={defaultCollapsibleSlots} {...props} />
+export function Collapsible({
+  defaultSlots = defaultCollapsibleSlots,
+  ...props
+}: CollapsibleProps) {
+  return <CollapsibleCore defaultSlots={defaultSlots} {...props} />
 }

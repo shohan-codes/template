@@ -1,5 +1,6 @@
 "use client"
 
+import { resolveSlots } from "../utilities/resolve-slots"
 import {
   Fragment,
   type ComponentProps,
@@ -72,7 +73,7 @@ export function BreadcrumbsCore({
   ...root
 }: BreadcrumbsCoreProps) {
   if (!items.length) return null
-  const P = { ...defaultSlots, ...slots }
+  const P = resolveSlots(defaultSlots, slots)
   return (
     <P.Root {...root}>
       <P.List {...$list}>

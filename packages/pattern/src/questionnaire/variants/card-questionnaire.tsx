@@ -147,6 +147,9 @@ export type CardQuestionnaireProps = QuestionnaireProps
 /**
  * Card-styled Questionnaire featuring an enclosed container and custom choice cards.
  */
-export function CardQuestionnaire(props: CardQuestionnaireProps) {
-  return <Questionnaire defaultSlots={cardQuestionnaireSlots} {...props} />
+export function CardQuestionnaire({
+  defaultSlots = cardQuestionnaireSlots,
+  ...props
+}: CardQuestionnaireProps) {
+  return <Questionnaire defaultSlots={defaultSlots} {...props} />
 }

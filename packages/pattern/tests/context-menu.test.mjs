@@ -6,15 +6,15 @@ import { ContextMenu, ContextMenuCore } from "../dist/context-menu/index.js"
 
 const action = { id: "copy", type: "action", label: "Copy" }
 
-test("default surface is focusable and describes its keyboard interaction", () => {
+test("default surface is neutral, focusable, and renders caller content unchanged", () => {
   const markup = renderToStaticMarkup(
     h(ContextMenu, { trigger: "File", items: [action] })
   )
   assert.match(markup, /tabindex="0"/)
   assert.match(markup, /aria-haspopup="menu"/)
-  assert.match(markup, /aria-describedby="[^"]+"/)
-  assert.match(markup, /border-dashed/)
-  assert.match(markup, /Shift\+F10/)
+  assert.doesNotMatch(markup, /aria-describedby=/)
+  assert.doesNotMatch(markup, /border-dashed|min-h-40|bg-muted|p-6|font-medium/)
+  assert.doesNotMatch(markup, /Shift\+F10/)
   assert.match(markup, /File/)
 })
 
@@ -31,7 +31,7 @@ test("disabled surfaces are announced and omitted from normal keyboard focus", (
   assert.match(markup, /data-disabled=""/)
 })
 
-test("empty menus render nothing and custom surfaces omit the default hint", () => {
+test("empty menus render nothing and asChild surfaces retain their own element", () => {
   assert.equal(
     renderToStaticMarkup(h(ContextMenu, { trigger: "File", items: [] })),
     ""

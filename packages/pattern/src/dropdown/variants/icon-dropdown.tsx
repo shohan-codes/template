@@ -37,6 +37,7 @@ export type IconDropdownProps = Omit<DropdownProps, "trigger" | "$trigger"> & {
 
 /** Compact overflow actions for cards, table rows and toolbars. */
 export function IconDropdown({
+  defaultSlots = iconDropdownSlots,
   label,
   icon,
   $trigger,
@@ -44,7 +45,7 @@ export function IconDropdown({
 }: IconDropdownProps) {
   return (
     <DropdownCore
-      defaultSlots={iconDropdownSlots}
+      defaultSlots={defaultSlots}
       {...props}
       trigger={icon ?? <Ellipsis aria-hidden="true" />}
       $trigger={{ ...$trigger, "aria-label": label }}

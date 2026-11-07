@@ -70,6 +70,9 @@ export const defaultDropdownSlots: DropdownSlots = {
   Portal,
 }
 
-export function Dropdown(props: DropdownProps) {
-  return <DropdownCore defaultSlots={defaultDropdownSlots} {...props} />
+export function Dropdown({
+  defaultSlots = defaultDropdownSlots,
+  ...props
+}: DropdownProps) {
+  return <DropdownCore defaultSlots={defaultSlots} {...props} />
 }

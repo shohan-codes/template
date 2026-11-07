@@ -1,5 +1,6 @@
 "use client"
 
+import { resolveSlots } from "../utilities/resolve-slots"
 import { Fragment } from "react"
 import type {
   ComponentProps,
@@ -103,7 +104,7 @@ export function ToolbarCore({
   ...root
 }: ToolbarCoreProps) {
   if (!items.length) return null
-  const P = { ...defaultSlots, ...slots }
+  const P = resolveSlots(defaultSlots, slots)
   return (
     <P.Root {...root} orientation={orientation}>
       {items.map((item) => {

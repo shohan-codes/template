@@ -47,7 +47,7 @@ const Content = ({
   <AccordionContent
     {...props}
     className={cn(
-      "pt-1 pb-3 text-sm text-muted-foreground leading-relaxed",
+      "pt-1 pb-3 text-sm leading-relaxed text-muted-foreground",
       className
     )}
   />
@@ -65,11 +65,9 @@ export type CardAccordionProps = AccordionProps
 /**
  * Card-styled Accordion where each item is rendered as an independent rounded card.
  */
-export function CardAccordion(props: CardAccordionProps) {
-  return (
-    <Accordion
-      defaultSlots={cardAccordionSlots}
-      {...props}
-    />
-  )
+export function CardAccordion({
+  defaultSlots = cardAccordionSlots,
+  ...props
+}: CardAccordionProps) {
+  return <Accordion defaultSlots={defaultSlots} {...props} />
 }

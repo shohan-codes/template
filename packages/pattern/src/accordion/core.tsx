@@ -1,5 +1,6 @@
 "use client"
 
+import { resolveSlots } from "../utilities/resolve-slots"
 import * as React from "react"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
 
@@ -27,7 +28,7 @@ export function AccordionCore({
 }: AccordionCoreProps) {
   if (items.length === 0) return null
 
-  const P = slots ? { ...defaultSlots, ...slots } : defaultSlots
+  const P = resolveSlots(defaultSlots, slots)
 
   const rootBehaviorProps: AccordionRootBehaviorProps =
     mode === "multiple"
@@ -102,7 +103,8 @@ type AccordionMultipleProps = {
   collapsible?: never
 }
 
-export type AccordionBehaviorProps = AccordionSingleProps | AccordionMultipleProps
+export type AccordionBehaviorProps =
+  AccordionSingleProps | AccordionMultipleProps
 
 export type AccordionRootBehaviorProps =
   | {

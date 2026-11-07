@@ -1,5 +1,6 @@
 "use client"
 
+import { resolveSlots } from "../../utilities/resolve-slots"
 import type {
   ComponentProps,
   ElementType,
@@ -98,7 +99,7 @@ export function SplitDropdown({
   $trigger,
   ...props
 }: SplitDropdownProps) {
-  const P = slots ? { ...defaultSlots, ...slots } : defaultSlots
+  const P = resolveSlots(defaultSlots, slots)
   return (
     <P.Container role="group" aria-label={primaryAction.label} {...$container}>
       <P.PrimaryAction

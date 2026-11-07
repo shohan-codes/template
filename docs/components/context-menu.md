@@ -1,6 +1,6 @@
 # Context Menu variants
 
-All designs accept the same readonly `ContextMenuItemData[]` contract as Dropdown: actions, labels, groups, separators, submenus, checkboxes and radio groups. The simple `ContextMenu` remains the default right-click surface.
+All designs accept the same readonly `ContextMenuItemData[]` contract as Dropdown: actions, labels, groups, separators, submenus, checkboxes and radio groups. The simple `ContextMenu` remains a neutral, focusable right-click surface. It renders caller-provided trigger content without a card, fixed height, padding, tint, or instruction text. Keyboard opening and focus indicators remain built in. Use `$trigger.className`, `$trigger["aria-describedby"]`, or `$trigger.asChild` for an optional styled surface and caller-owned guidance; the preferences showcase demonstrates this.
 
 - `ActionsContextMenu` adds a visible, keyboard-accessible actions button for people who do not use right-click or press-and-hold. The context menu and button menu receive the exact same item data and callbacks, so controlled preferences remain synchronized.
 - `SelectionContextMenu` chooses single-item, multiple-item or optional empty-selection actions from caller-owned selection IDs. It adds a visible selection summary and menu label.
