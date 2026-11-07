@@ -1,4 +1,8 @@
+"use client"
+
 import * as React from "react"
+import { usePathname } from "next/navigation"
+import { usePreviewExample } from "@/components/preview-example"
 
 import { cn } from "@workspace/shadcn-ui/lib/utils"
 import {
@@ -47,6 +51,17 @@ export function ExamplePageShell({
   items,
   children,
 }: ExamplePageShellProps) {
+  const pathname = usePathname()
+  const previewExample = usePreviewExample()
+
+  if (previewExample) {
+    return (
+      items?.find((item) => item.id === previewExample)?.preview ?? (
+        <p role="alert">This preview is unavailable.</p>
+      )
+    )
+  }
+
   return (
     <div className={cn("space-y-8", className)}>
       <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
@@ -60,7 +75,15 @@ export function ExamplePageShell({
       </div>
 
       {items?.map(({ id, preview, ...cardProps }, index) => (
-        <ShowcaseCard key={id ?? index} {...cardProps}>
+        <ShowcaseCard
+          key={id ?? index}
+          previewSrc={
+            id
+              ? `/preview${pathname.replace(/^\/components/, "")}/${encodeURIComponent(id)}`
+              : undefined
+          }
+          {...cardProps}
+        >
           {preview}
         </ShowcaseCard>
       ))}
