@@ -20,10 +20,7 @@ function Root({
 }: React.ComponentProps<typeof PrimitiveRoot>) {
   return (
     <PrimitiveRoot
-      className={cn(
-        "rounded-xl border bg-card text-card-foreground",
-        className
-      )}
+      className={cn("min-w-0 text-foreground", className)}
       {...props}
     />
   )
@@ -44,12 +41,12 @@ function Trigger({
   return (
     <PrimitiveTrigger
       className={cn(
-        "group flex w-full items-center justify-between gap-3 rounded-xl px-4 py-3 text-start text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+        "group flex w-full items-center justify-between gap-3 rounded-md py-2 text-start text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       {...props}
     >
-      <span className="min-w-0">{children}</span>
+      <span className="min-w-0 wrap-anywhere">{children}</span>
       <ChevronDown
         className="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-180 motion-reduce:transition-none"
         aria-hidden="true"
@@ -64,19 +61,50 @@ function Content({
 }: React.ComponentProps<typeof PrimitiveContent>) {
   return (
     <PrimitiveContent
-      className={cn("px-4 pt-1 pb-4 text-sm text-muted-foreground", className)}
+      className={cn(
+        "space-y-3 pt-1 pb-2 text-sm text-muted-foreground",
+        className
+      )}
       {...props}
     />
   )
+}
+
+function Item({ className, ...props }: React.ComponentProps<"div">) {
+  return <div className={cn("min-w-0 wrap-anywhere", className)} {...props} />
+}
+
+function Group({ className, ...props }: React.ComponentProps<"div">) {
+  return <div className={cn("min-w-0 space-y-2", className)} {...props} />
+}
+
+function GroupLabel({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      className={cn(
+        "text-xs font-medium wrap-anywhere text-foreground",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function Separator({ className, ...props }: React.ComponentProps<"hr">) {
+  return <hr className={cn("border-border", className)} {...props} />
 }
 
 export const defaultCollapsibleSlots: CollapsibleSlots = {
   Root,
   Trigger,
   Content,
+  Item,
+  Group,
+  GroupLabel,
+  Separator,
 }
 
-/** Complete default presentation; customize slots only for exceptional layouts. */
+/** Neutral default presentation; use CardCollapsible for a bordered card. */
 export function Collapsible(props: CollapsibleProps) {
   return <CollapsibleCore defaultSlots={defaultCollapsibleSlots} {...props} />
 }
