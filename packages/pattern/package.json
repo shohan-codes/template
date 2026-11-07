@@ -80,6 +80,11 @@
       "types": "./dist/context-menu/index.d.ts",
       "import": "./dist/context-menu/index.js",
       "default": "./dist/context-menu/index.js"
+    },
+    "./breadcrumbs": {
+      "types": "./dist/breadcrumbs/index.d.ts",
+      "import": "./dist/breadcrumbs/index.js",
+      "default": "./dist/breadcrumbs/index.js"
     }
   }
 }

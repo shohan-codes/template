@@ -6,3 +6,4 @@ export * from "./collapsible"
 export * from "./dropdown"
 
 export * from "./context-menu"
+export * from "./breadcrumbs"

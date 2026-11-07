@@ -38,6 +38,12 @@ const navItems = [
     title: "Patterns",
     items: [
       {
+        id: "nav-breadcrumbs",
+        href: "/components/breadcrumbs",
+        title: "Breadcrumbs",
+        icon: <RiStackLine className="size-4" />,
+      },
+      {
         id: "nav-context-menu",
         href: "/components/context-menu",
         title: "Context Menu",
@@ -102,7 +108,7 @@ export function ShowcaseShell({ children }: ShowcaseShellProps) {
     <div className="flex h-svh w-full overflow-hidden bg-background text-foreground">
       {/* Sidebar */}
       <aside className="flex w-64 shrink-0 flex-col border-r bg-card">
-        <div className="flex h-14 items-center gap-2 border-b px-4 font-semibold text-sm">
+        <div className="flex h-14 items-center gap-2 border-b px-4 text-sm font-semibold">
           <div className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-primary text-xs font-semibold text-primary-foreground">
             UI
           </div>
