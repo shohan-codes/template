@@ -17,15 +17,15 @@ const fontMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Data-Driven UI Showcase | Next Nest Template",
-    template: "%s | Data-Driven UI Showcase",
+    default: "Pattern Showcase",
+    template: "%s | Pattern Showcase",
   },
   description:
-    "Comprehensive showcase and interactive playground for all 17 data-driven UI components in @workspace/ui",
+    "Data-driven pattern families, variants, and interactive examples from @workspace/pattern",
   openGraph: {
-    title: "Data-Driven UI Showcase",
+    title: "Pattern Showcase",
     description:
-      "Comprehensive showcase and interactive playground for all 17 data-driven UI components in @workspace/ui",
+      "Data-driven pattern families, variants, and interactive examples from @workspace/pattern",
     type: "website",
   },
 }

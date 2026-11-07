@@ -1,37 +1,21 @@
-import ToolbarShowcase from "@/app/components/toolbar/page"
-import BreadcrumbsShowcase from "@/app/components/breadcrumbs/page"
-import ContextMenuShowcase from "@/app/components/context-menu/page"
-import CollapsibleShowcase from "@/app/components/collapsible/page"
-import DropdownShowcase from "@/app/components/dropdown/page"
 import { notFound } from "next/navigation"
-
-import AccordionShowcase from "@/app/components/accordion/page"
-import CodeBlockShowcase from "@/app/components/code-block/page"
-import QuestionnaireShowcase from "@/app/components/questionnaire/page"
-import TabsShowcase from "@/app/components/tabs/page"
 import { PreviewExample } from "@/components/preview-example"
-
-const showcases = {
-  toolbar: ToolbarShowcase,
-  breadcrumbs: BreadcrumbsShowcase,
-  "context-menu": ContextMenuShowcase,
-  dropdown: DropdownShowcase,
-  collapsible: CollapsibleShowcase,
-  accordion: AccordionShowcase,
-  "code-block": CodeBlockShowcase,
-  questionnaire: QuestionnaireShowcase,
-  tabs: TabsShowcase,
-}
-
+import { getShowcaseFamily } from "@/lib/showcase-registry"
+import { showcaseComponents } from "@/lib/showcase-components"
 export default async function PreviewPage({
   params,
 }: {
   params: Promise<{ component: string; example: string }>
 }) {
   const { component, example } = await params
-  if (!Object.hasOwn(showcases, component)) notFound()
-  const Showcase = showcases[component as keyof typeof showcases]
-
+  const family = getShowcaseFamily(component)
+  if (
+    !family?.variants.some((variant) => variant.exampleIds.includes(example)) ||
+    !Object.hasOwn(showcaseComponents, component)
+  )
+    notFound()
+  const Showcase =
+    showcaseComponents[component as keyof typeof showcaseComponents]
   return (
     <PreviewExample example={example}>
       <Showcase />
