@@ -97,14 +97,32 @@ function Content({
   className,
   ...props
 }: ComponentProps<typeof PrimitiveContent>) {
-  return <PrimitiveContent {...props} className={cn("w-60", className)} />
+  return (
+    <PrimitiveContent
+      collisionPadding={8}
+      {...props}
+      className={cn(
+        "w-60 min-w-0 max-w-(--radix-context-menu-content-available-width)",
+        className
+      )}
+    />
+  )
 }
 
 function SubContent({
   className,
   ...props
 }: ComponentProps<typeof PrimitiveSubContent>) {
-  return <PrimitiveSubContent {...props} className={cn("w-52", className)} />
+  return (
+    <PrimitiveSubContent
+      collisionPadding={8}
+      {...props}
+      className={cn(
+        "w-52 min-w-0 max-w-(--radix-context-menu-content-available-width)",
+        className
+      )}
+    />
+  )
 }
 
 export const defaultContextMenuSlots: ContextMenuSlots = {
