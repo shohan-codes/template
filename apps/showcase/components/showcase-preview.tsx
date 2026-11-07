@@ -18,6 +18,7 @@ import {
 } from "@/components/preview-navigation"
 
 const viewports = [
+  { name: "Auto", width: null, icon: null },
   { name: "Desktop", width: 1280, icon: RiComputerLine },
   { name: "Tablet", width: 768, icon: RiTabletLine },
   { name: "Mobile", width: 375, icon: RiSmartphoneLine },
@@ -68,9 +69,11 @@ export function ShowcasePreview({
   const containerRef = React.useRef<HTMLDivElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
   const previewId = React.useId()
-  const scale = availableWidth
-    ? Math.min(1, availableWidth / viewport.width)
-    : 1
+  // Auto is a real, unscaled container-width layout, including before measurement.
+  const scale =
+    viewport.width !== null && availableWidth
+      ? Math.min(1, availableWidth / viewport.width)
+      : 1
 
   React.useEffect(() => {
     const container = containerRef.current
@@ -132,19 +135,29 @@ export function ShowcasePreview({
               key={option.name}
               type="button"
               variant={viewport.name === option.name ? "secondary" : "ghost"}
-              size="icon-sm"
+              size={option.width === null ? "xs" : "icon-sm"}
               aria-label={`${option.name} preview`}
               aria-pressed={viewport.name === option.name}
               aria-controls={previewId}
-              title={`${option.name} (${option.width}px)`}
+              title={
+                option.width === null
+                  ? "Auto (fill available width)"
+                  : `${option.name} (${option.width}px)`
+              }
               onClick={() => setViewport(option)}
             >
-              <option.icon className="size-4" aria-hidden="true" />
+              {option.icon ? (
+                <option.icon className="size-4" aria-hidden="true" />
+              ) : (
+                "Auto"
+              )}
             </Button>
           ))}
         </div>
         <span aria-live="polite" className="sr-only">
-          {viewport.width}px
+          {viewport.width === null
+            ? "Auto (fill available width)"
+            : `${viewport.width}px`}
           {scale < 1 && ` · ${Math.round(scale * 100)}%`}
         </span>
       </div>
@@ -191,7 +204,10 @@ export function ShowcasePreview({
     <div ref={containerRef} className="min-w-0 rounded-lg border bg-muted/20">
       <div
         className="relative mx-auto"
-        style={{ width: viewport.width * scale, height: height * scale }}
+        style={{
+          width: viewport.width === null ? "100%" : viewport.width * scale,
+          height: height * scale,
+        }}
       >
         <div
           ref={setPreviewRoot}
@@ -204,7 +220,7 @@ export function ShowcasePreview({
           data-theme={theme ? accentTheme : undefined}
           className={`${theme ?? ""} @container/showcase-preview absolute top-0 left-0 origin-top-left rounded-lg bg-background text-foreground`}
           style={{
-            width: viewport.width,
+            width: viewport.width ?? "100%",
             minHeight: height,
             transform: `scale(${scale})`,
             colorScheme: theme ?? "inherit",
