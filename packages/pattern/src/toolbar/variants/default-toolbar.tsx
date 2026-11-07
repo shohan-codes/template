@@ -68,7 +68,10 @@ function ToggleGroup({
   return (
     <Primitive.ToggleGroup
       data-slot="toolbar-toggle-group"
-      className={cn("flex max-w-full flex-wrap items-center gap-1", className)}
+      className={cn(
+        "flex max-w-full flex-wrap items-center gap-1 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch",
+        className
+      )}
       {...props}
     />
   )

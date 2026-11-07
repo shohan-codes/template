@@ -22,3 +22,5 @@ test("runtime slots, orientation and empty data are handled",()=>{
 })
 
 test("floating variant retains toolbar semantics and explicit accessible icon labels",()=>{const html=renderToStaticMarkup(h(FloatingToolbar,{"aria-label":"Selection tools",items:[{id:"bold",type:"action",label:"B","aria-label":"Bold"}]}));assert.match(html,/rounded-full/);assert.match(html,/aria-label="Bold"/);assert.match(html,/role="toolbar"/);})
+
+test("vertical toolbar aligns toggle groups with vertical arrow navigation",()=>{const html=renderToStaticMarkup(h(Toolbar,{"aria-label":"Alignment",orientation:"vertical",items:[{id:"align",type:"toggle-group",selectionMode:"single",label:"Align",defaultValue:"left",items:[{id:"left",value:"left",label:"Left"},{id:"right",value:"right",label:"Right"}]}]}));assert.match(html,/data-orientation="vertical"[^>]*data-slot="toolbar-toggle-group"/);assert.match(html,/data-\[orientation=vertical\]:flex-col/);})
