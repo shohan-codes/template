@@ -38,6 +38,12 @@ const navItems = [
     title: "Patterns",
     items: [
       {
+        id: "nav-dropdown",
+        href: "/components/dropdown",
+        title: "Dropdown",
+        icon: <RiStackLine className="size-4" />,
+      },
+      {
         id: "nav-collapsible",
         href: "/components/collapsible",
         title: "Collapsible",

@@ -16,6 +16,7 @@ import {
 } from "@remixicon/react"
 
 const patterns = [
+  { title: "Dropdown Pattern", description: "Typed menus with nested actions, checkboxes, radio groups and custom slots.", href: "/components/dropdown", icon: RiStackLine },
   {
     title: "Collapsible Pattern",
     description:

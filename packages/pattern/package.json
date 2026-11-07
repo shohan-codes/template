@@ -70,6 +70,11 @@
       "types": "./dist/collapsible/index.d.ts",
       "import": "./dist/collapsible/index.js",
       "default": "./dist/collapsible/index.js"
+    },
+    "./dropdown": {
+      "types": "./dist/dropdown/index.d.ts",
+      "import": "./dist/dropdown/index.js",
+      "default": "./dist/dropdown/index.js"
     }
   }
 }
