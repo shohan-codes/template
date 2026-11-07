@@ -13,6 +13,28 @@ export interface ShowcaseFamily {
 }
 export const showcaseFamilies: readonly ShowcaseFamily[] = [
   {
+    id: "command-palette",
+    label: "Command Palette",
+    description:
+      "Typed command actions with a neutral modal default and a separate inline search variant. No global keyboard shortcuts are registered.",
+    variants: [
+      {
+        id: "default",
+        label: "Default",
+        description:
+          "A neutral modal command palette with filtering, keyboard navigation, and controlled state.",
+        exampleIds: ["default-command-palette", "controlled-command-palette"],
+      },
+      {
+        id: "inline",
+        label: "Inline",
+        description:
+          "Always-visible command search, with optional slot customization.",
+        exampleIds: ["inline-command-search", "custom-command-search"],
+      },
+    ],
+  },
+  {
     id: "toolbar",
     label: "Toolbar",
     description:

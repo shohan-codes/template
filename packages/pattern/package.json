@@ -95,6 +95,11 @@
       "types": "./dist/toolbar/index.d.ts",
       "import": "./dist/toolbar/index.js",
       "default": "./dist/toolbar/index.js"
+    },
+    "./command-palette": {
+      "types": "./dist/command-palette/index.d.ts",
+      "import": "./dist/command-palette/index.js",
+      "default": "./dist/command-palette/index.js"
     }
   }
 }
