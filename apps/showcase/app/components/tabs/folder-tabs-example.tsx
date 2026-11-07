@@ -1,6 +1,6 @@
 "use client"
 
-import { FolderTabs, type TabItemData } from "@workspace/pattern"
+import { FolderTabs, type TypedTabItemData } from "@workspace/pattern"
 import {
   RiFolder2Line,
   RiDatabase2Line,
@@ -8,8 +8,9 @@ import {
   RiCheckLine,
 } from "@remixicon/react"
 
-const folderItems: readonly TabItemData[] = [
+const folderItems: readonly TypedTabItemData[] = [
   {
+    type: "tab",
     id: "overview",
     label: "Project Specs",
     icon: <RiFolder2Line className="size-4 text-amber-500" />,
@@ -61,6 +62,7 @@ const folderItems: readonly TabItemData[] = [
     ),
   },
   {
+    type: "tab",
     id: "models",
     label: "Data Models",
     icon: <RiDatabase2Line className="size-4 text-purple-500" />,
@@ -115,6 +117,7 @@ const folderItems: readonly TabItemData[] = [
     ),
   },
   {
+    type: "tab",
     id: "security",
     label: "Security & IAM",
     icon: <RiShieldCheckLine className="size-4 text-emerald-500" />,
@@ -167,7 +170,11 @@ export default function FolderTabsExample() {
   return (
     <div className="@container/tabs-example w-full min-w-0">
       <div className="mx-auto w-full max-w-xl">
-        <FolderTabs items={folderItems} />
+        <FolderTabs
+          mode="typed"
+          $list={{ "aria-label": "Project views" }}
+          items={folderItems}
+        />
       </div>
     </div>
   )

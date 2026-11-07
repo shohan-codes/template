@@ -47,28 +47,28 @@ import HashTabsExampleRaw from "./hash-tabs-example.tsx?raw" with {
 
 const tabsShowcaseItems: readonly ShowcaseItem[] = [
   {
+    id: "default-tabs",
+    title: "Default Tabs (Typed Selection)",
+    description:
+      "Plain, neutral tabs with required stable IDs, typed panel content, and a disabled item.",
+    code: DefaultTabsExampleRaw,
+    preview: <DefaultTabsExample />,
+  },
+  {
+    id: "line-tabs",
+    title: "Controlled Line Tabs with Actions",
+    description:
+      "Controlled selection with manual keyboard activation and right-aligned header actions.",
+    code: LineTabsExampleRaw,
+    preview: <LineTabsExample />,
+  },
+  {
     id: "segmented-tabs",
     title: "Segmented Control Variant (Apple / Linear)",
     description:
       "Floating capsule pill switcher with rounded-full geometry, backdrop blur, and micro-elevation.",
     code: SegmentedTabsExampleRaw,
     preview: <SegmentedTabsExample />,
-  },
-  {
-    id: "query-tabs",
-    title: "Query Parameter Tabs (Next.js useSearchParams)",
-    description:
-      "SSR-friendly URL query routing using Next.js useSearchParams() without any useEffect or client listeners.",
-    code: QueryTabsExampleRaw,
-    preview: <QueryTabsExample />,
-  },
-  {
-    id: "hash-tabs",
-    title: "Hash Deep-Link Tabs (window.location.hash)",
-    description:
-      "Anchor hash deep-linking with client-side mount synchronization and shareable browser bookmark URLs.",
-    code: HashTabsExampleRaw,
-    preview: <HashTabsExample />,
   },
   {
     id: "folder-tabs-enclosed",
@@ -87,20 +87,20 @@ const tabsShowcaseItems: readonly ShowcaseItem[] = [
     preview: <FloatingFolderTabsExample />,
   },
   {
-    id: "default-tabs",
-    title: "Default Tabs (Pill Style)",
+    id: "query-tabs",
+    title: "Legacy Query Parameter Tabs (Next.js useSearchParams)",
     description:
-      "Data-driven tabs with optional icons and notification badges in trigger buttons.",
-    code: DefaultTabsExampleRaw,
-    preview: <DefaultTabsExample />,
+      "SSR-friendly URL query routing using Next.js useSearchParams() without any useEffect or client listeners.",
+    code: QueryTabsExampleRaw,
+    preview: <QueryTabsExample />,
   },
   {
-    id: "line-tabs",
-    title: "Line Variant with Actions",
+    id: "hash-tabs",
+    title: "Legacy Hash Deep-Link Tabs (window.location.hash)",
     description:
-      "Underlined tabs variant with right-aligned action buttons in the header row.",
-    code: LineTabsExampleRaw,
-    preview: <LineTabsExample />,
+      "Anchor hash deep-linking with client-side mount synchronization and shareable browser bookmark URLs.",
+    code: HashTabsExampleRaw,
+    preview: <HashTabsExample />,
   },
 ]
 

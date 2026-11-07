@@ -212,7 +212,8 @@ export const showcaseFamilies: readonly ShowcaseFamily[] = [
   {
     id: "tabs",
     label: "Tabs",
-    description: "Data-driven tabbed navigation with optional URL state.",
+    description:
+      "Strict panel selection with compatible query and hash routing.",
     variants: [
       {
         id: "default",
@@ -224,7 +225,7 @@ export const showcaseFamilies: readonly ShowcaseFamily[] = [
         id: "segmented",
         label: "Segmented",
         description:
-          "Compact segmented controls with optional query and hash state.",
+          "Typed segmented controls and legacy query/hash compatibility examples.",
         exampleIds: ["segmented-tabs", "query-tabs", "hash-tabs"],
       },
       {

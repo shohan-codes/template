@@ -26,13 +26,13 @@ export type DefaultTabsProps = TabsProps & {
 /**
  * Standard data-driven Tabs component based on shadcn-ui and Radix primitives.
  */
-export function Tabs({ variant, $list, ...props }: DefaultTabsProps) {
-  return (
-    <TabsCore
-      defaultSlots={defaultTabsSlots}
-      $list={{ variant, ...$list }}
-      {...props}
-    />
-  )
-}
+export function Tabs({
+  variant,
+  $list,
+  defaultSlots = defaultTabsSlots,
+  ...props
+}: DefaultTabsProps) {
+  const listProps = { variant, ...$list, className: $list?.className }
 
+  return <TabsCore defaultSlots={defaultSlots} $list={listProps} {...props} />
+}

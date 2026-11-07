@@ -2,12 +2,17 @@
 
 import * as React from "react"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
+import type { Tabs as TabsPrimitive } from "radix-ui"
+import { TypedTabsCore } from "./typed-core"
 
 /* ========================================================================== *\
  * Headless Tabs Core Component
  * ========================================================================== */
 
-export type TabItemData = Readonly<{
+/** @deprecated Use TypedTabItemData with mode="typed" for strict selection tabs. */
+export type LegacyTabItemData = Readonly<{
+  /** Legacy entries cannot opt into the strict item discriminator. */
+  type?: never
   /** Optional unique identifier for the tab. Auto-derived from value, href, label, or index if omitted. */
   id?: string
   /** Value identifier alias for the tab. */
@@ -26,8 +31,26 @@ export type TabItemData = Readonly<{
   disabled?: boolean
 }>
 
+/** @deprecated Compatibility alias. Use TypedTabItemData for new selection tabs. */
+export type TabItemData = LegacyTabItemData
+
+/** A panel-selecting tab. IDs are stable selection values, not destinations. */
+export type TypedTabItemData = Readonly<{
+  id: string
+  type: "tab"
+  label: React.ReactNode
+  content: React.ReactNode
+  icon?: React.ReactNode
+  badge?: React.ReactNode
+  disabled?: boolean
+  "aria-label"?: string
+  href?: never
+  value?: never
+}>
+
 /**
- * Resolves a unique string identifier for a tab item.
+ * @deprecated Compatibility helper. Typed items use their required ID directly.
+ * Resolves a unique string identifier for a legacy tab item.
  * Falls back to value, href, slugified label, or the array index.
  */
 export function getTabId(item: TabItemData, index: number = 0): string {
@@ -54,10 +77,12 @@ export type TabsSlots = Readonly<{
   Link?: React.ElementType
 }>
 
-export type TabsBaseProps = Omit<
+export type LegacyTabsBaseProps = Omit<
   React.ComponentPropsWithoutRef<"div">,
   "children" | "defaultValue" | "value" | "onChange"
 > & {
+  /** Omit for backwards-compatible item and router behavior. */
+  mode?: "legacy"
   /** Array of tabs to render. */
   items: readonly TabItemData[]
   /** Controlled active tab ID. Accepts string, null, or undefined (e.g. from URL query/hash). */
@@ -84,6 +109,65 @@ export type TabsBaseProps = Omit<
   actions?: React.ReactNode
 }
 
+type ProtectedSlotProps<Props, Keys extends PropertyKey> = Omit<Props, Keys> & {
+  readonly [Key in Keys]?: never
+}
+
+type OwnedContentProps = "children" | "asChild" | "dangerouslySetInnerHTML"
+
+export type TypedTabsListProps = ProtectedSlotProps<
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>,
+  OwnedContentProps | "role"
+>
+export type TypedTabsTriggerProps = ProtectedSlotProps<
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>,
+  | OwnedContentProps
+  | "value"
+  | "disabled"
+  | "type"
+  | "role"
+  | "id"
+  | "aria-label"
+  | "aria-controls"
+  | "aria-selected"
+  | "aria-disabled"
+  | "tabIndex"
+>
+export type TypedTabsContentProps = ProtectedSlotProps<
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>,
+  OwnedContentProps | "value" | "role" | "id" | "aria-labelledby" | "tabIndex"
+>
+
+export type TypedTabsBaseProps = Omit<
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Root>,
+  OwnedContentProps | "value" | "defaultValue" | "onValueChange"
+> & {
+  /** Explicit migration boundary: legacy router props cannot enter this branch. */
+  mode: "typed"
+  items: readonly TypedTabItemData[]
+  /** Active item ID. Null and undefined select uncontrolled behavior. */
+  value?: string | null
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+  slots?: Partial<TabsSlots>
+  $list?: TypedTabsListProps
+  $trigger?: TypedTabsTriggerProps
+  $content?: TypedTabsContentProps
+  $link?: never
+  actions?: React.ReactNode
+}
+
+export type TabsBaseProps = LegacyTabsBaseProps | TypedTabsBaseProps
+
+export type TypedTabsProps = TypedTabsBaseProps & {
+  defaultSlots?: TabsSlots
+}
+
+/** @deprecated Prefer TypedTabsProps for new selection tabs. */
+export type LegacyTabsProps = LegacyTabsBaseProps & {
+  defaultSlots?: TabsSlots
+}
+
 export type TabsCoreProps = TabsBaseProps & {
   /** Injected default slots for loosely coupled primitives. */
   defaultSlots: TabsSlots
@@ -98,7 +182,13 @@ export type TabsProps = TabsBaseProps & {
  * Headless, data-driven Tabs core component.
  * Expects `defaultSlots` to be injected from outside, achieving loose coupling.
  */
-export function TabsCore({
+export function TabsCore(props: TabsCoreProps) {
+  if (props.mode === "typed") return <TypedTabsCore {...props} />
+  return <LegacyTabsCore {...props} />
+}
+
+function LegacyTabsCore({
+  mode: _mode,
   items,
   value,
   defaultValue,
@@ -114,13 +204,14 @@ export function TabsCore({
   actions,
   className,
   ...rootProps
-}: TabsCoreProps) {
+}: LegacyTabsBaseProps & { defaultSlots: TabsSlots }) {
   if (items.length === 0) return null
 
   const LinkSlot = slots?.Link ?? defaultSlots?.Link ?? "a"
   const P = { ...defaultSlots, ...slots, Link: LinkSlot }
 
-  const fallbackTab = defaultValue ?? (items[0] ? getTabId(items[0], 0) : undefined)
+  const fallbackTab =
+    defaultValue ?? (items[0] ? getTabId(items[0], 0) : undefined)
   const hasControlledValue = value !== undefined && value !== null
   const isValueValid =
     hasControlledValue &&
@@ -135,7 +226,10 @@ export function TabsCore({
     <P.List
       {...$list}
       className={cn(
-        orientation === "vertical" ? "flex-col items-stretch" : "items-center",
+        "max-w-full min-w-0",
+        orientation === "vertical"
+          ? "flex-col items-stretch"
+          : "items-center overflow-x-auto overflow-y-hidden",
         $list?.className
       )}
     >
@@ -143,9 +237,9 @@ export function TabsCore({
         const tabId = getTabId(item, index)
         const triggerContent = (
           <>
-            {item.icon}
-            <span>{item.label}</span>
-            {item.badge}
+            <React.Fragment key="icon">{item.icon}</React.Fragment>
+            <span key="label">{item.label}</span>
+            <React.Fragment key="badge">{item.badge}</React.Fragment>
           </>
         )
 
@@ -185,7 +279,7 @@ export function TabsCore({
       {...rootProps}
     >
       {actions ? (
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex min-w-0 flex-wrap items-center justify-between gap-4">
           {listNode}
           <div data-slot="tabs-actions">{actions}</div>
         </div>
@@ -199,11 +293,7 @@ export function TabsCore({
         }
         const tabId = getTabId(item, index)
         return (
-          <P.Content
-            key={tabId}
-            value={tabId}
-            {...$content}
-          >
+          <P.Content key={tabId} value={tabId} {...$content}>
             {item.content}
           </P.Content>
         )
@@ -211,4 +301,3 @@ export function TabsCore({
     </P.Root>
   )
 }
-
