@@ -38,6 +38,12 @@ const navItems = [
     title: "Patterns",
     items: [
       {
+        id: "nav-context-menu",
+        href: "/components/context-menu",
+        title: "Context Menu",
+        icon: <RiStackLine className="size-4" />,
+      },
+      {
         id: "nav-dropdown",
         href: "/components/dropdown",
         title: "Dropdown",
