@@ -1,11 +1,13 @@
 "use client"
 
-import { Tabs, type TabItemData } from "@workspace/pattern"
+import { useState } from "react"
+import { Tabs, type TypedTabItemData } from "@workspace/pattern"
 import { Button } from "@workspace/shadcn-ui"
 import { RiRefreshLine, RiDownloadLine, RiArrowUpLine } from "@remixicon/react"
 
-const overviewItems: readonly TabItemData[] = [
+const overviewItems: readonly TypedTabItemData[] = [
   {
+    type: "tab",
     id: "overview",
     label: "Overview",
     content: (
@@ -51,6 +53,7 @@ const overviewItems: readonly TabItemData[] = [
     ),
   },
   {
+    type: "tab",
     id: "analytics",
     label: "Traffic Sources",
     content: (
@@ -92,6 +95,7 @@ const overviewItems: readonly TabItemData[] = [
     ),
   },
   {
+    type: "tab",
     id: "reports",
     label: "Audit Reports",
     content: (
@@ -110,10 +114,10 @@ const overviewItems: readonly TabItemData[] = [
         ].map((r) => (
           <div
             key={r.name}
-            className="flex items-center justify-between rounded-lg border border-border/60 bg-card p-3 text-xs"
+            className="flex items-center justify-between gap-3 rounded-lg border border-border/60 bg-card p-3 text-xs"
           >
-            <div>
-              <div className="font-mono font-medium text-foreground">
+            <div className="min-w-0 flex-1">
+              <div className="font-mono font-medium break-all text-foreground">
                 {r.name}
               </div>
               <div className="text-[11px] text-muted-foreground">
@@ -122,7 +126,7 @@ const overviewItems: readonly TabItemData[] = [
             </div>
             <button
               type="button"
-              className="inline-flex size-7 cursor-pointer items-center justify-center rounded-md border border-border/60 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
+              className="inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-md border border-border/60 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
               aria-label={`Download ${r.name}`}
             >
               <RiDownloadLine className="size-3.5" />
@@ -135,11 +139,18 @@ const overviewItems: readonly TabItemData[] = [
 ]
 
 export default function LineTabsExample() {
+  const [value, setValue] = useState("overview")
+
   return (
     <div className="@container/tabs-example w-full min-w-0">
       <div className="mx-auto w-full max-w-xl">
         <Tabs
+          mode="typed"
+          $list={{ "aria-label": "Project views" }}
           variant="line"
+          value={value}
+          onValueChange={setValue}
+          activationMode="manual"
           items={overviewItems}
           actions={
             <Button
@@ -152,6 +163,10 @@ export default function LineTabsExample() {
             </Button>
           }
         />
+        <p className="mt-3 text-xs text-muted-foreground">
+          Selected: {value}. Use arrow keys to focus a tab, then Enter or Space
+          to select it.
+        </p>
       </div>
     </div>
   )

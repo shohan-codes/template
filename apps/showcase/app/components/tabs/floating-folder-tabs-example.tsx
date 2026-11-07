@@ -1,6 +1,6 @@
 "use client"
 
-import { FolderTabs, type TabItemData } from "@workspace/pattern"
+import { FolderTabs, type TypedTabItemData } from "@workspace/pattern"
 import {
   RiFileCodeLine,
   RiDatabase2Line,
@@ -8,8 +8,9 @@ import {
   RiCheckboxCircleLine,
 } from "@remixicon/react"
 
-const floatingItems: readonly TabItemData[] = [
+const floatingItems: readonly TypedTabItemData[] = [
   {
+    type: "tab",
     id: "schema",
     label: "schema.prisma",
     icon: <RiFileCodeLine className="size-4 text-emerald-500" />,
@@ -58,6 +59,7 @@ const floatingItems: readonly TabItemData[] = [
     ),
   },
   {
+    type: "tab",
     id: "migration",
     label: "20261031_init",
     icon: <RiDatabase2Line className="size-4 text-amber-500" />,
@@ -88,6 +90,7 @@ const floatingItems: readonly TabItemData[] = [
     ),
   },
   {
+    type: "tab",
     id: "seed",
     label: "seed.ts",
     icon: <RiGitBranchLine className="size-4 text-sky-500" />,
@@ -136,7 +139,12 @@ export default function FloatingFolderTabsExample() {
   return (
     <div className="@container/tabs-example w-full min-w-0">
       <div className="mx-auto w-full max-w-xl">
-        <FolderTabs variant="floating" items={floatingItems} />
+        <FolderTabs
+          mode="typed"
+          $list={{ "aria-label": "Project views" }}
+          variant="floating"
+          items={floatingItems}
+        />
       </div>
     </div>
   )
