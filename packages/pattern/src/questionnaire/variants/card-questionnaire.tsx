@@ -27,11 +27,11 @@ const Root = ({
   children,
   ...props
 }: React.ComponentProps<typeof RootPrimitive>) => (
-  <Card className="w-full bg-card/20 overflow-hidden border shadow-sm">
+  <Card className="@container/questionnaire-card w-full overflow-hidden border bg-card/20 shadow-sm">
     <RootPrimitive
       {...props}
       className={cn(
-        "w-full p-4 sm:p-6 md:p-8 flex flex-col gap-4 sm:gap-6",
+        "flex w-full flex-col gap-4 p-4 @min-[448px]/questionnaire-card:gap-6 @min-[448px]/questionnaire-card:p-6 @min-[512px]/questionnaire-card:p-8",
         className
       )}
     >
@@ -47,7 +47,7 @@ const Progress = ({
   <ProgressPrimitive
     {...props}
     className={cn(
-      "text-xs font-semibold tracking-wider uppercase text-muted-foreground",
+      "text-xs font-semibold tracking-wider text-muted-foreground uppercase",
       className
     )}
   />
@@ -70,7 +70,7 @@ const Title = ({
   <TitlePrimitive
     {...props}
     className={cn(
-      "text-lg sm:text-xl font-semibold tracking-tight text-foreground",
+      "text-lg font-semibold tracking-tight text-foreground @min-[448px]/questionnaire:text-xl",
       className
     )}
   />
@@ -100,7 +100,7 @@ const Choice = ({
   <ChoicePrimitive
     {...props}
     className={cn(
-      "relative flex cursor-pointer items-start gap-3 rounded-lg border bg-card/50 p-3.5 sm:p-4 shadow-2xs transition-all hover:bg-accent/40",
+      "relative flex cursor-pointer items-start gap-3 rounded-lg border bg-card/50 p-3.5 shadow-2xs transition-all hover:bg-accent/40 @min-[448px]/questionnaire:p-4",
       "data-checked:border-primary data-checked:bg-primary/5 dark:data-checked:bg-primary/10",
       "data-[state=checked]:border-primary data-[state=checked]:bg-primary/5",
       className
@@ -114,13 +114,13 @@ const Actions = ({
 }: React.ComponentProps<typeof ActionsPrimitive>) => (
   <CardFooter
     className={cn(
-      "-mx-4 -mb-4 mt-2 flex items-center border-t bg-muted/30 px-4 py-3 sm:-mx-6 sm:-mb-6 sm:px-6 sm:py-4 md:-mx-8 md:-mb-8 md:px-8",
+      "-mx-4 mt-2 -mb-4 flex items-center border-t bg-muted/30 px-4 py-3 @min-[448px]/questionnaire-card:-mx-6 @min-[448px]/questionnaire-card:-mb-6 @min-[448px]/questionnaire-card:px-6 @min-[448px]/questionnaire-card:py-4 @min-[512px]/questionnaire-card:-mx-8 @min-[512px]/questionnaire-card:-mb-8 @min-[512px]/questionnaire-card:px-8",
       className
     )}
   >
     <ActionsPrimitive
       {...props}
-      className="w-full gap-2 sm:gap-2.5"
+      className="w-full gap-2 @min-[448px]/questionnaire:gap-2.5"
     />
   </CardFooter>
 )
@@ -148,10 +148,5 @@ export type CardQuestionnaireProps = QuestionnaireProps
  * Card-styled Questionnaire featuring an enclosed container and custom choice cards.
  */
 export function CardQuestionnaire(props: CardQuestionnaireProps) {
-  return (
-    <Questionnaire
-      defaultSlots={cardQuestionnaireSlots}
-      {...props}
-    />
-  )
+  return <Questionnaire defaultSlots={cardQuestionnaireSlots} {...props} />
 }

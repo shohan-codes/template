@@ -16,7 +16,10 @@ export function PreviewExample({
 }) {
   return (
     <PreviewExampleContext.Provider value={example}>
-      <div id="showcase-preview-root" className="flow-root p-6">
+      <div
+        id="showcase-preview-root"
+        className="@container/showcase-preview flow-root p-6"
+      >
         {children}
       </div>
     </PreviewExampleContext.Provider>

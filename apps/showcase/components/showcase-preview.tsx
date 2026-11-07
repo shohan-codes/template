@@ -11,6 +11,11 @@ import {
 import * as React from "react"
 
 import { Button } from "@workspace/shadcn-ui"
+import { PreviewScopeProvider } from "@workspace/shadcn-ui/lib/preview-scope"
+import {
+  PreviewNavigationProvider,
+  usePreviewLocation,
+} from "@/components/preview-navigation"
 
 const viewports = [
   { name: "Desktop", width: 1280, icon: RiComputerLine },
@@ -18,21 +23,10 @@ const viewports = [
   { name: "Mobile", width: 375, icon: RiSmartphoneLine },
 ] as const
 
-function subscribeToLocation(callback: () => void) {
-  window.addEventListener("popstate", callback)
-  window.addEventListener("hashchange", callback)
-  return () => {
-    window.removeEventListener("popstate", callback)
-    window.removeEventListener("hashchange", callback)
-  }
-}
-
-const getLocationSuffix = () => window.location.search + window.location.hash
-const getServerLocationSuffix = () => ""
-
 interface ShowcasePreviewProps {
   readonly src: string
   readonly title: string
+  readonly children: React.ReactNode
   readonly renderLayout: (parts: {
     controls: React.ReactNode
     preview: React.ReactNode
@@ -43,24 +37,37 @@ interface ShowcasePreviewProps {
 export function ShowcasePreview({
   src,
   title,
+  children,
   renderLayout,
 }: ShowcasePreviewProps) {
   const [viewport, setViewport] = React.useState<(typeof viewports)[number]>(
     viewports[0]
   )
-  const [theme, setTheme] = React.useState<"light" | "dark">("light")
+  const [themeMode, setThemeMode] = React.useState<"page" | "light" | "dark">(
+    "page"
+  )
+  const [pageTheme, setPageTheme] = React.useState<"light" | "dark" | null>(
+    null
+  )
+  const theme = themeMode === "page" ? pageTheme : themeMode
+  const themeDescription =
+    themeMode === "page"
+      ? pageTheme
+        ? `page (${pageTheme})`
+        : "page"
+      : themeMode
+  const nextThemeMode =
+    themeMode === "page" ? "light" : themeMode === "light" ? "dark" : "page"
   const [availableWidth, setAvailableWidth] = React.useState(0)
   const [height, setHeight] = React.useState(160)
-  const [previewUrl, setPreviewUrl] = React.useState<string | null>(null)
-  const locationSuffix = React.useSyncExternalStore(
-    subscribeToLocation,
-    getLocationSuffix,
-    getServerLocationSuffix
+  const [accentTheme, setAccentTheme] = React.useState("blue")
+  const [previewRoot, setPreviewRoot] = React.useState<HTMLDivElement | null>(
+    null
   )
-  const frameSrc = src + locationSuffix
+  const navigation = usePreviewLocation(src)
   const containerRef = React.useRef<HTMLDivElement>(null)
-  const frameRef = React.useRef<HTMLIFrameElement>(null)
-  const frameId = React.useId()
+  const contentRef = React.useRef<HTMLDivElement>(null)
+  const previewId = React.useId()
   const scale = availableWidth
     ? Math.min(1, availableWidth / viewport.width)
     : 1
@@ -80,84 +87,37 @@ export function ShowcasePreview({
   }, [])
 
   React.useEffect(() => {
-    const frame = frameRef.current
-    if (!frame) return
-    let cleanupDocument = () => {}
+    const root = document.documentElement
+    const syncTheme = () => {
+      setAccentTheme(root.dataset.theme ?? "blue")
+      setPageTheme(root.classList.contains("dark") ? "dark" : "light")
+    }
+    syncTheme()
+    const observer = new MutationObserver(syncTheme)
+    observer.observe(root, {
+      attributes: true,
+      attributeFilter: ["data-theme", "class"],
+    })
+    return () => observer.disconnect()
+  }, [])
 
-    function connectDocument() {
-      cleanupDocument()
-      const frameDocument = frame?.contentDocument
-      if (!frameDocument) return
-      const root = frameDocument.documentElement
-
-      function syncTheme() {
-        root.classList.toggle("dark", theme === "dark")
-        root.classList.toggle("light", theme === "light")
-        root.setAttribute(
-          "data-theme",
-          document.documentElement.dataset.theme ?? "blue"
-        )
-        root.style.setProperty("color-scheme", theme)
-      }
-
-      syncTheme()
-      const themeObserver = new MutationObserver(syncTheme)
-      themeObserver.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ["data-theme"],
-      })
-
-      const resizeObserver = new ResizeObserver(([entry]) => {
-        if (entry && entry.contentRect.height > 0) {
-          setHeight(
-            Math.max(
-              160,
-              Math.ceil(entry.target.getBoundingClientRect().height)
-            )
+  React.useEffect(() => {
+    const content = contentRef.current
+    if (!content) return
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry && entry.contentRect.height > 0) {
+        // contentRect is unscaled; transforms must not shrink the measured layout.
+        setHeight(
+          Math.max(
+            160,
+            Math.ceil(entry.borderBoxSize[0]?.blockSize ?? content.offsetHeight)
           )
-        }
-      })
-      let observedRoot: HTMLElement | null = null
-      const observeContent = () => {
-        const content = frameDocument.getElementById("showcase-preview-root")
-        if (content && content !== observedRoot) {
-          resizeObserver.disconnect()
-          resizeObserver.observe(content)
-          observedRoot = content
-        }
+        )
       }
-      // Streaming or cached iframe HTML can finish before parent hydration.
-      // Observe both the current document and later load/stream completion.
-      observeContent()
-      const frameWindow = frameDocument.defaultView
-      const updatePreviewUrl = () => {
-        if (!frameWindow) return
-        const { pathname, search, hash } = frameWindow.location
-        setPreviewUrl(pathname + search + hash)
-      }
-      const contentObserver = new MutationObserver(() => {
-        observeContent()
-        updatePreviewUrl()
-      })
-      frameWindow?.addEventListener("hashchange", updatePreviewUrl)
-      frameWindow?.addEventListener("popstate", updatePreviewUrl)
-      contentObserver.observe(frameDocument, { childList: true, subtree: true })
-      cleanupDocument = () => {
-        themeObserver.disconnect()
-        resizeObserver.disconnect()
-        contentObserver.disconnect()
-        frameWindow?.removeEventListener("hashchange", updatePreviewUrl)
-        frameWindow?.removeEventListener("popstate", updatePreviewUrl)
-      }
-    }
-
-    connectDocument()
-    frame.addEventListener("load", connectDocument)
-    return () => {
-      frame.removeEventListener("load", connectDocument)
-      cleanupDocument()
-    }
-  }, [theme, frameSrc])
+    })
+    observer.observe(content)
+    return () => observer.disconnect()
+  }, [])
 
   const controls = (
     <div className="flex flex-wrap items-center gap-2">
@@ -175,7 +135,7 @@ export function ShowcasePreview({
               size="icon-sm"
               aria-label={`${option.name} preview`}
               aria-pressed={viewport.name === option.name}
-              aria-controls={frameId}
+              aria-controls={previewId}
               title={`${option.name} (${option.width}px)`}
               onClick={() => setViewport(option)}
             >
@@ -191,7 +151,7 @@ export function ShowcasePreview({
       <div className="flex items-center gap-2">
         <Button asChild variant="ghost" size="icon-sm">
           <a
-            href={previewUrl ?? frameSrc}
+            href={src + navigation.suffix}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Open preview in new tab"
@@ -204,43 +164,63 @@ export function ShowcasePreview({
           type="button"
           variant="outline"
           size="xs"
-          aria-label="Dark preview"
-          aria-pressed={theme === "dark"}
-          aria-controls={frameId}
-          title={`Switch preview to ${theme === "dark" ? "light" : "dark"} mode`}
-          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+          aria-label={`Preview theme: ${themeDescription}`}
+          aria-controls={previewId}
+          title={`Theme: ${themeDescription}. Switch to ${nextThemeMode === "page" ? "page theme" : `${nextThemeMode} mode`}`}
+          onClick={() => setThemeMode(nextThemeMode)}
         >
-          {theme === "dark" ? (
+          {themeMode === "page" ? (
+            <RiComputerLine className="size-3.5" aria-hidden="true" />
+          ) : theme === "dark" ? (
             <RiMoonLine className="size-3.5" aria-hidden="true" />
           ) : (
             <RiSunLine className="size-3.5" aria-hidden="true" />
           )}
-          <span className="sr-only">{theme === "dark" ? "Dark" : "Light"}</span>
+          <span className="sr-only">
+            {themeMode === "page"
+              ? "Page"
+              : theme === "dark"
+                ? "Dark"
+                : "Light"}
+          </span>
         </Button>
       </div>
     </div>
   )
   const preview = (
-    <div
-      ref={containerRef}
-      className="min-w-0 overflow-hidden rounded-lg border bg-muted/20"
-    >
+    <div ref={containerRef} className="min-w-0 rounded-lg border bg-muted/20">
       <div
         className="relative mx-auto"
         style={{ width: viewport.width * scale, height: height * scale }}
       >
-        <iframe
-          ref={frameRef}
-          id={frameId}
-          title={`${title} preview`}
-          src={frameSrc}
-          className="absolute top-0 left-0 block origin-top-left border-0"
+        <div
+          ref={setPreviewRoot}
+          id={previewId}
+          role="region"
+          aria-label={`${title} preview`}
+          data-preview-root=""
+          data-preview-theme={theme ?? undefined}
+          data-preview-theme-mode={themeMode}
+          data-theme={theme ? accentTheme : undefined}
+          className={`${theme ?? ""} @container/showcase-preview absolute top-0 left-0 origin-top-left rounded-lg bg-background text-foreground`}
           style={{
             width: viewport.width,
-            height,
+            minHeight: height,
             transform: `scale(${scale})`,
+            colorScheme: theme ?? "inherit",
           }}
-        />
+        >
+          <PreviewScopeProvider value={previewRoot}>
+            <PreviewNavigationProvider value={navigation}>
+              <div
+                ref={contentRef}
+                className="flow-root min-h-40 overflow-x-auto rounded-lg p-6"
+              >
+                {children}
+              </div>
+            </PreviewNavigationProvider>
+          </PreviewScopeProvider>
+        </div>
       </div>
     </div>
   )

@@ -6,7 +6,7 @@ import type { ReactNode } from "react"
 import { ShowcaseShell } from "@/components/showcase-shell"
 import { ThemeProvider } from "@/components/theme-provider"
 
-/** Preview documents have their own viewport and never change the app theme. */
+/** Standalone preview routes omit the surrounding showcase shell. */
 export function ShowcaseLayout({ children }: { readonly children: ReactNode }) {
   const pathname = usePathname()
   if (pathname.startsWith("/preview/")) return children
