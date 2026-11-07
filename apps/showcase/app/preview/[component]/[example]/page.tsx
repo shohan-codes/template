@@ -1,4 +1,5 @@
 import CollapsibleShowcase from "@/app/components/collapsible/page"
+import DropdownShowcase from "@/app/components/dropdown/page"
 import { notFound } from "next/navigation"
 
 import AccordionShowcase from "@/app/components/accordion/page"
@@ -8,6 +9,7 @@ import TabsShowcase from "@/app/components/tabs/page"
 import { PreviewExample } from "@/components/preview-example"
 
 const showcases = {
+  dropdown: DropdownShowcase,
   collapsible: CollapsibleShowcase,
   accordion: AccordionShowcase,
   "code-block": CodeBlockShowcase,
