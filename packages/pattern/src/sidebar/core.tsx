@@ -1,4 +1,6 @@
 "use client"
+
+import { resolveSlots } from "../utilities/resolve-slots"
 import * as React from "react"
 import { getActiveSidebarDisclosures } from "./model"
 import type { SidebarCoreProps, SidebarItemData } from "./types"
@@ -23,7 +25,7 @@ export function SidebarCore({
   $button,
   ...rootProps
 }: SidebarCoreProps) {
-  const P = { ...defaultSlots, ...slots }
+  const P = resolveSlots(defaultSlots, slots)
   // Guard semantic fields at runtime as well as in the public TypeScript API.
   const buttonProps = Object.fromEntries(
     Object.entries($button ?? {}).filter(

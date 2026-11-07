@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useId, useState } from "react"
 import { ContextMenu, type ContextMenuItemData } from "@workspace/pattern"
 
 export default function PreferencesContextMenuExample() {
+  const hintId = useId()
   const [grid, setGrid] = useState(true)
   const [guides, setGuides] = useState(false)
   const [zoom, setZoom] = useState("100")
@@ -42,7 +43,18 @@ export default function PreferencesContextMenuExample() {
   ]
   return (
     <div className="min-h-105 space-y-4">
-      <ContextMenu items={items} trigger={`Canvas at ${zoom}%`} />
+      <ContextMenu
+        items={items}
+        trigger={`Canvas at ${zoom}%`}
+        $trigger={{
+          "aria-describedby": hintId,
+          className:
+            "flex min-h-40 w-full items-center justify-center rounded-xl border border-dashed bg-muted/30 p-6 text-center font-medium",
+        }}
+      />
+      <p id={hintId} className="text-xs text-muted-foreground">
+        Right-click, press and hold, or focus and press Shift+F10
+      </p>
       <p role="status" className="text-sm text-muted-foreground">
         Grid {grid ? "on" : "off"} · Guides {guides ? "on" : "off"} · Zoom{" "}
         {zoom}%

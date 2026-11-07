@@ -1,5 +1,6 @@
 "use client"
 
+import { resolveSlots } from "../../utilities/resolve-slots"
 import type { ComponentProps, ElementType } from "react"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
 import { Dropdown, type DropdownProps } from "../../dropdown"
@@ -55,7 +56,7 @@ export function ActionsContextMenu({
   ...props
 }: ActionsContextMenuProps) {
   if (props.items.length === 0) return null
-  const P = slots ? { ...defaultSlots, ...slots } : defaultSlots
+  const P = resolveSlots(defaultSlots, slots)
   return (
     <P.Container {...$container}>
       <ContextMenuCore

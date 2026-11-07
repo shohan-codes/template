@@ -1,5 +1,6 @@
 "use client"
 
+import { resolveSlots } from "../utilities/resolve-slots"
 import * as React from "react"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
 import type { TabsSlots, TypedTabsBaseProps } from "./core"
@@ -70,7 +71,7 @@ export function TypedTabsCore({
 
   if (items.length === 0) return null
 
-  const P = { ...defaultSlots, ...slots }
+  const P = resolveSlots(defaultSlots, slots)
   const handleValueChange = (nextValue: string) => {
     if (
       nextValue === resolvedValue ||

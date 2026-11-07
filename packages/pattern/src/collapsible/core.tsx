@@ -1,5 +1,6 @@
 "use client"
 
+import { resolveSlots } from "../utilities/resolve-slots"
 import type * as React from "react"
 import { Fragment } from "react"
 import type {
@@ -80,15 +81,20 @@ export function CollapsibleCore({
   $content,
   ...rootProps
 }: CollapsibleCoreProps) {
-  const P: Required<CollapsibleSlots> = {
-    Item: "div",
-    Group: "div",
-    GroupLabel: "div",
-    Separator: "hr",
-    Custom: Fragment,
-    ...defaultSlots,
-    ...slots,
-  }
+  const P = resolveSlots(
+    resolveSlots<Required<CollapsibleSlots>>(
+      {
+        ...defaultSlots,
+        Item: "div",
+        Group: "div",
+        GroupLabel: "div",
+        Separator: "hr",
+        Custom: Fragment,
+      },
+      defaultSlots
+    ),
+    slots
+  )
 
   function renderItems(
     entries: readonly CollapsibleItemData[]

@@ -25,6 +25,7 @@ export type SelectionContextMenuProps = ContextMenuProps & {
 
 /** Switch between single-item and bulk actions without changing menu primitives. */
 export function SelectionContextMenu({
+  defaultSlots = selectionContextMenuSlots,
   selectedIds,
   items,
   multipleItems,
@@ -40,7 +41,7 @@ export function SelectionContextMenu({
   const summary = selectionLabel(count)
   return (
     <ContextMenuCore
-      defaultSlots={selectionContextMenuSlots}
+      defaultSlots={defaultSlots}
       {...props}
       $content={{
         "aria-label":

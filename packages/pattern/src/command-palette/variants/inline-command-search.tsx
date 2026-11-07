@@ -24,8 +24,9 @@ export const inlineCommandSearchSlots: CommandSearchSlots = {
   Shortcut: defaultCommandPaletteSlots.Shortcut,
 }
 /** Always-visible command search, with no dialog, focus trap, trigger or close policy. */
-export function CommandSearch(props: CommandSearchProps) {
-  return (
-    <CommandSearchCore defaultSlots={inlineCommandSearchSlots} {...props} />
-  )
+export function CommandSearch({
+  defaultSlots = inlineCommandSearchSlots,
+  ...props
+}: CommandSearchProps) {
+  return <CommandSearchCore defaultSlots={defaultSlots} {...props} />
 }

@@ -96,6 +96,9 @@ export const defaultToolbarSlots: ToolbarSlots = {
   ToggleGroup,
   ToggleItem,
 }
-export function Toolbar(props: ToolbarProps) {
-  return <ToolbarCore defaultSlots={defaultToolbarSlots} {...props} />
+export function Toolbar({
+  defaultSlots = defaultToolbarSlots,
+  ...props
+}: ToolbarProps) {
+  return <ToolbarCore defaultSlots={defaultSlots} {...props} />
 }

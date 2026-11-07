@@ -1,5 +1,6 @@
 "use client"
 
+import { resolveSlots } from "../utilities/resolve-slots"
 import * as React from "react"
 import type {
   Command,
@@ -155,7 +156,7 @@ export function CommandSearchCore({
   $empty,
   $item,
 }: CommandSearchCoreProps) {
-  const P = { ...defaultSlots, ...slots }
+  const P = resolveSlots(defaultSlots, slots)
   const [internalQuery, setInternalQuery] = React.useState(defaultQuery)
   function changeQuery(next: string) {
     if (query === undefined) setInternalQuery(next)
@@ -234,7 +235,7 @@ export function CommandPaletteCore({
   $description,
   ...searchProps
 }: CommandPaletteCoreProps) {
-  const P = { ...defaultSlots, ...slots }
+  const P = resolveSlots(defaultSlots, slots)
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen)
   function changeOpen(next: boolean) {
     if (open === undefined) setInternalOpen(next)

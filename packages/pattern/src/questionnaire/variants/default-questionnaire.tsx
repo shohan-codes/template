@@ -41,11 +41,9 @@ export const defaultQuestionnaireSlots: QuestionnaireSlots = {
 
 export type { QuestionnaireProps }
 
-export function Questionnaire(props: QuestionnaireProps) {
-  return (
-    <QuestionnaireCore
-      defaultSlots={defaultQuestionnaireSlots}
-      {...props}
-    />
-  )
+export function Questionnaire({
+  defaultSlots = defaultQuestionnaireSlots,
+  ...props
+}: QuestionnaireProps) {
+  return <QuestionnaireCore defaultSlots={defaultSlots} {...props} />
 }

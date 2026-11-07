@@ -40,7 +40,7 @@ test("actions variant adds a named non-submit button beside the keyboard-accessi
     h(ActionsContextMenu, { ...base, menuLabel: "File actions" })
   )
   assert.match(markup, /tabindex="0"/)
-  assert.match(markup, /Shift\+F10/)
+  assert.doesNotMatch(markup, /Shift\+F10/)
   assert.match(markup, /type="button"/)
   assert.match(markup, /File actions/)
   assert.equal((markup.match(/aria-haspopup="menu"/g) ?? []).length, 2)

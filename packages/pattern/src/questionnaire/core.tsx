@@ -1,9 +1,13 @@
 "use client"
 
+import { resolveSlots } from "../utilities/resolve-slots"
 import * as React from "react"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
 
-import { resolveColumnClass, type QuestionnaireColumns } from "./utilities/columns"
+import {
+  resolveColumnClass,
+  type QuestionnaireColumns,
+} from "./utilities/columns"
 
 /* ========================================================================== *\
  * Headless Questionnaire Core Component
@@ -36,7 +40,7 @@ export function QuestionnaireCore({
 }: QuestionnaireCoreProps) {
   if (questions.length === 0) return null
 
-  const P = slots ? { ...defaultSlots, ...slots } : defaultSlots
+  const P = resolveSlots(defaultSlots, slots)
 
   // Automatically derive the item definitions for Root state tracking
   const itemDefinitions = questions.map((q) => ({
@@ -66,9 +70,7 @@ export function QuestionnaireCore({
           {q.title && <P.Title {...$title}>{q.title}</P.Title>}
 
           {q.description && (
-            <P.Description {...$description}>
-              {q.description}
-            </P.Description>
+            <P.Description {...$description}>{q.description}</P.Description>
           )}
 
           {((q.choices && q.choices.length > 0) || q.input) && (
@@ -88,13 +90,13 @@ export function QuestionnaireCore({
                       <span>{choice.label ?? choice.value}</span>
                       <span
                         data-slot="questionnaire-choice-description"
-                        className="text-muted-foreground text-xs"
+                        className="text-xs text-muted-foreground"
                       >
                         {choice.description}
                       </span>
                     </>
                   ) : (
-                    choice.label ?? choice.value
+                    (choice.label ?? choice.value)
                   )}
                 </P.Choice>
               ))}

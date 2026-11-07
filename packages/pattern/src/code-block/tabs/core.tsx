@@ -1,5 +1,6 @@
 "use client"
 
+import { resolveSlots } from "../../utilities/resolve-slots"
 import * as React from "react"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
 import type { CodeBlockCoreProps } from "../single/core"
@@ -151,7 +152,7 @@ export function MultiTabCodeBlockCore({
 
   if (!tabs || tabs.length === 0) return null
 
-  const P = slots ? { ...defaultSlots, ...slots } : defaultSlots
+  const P = resolveSlots(defaultSlots, slots)
 
   const activeTab = tabs.find((t) => t.id === activeId) ?? tabs[0]
   if (!activeTab) return null
@@ -168,7 +169,7 @@ export function MultiTabCodeBlockCore({
           onClick={() => handleTabChange(tab.id)}
           {...$tabTrigger}
           className={cn(
-            "inline-flex items-center gap-1.5 select-none transition-colors",
+            "inline-flex items-center gap-1.5 transition-colors select-none",
             $tabTrigger?.className
           )}
         >
@@ -211,4 +212,3 @@ export function MultiTabCodeBlockCore({
     </P.Root>
   )
 }
-

@@ -30,8 +30,9 @@ export const megaNavigationMenuSlots: NavigationMenuSlots = {
   Content,
 }
 /** A wider, grouped two-column panel that collapses inside narrow containers. */
-export function MegaNavigationMenu(props: NavigationMenuProps) {
-  return (
-    <NavigationMenuCore defaultSlots={megaNavigationMenuSlots} {...props} />
-  )
+export function MegaNavigationMenu({
+  defaultSlots = megaNavigationMenuSlots,
+  ...props
+}: NavigationMenuProps) {
+  return <NavigationMenuCore defaultSlots={defaultSlots} {...props} />
 }
