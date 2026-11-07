@@ -1,6 +1,6 @@
 "use client"
 
-import { SegmentedTabs, type TabItemData } from "@workspace/pattern"
+import { SegmentedTabs, type TypedTabItemData } from "@workspace/pattern"
 import {
   RiGitBranchLine,
   RiGitCommitLine,
@@ -11,8 +11,9 @@ import {
   RiExternalLinkLine,
 } from "@remixicon/react"
 
-const filterItems: readonly TabItemData[] = [
+const filterItems: readonly TypedTabItemData[] = [
   {
+    type: "tab",
     id: "all",
     label: "All Projects",
     badge: (
@@ -143,6 +144,7 @@ const filterItems: readonly TabItemData[] = [
     ),
   },
   {
+    type: "tab",
     id: "active",
     label: "In Progress",
     badge: (
@@ -235,6 +237,7 @@ const filterItems: readonly TabItemData[] = [
     ),
   },
   {
+    type: "tab",
     id: "archived",
     label: "Archived",
     content: (
@@ -258,7 +261,11 @@ export default function SegmentedTabsExample() {
   return (
     <div className="@container/tabs-example w-full min-w-0">
       <div className="mx-auto w-full max-w-xl">
-        <SegmentedTabs $list={{ className: "mx-auto" }} items={filterItems} />
+        <SegmentedTabs
+          mode="typed"
+          $list={{ "aria-label": "Project views", className: "mx-auto" }}
+          items={filterItems}
+        />
       </div>
     </div>
   )

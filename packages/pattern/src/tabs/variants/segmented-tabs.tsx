@@ -11,7 +11,7 @@ const Root = ({
   ...props
 }: React.ComponentProps<typeof TabsPrimitive.Root>) => (
   <TabsPrimitive.Root
-    className={cn("w-full flex flex-col gap-4", className)}
+    className={cn("flex w-full flex-col gap-4", className)}
     {...props}
   />
 )
@@ -35,9 +35,9 @@ const Trigger = ({
 }: React.ComponentProps<typeof TabsPrimitive.Trigger>) => (
   <TabsPrimitive.Trigger
     className={cn(
-      "inline-flex h-7 items-center justify-center gap-2 rounded-md border border-transparent px-3 text-xs font-medium whitespace-nowrap text-muted-foreground transition-all duration-150 select-none cursor-pointer outline-none hover:text-foreground",
+      "inline-flex h-7 cursor-pointer items-center justify-center gap-2 rounded-md border border-transparent px-3 text-xs font-medium whitespace-nowrap text-muted-foreground transition-all duration-150 outline-none select-none hover:text-foreground",
       "focus-visible:ring-2 focus-visible:ring-ring/50",
-      "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:font-medium data-[state=active]:shadow-xs",
+      "data-[state=active]:bg-background data-[state=active]:font-medium data-[state=active]:text-foreground data-[state=active]:shadow-xs",
       "dark:data-[state=active]:bg-secondary dark:data-[state=active]:text-foreground dark:data-[state=active]:shadow-xs",
       "disabled:pointer-events-none disabled:opacity-50",
       className
@@ -86,6 +86,7 @@ export type SegmentedTabsProps = TabsProps & {
 export function SegmentedTabs({
   pill = true,
   fullWidth = false,
+  defaultSlots = segmentedTabsSlots,
   className,
   $list,
   $trigger,
@@ -93,12 +94,12 @@ export function SegmentedTabs({
 }: SegmentedTabsProps) {
   return (
     <TabsCore
-      defaultSlots={segmentedTabsSlots}
+      defaultSlots={defaultSlots}
       className={cn("w-full", className)}
       $list={{
         ...$list,
         className: cn(
-          fullWidth ? "w-full grid grid-flow-col auto-cols-fr" : "w-fit",
+          fullWidth ? "grid w-full auto-cols-fr grid-flow-col" : "w-fit",
           pill && "rounded-full",
           $list?.className
         ),
