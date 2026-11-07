@@ -18,6 +18,17 @@ import CustomDropdownExampleRaw from "./custom-dropdown-example.tsx?raw" with {
   turbopackAs: "*.js",
 }
 
+import IconDropdownExample from "./icon-dropdown-example"
+import IconDropdownExampleRaw from "./icon-dropdown-example.tsx?raw" with {
+  turbopackLoader: "raw-loader",
+  turbopackAs: "*.js",
+}
+import SplitDropdownExample from "./split-dropdown-example"
+import SplitDropdownExampleRaw from "./split-dropdown-example.tsx?raw" with {
+  turbopackLoader: "raw-loader",
+  turbopackAs: "*.js",
+}
+
 const dropdownShowcaseItems: readonly ShowcaseItem[] = [
   {
     id: "action-dropdown",
@@ -42,6 +53,22 @@ const dropdownShowcaseItems: readonly ShowcaseItem[] = [
       "Runtime item-slot replacement and controlled open state with the same data-driven core and keyboard behavior.",
     code: CustomDropdownExampleRaw,
     preview: <CustomDropdownExample />,
+  },
+  {
+    id: "icon-dropdown",
+    title: "Icon Dropdown",
+    description:
+      "Compact overflow actions with a required accessible trigger name, disabled actions, and end alignment.",
+    code: IconDropdownExampleRaw,
+    preview: <IconDropdownExample />,
+  },
+  {
+    id: "split-dropdown",
+    title: "Split Dropdown",
+    description:
+      "A direct primary action and a separate alternatives menu, with controlled open state and independent callbacks.",
+    code: SplitDropdownExampleRaw,
+    preview: <SplitDropdownExample />,
   },
 ]
 
