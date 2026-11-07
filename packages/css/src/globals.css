@@ -2,7 +2,8 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+/* A light preview must not inherit the surrounding app's dark utilities. */
+@custom-variant dark (&:where(.dark *):not(:where([data-preview-theme="light"] *)));
 @source "../../../apps/**/*.{ts,tsx}";
 @source "../../../components/**/*.{ts,tsx}";
 @source "../../shadcn-ui/src/**/*.{ts,tsx}";

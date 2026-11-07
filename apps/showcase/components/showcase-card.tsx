@@ -45,7 +45,7 @@ export interface ShowcaseCardProps extends Omit<
   readonly lineNumbers?: boolean
   /** Whether to parse internal magic notations or display raw code (defaults to false). */
   readonly notations?: boolean
-  /** Same-origin isolated preview route, when available. */
+  /** Standalone shareable preview route, when available. */
   readonly previewSrc?: string
   /** Component interactive preview content. */
   readonly children: React.ReactNode
@@ -156,13 +156,11 @@ export function ShowcaseCard({
   )
 
   return (
-    <Card
-      className={cn("gap-0 overflow-hidden bg-secondary/5 py-0", className)}
-      {...props}
-    >
+    <Card className={cn("gap-0 bg-secondary/5 py-0", className)} {...props}>
       {previewSrc ? (
         <ShowcasePreview
           src={previewSrc}
+          children={children}
           title={typeof title === "string" ? title : "Component"}
           renderLayout={({ controls: previewControls, preview }) =>
             renderCard(preview, previewControls)
