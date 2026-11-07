@@ -80,6 +80,11 @@
       "types": "./dist/context-menu/index.d.ts",
       "import": "./dist/context-menu/index.js",
       "default": "./dist/context-menu/index.js"
+    },
+    "./command-palette": {
+      "types": "./dist/command-palette/index.d.ts",
+      "import": "./dist/command-palette/index.js",
+      "default": "./dist/command-palette/index.js"
     }
   }
 }

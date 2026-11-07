@@ -17,6 +17,13 @@ import {
 
 const patterns = [
   {
+    title: "Command Palette Pattern",
+    description:
+      "Typed command actions with a neutral dialog and an inline search variant.",
+    href: "/components/command-palette",
+    icon: RiStackLine,
+  },
+  {
     title: "Context Menu Pattern",
     description:
       "Typed contextual actions with keyboard access, nested menus and controlled preferences.",

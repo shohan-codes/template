@@ -1,3 +1,4 @@
+import CommandPaletteShowcase from "@/app/components/command-palette/page"
 import ContextMenuShowcase from "@/app/components/context-menu/page"
 import CollapsibleShowcase from "@/app/components/collapsible/page"
 import DropdownShowcase from "@/app/components/dropdown/page"
@@ -10,6 +11,7 @@ import TabsShowcase from "@/app/components/tabs/page"
 import { PreviewExample } from "@/components/preview-example"
 
 const showcases = {
+  "command-palette": CommandPaletteShowcase,
   "context-menu": ContextMenuShowcase,
   dropdown: DropdownShowcase,
   collapsible: CollapsibleShowcase,
