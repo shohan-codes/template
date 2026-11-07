@@ -4,21 +4,21 @@ Status: Proposed implementation guidance. This document does not describe featur
 
 [Proposal overview](README.md) · [Specification](spec.md)
 
-Showcase-এ প্রতিটি component family expand করলে তার variants দেখা যাবে। প্রতিটি variant-এর আলাদা page থাকবে, আর সেই page-এ ওই composition-এর numbered designs দেখানো হবে। এই নিয়ম পুরো catalog-এর জন্য, শুধু Accordion-এর জন্য নয়।
+Expanding a component family in the showcase reveals its variants. Each variant has a separate page showing numbered designs for that composition. This rule applies to the entire catalog, not only Accordion.
 
-**অবস্থা:** এটি সম্মত showcase requirement ও তার ভিত্তিতে প্রস্তাবিত implementation guidance। এখনো showcase code পরিবর্তন করা হয়নি।
+**Status:** This is an agreed showcase requirement with proposed implementation guidance. This documentation does not change showcase code.
 
-## সম্মত navigation model
+## Agreed navigation model
 
-- Sidebar-এ family একটি expandable/collapsible parent হবে। Parent-এ click করলে তার variant links প্রকাশ পাবে।
+- Each family is an expandable/collapsible parent in the sidebar. Clicking the parent reveals its variant links.
 
-- প্রতিটি variant আলাদা navigation item ও আলাদা page পাবে।
+- Each variant has its own navigation item and page.
 
-- একটি family page-এ সব variant একের পর এক stack করে দেখানোই মূল navigation হবে না। Family overview থাকলে তা সংক্ষিপ্ত পরিচিতি ও variant links দেবে।
+- Stacking all variants on one family page is not the primary navigation model. An optional family overview provides a brief introduction and variant links.
 
-- Variant page-এ `01`, `02`, `03` হলো একই composition-এর ভিন্ন visual designs। Composition আলাদা হলে নতুন variant হবে।
+- On a variant page, `01`, `02`, and `03` represent different visual designs of the same composition. A different composition requires a new variant.
 
-- নতুন family, variant ও design একই generic model-এ যোগ হবে। Accordion-এর জন্য আলাদা hard-coded navigation logic লেখা হবে না।
+- Add new families, variants, and designs through the same generic model. Do not hard-code navigation logic specifically for Accordion.
 
 ## Navigation tree
 
@@ -37,56 +37,56 @@ Showcase sidebar
     └── TanStack                  → variant/implementation page + designs
 ```
 
-নাম ও example variants illustrative। Hierarchy guide-এর composition বনাম integration/engine পার্থক্য বজায় থাকবে; শুধু sidebar-এ একই level-এ দেখানোর কারণে তাদের semantics এক হয়ে যাবে না।
+Names and example variants are illustrative. Preserve the hierarchy guide's distinction between composition and integration/engine. Showing them at the same sidebar level does not make their semantics identical.
 
-## প্রস্তাবিত catalog এবং routing
+## Proposed catalog and routing
 
-- একটি typed catalog/manifest থেকে sidebar, variant links, breadcrumbs ও design listing তৈরি করা যেতে পারে। Family/variant ID, label, description, design entries ও preview loader আলাদা থাকবে।
+- A typed catalog/manifest may generate the sidebar, variant links, breadcrumbs, and design listings. Keep family/variant IDs, labels, descriptions, design entries, and preview loaders distinct.
 
-- Runtime UI registry এবং showcase metadata এক জিনিস নয়। Navigation তৈরি করতে সব component implementation eager-import করা লাগবে না।
+- A runtime UI registry is not the same as showcase metadata. Building navigation must not require eager imports of every component implementation.
 
-- উদাহরণ route: `/components/:family/:variant`। নির্দিষ্ট design-এর shareable anchor বা nested route থাকতে পারে, কিন্তু শুরুতেই সব numbered design sidebar-এ ছড়িয়ে দেওয়া প্রয়োজন নেই।
+- Example route: `/components/:family/:variant`. A design may have a shareable anchor or nested route, but there is no need to put every numbered design directly in the sidebar from the start.
 
-- Direct URL খুললেও সঠিক variant active থাকবে এবং তার parent family expanded থাকবে। Back/forward navigation-এ route ও sidebar state মিলতে হবে।
+- Opening a direct URL must activate the correct variant and expand its parent family. Route and sidebar state must stay aligned during back/forward navigation.
 
-- Design সংখ্যা বেশি হলে সেই variant page-এ local picker, search বা lazy preview ব্যবহার করা যায়। এতে family/variant navigation অপরিবর্তিত থাকবে।
+- For variants with many designs, use a local picker, search, or lazy preview on the variant page. Family/variant navigation remains unchanged.
 
-- Component name, variant label ও tags দিয়ে catalog search/filter রাখা যায়। Search result সরাসরি সঠিক variant/design-এ নিয়ে যাবে।
+- The catalog may support search/filter by component name, variant label, and tags. Search results should lead directly to the relevant variant/design.
 
-## Variant page-এর প্রস্তাবিত বিষয়বস্তু
+## Proposed variant-page contents
 
-- Family ও variant পরিচয় এবং সংক্ষিপ্ত ব্যবহার নির্দেশনা।
+- Family and variant identification with brief usage guidance.
 
-- প্রত্যেক numbered design-এর preview, import path, data/config example এবং প্রয়োজনীয় props/slots-এর সংযোগ।
+- A preview, import path, data/config example, and links to relevant props/slots for each numbered design.
 
-- Design নিজে নতুন component name বাধ্যতামূলক করবে না; path দিয়ে নির্বাচন ও প্রয়োজনে import alias ব্যবহারের নিয়ম থাকবে।
+- A design does not require a new component name. Document selection by import path and optional import aliases.
 
-- Loading, empty, error, disabled এবং interactive states যেখানে প্রযোজ্য সেখানে দেখা যাবে।
+- Loading, empty, error, disabled, and interactive states where applicable.
 
-- Responsive preview ও theme controls একরকম হবে, যাতে designs তুলনা করা যায়।
+- Consistent responsive-preview and theme controls so designs can be compared.
 
-- Demo-local actions বাস্তব destructive API কল করবে না; প্রয়োজন হলে mock/controlled example ব্যবহার করবে।
+- Demo-local actions must not call real destructive APIs. Use mocks or controlled examples where needed.
 
-## Accessibility এবং scalable behavior
+## Accessibility and scalable behavior
 
-- Family expand control একটি keyboard-operable button হবে; expanded state ও controlled region সঠিকভাবে প্রকাশ করবে।
+- The family expand control must be a keyboard-operable button that correctly exposes its expanded state and controlled region.
 
-- Variant item navigation link হবে, active page স্পষ্ট হবে। যদি family overview link-ও থাকে, expand toggle ও navigation action যেন অস্পষ্ট একই control না হয়।
+- Each variant item is a navigation link with a clear active-page state. If a family overview link also exists, do not ambiguously combine expansion and navigation into the same control.
 
-- Sidebar keyboard focus, visible focus, collapsed item behavior এবং mobile drawer/close behavior পরীক্ষা করতে হবে।
+- Test sidebar keyboard focus, visible focus, collapsed-item behavior, and mobile drawer/close behavior.
 
-- সব preview একসঙ্গে mount না করে প্রয়োজন অনুযায়ী load করো। একটি preview failure যেন পুরো catalog ভেঙে না দেয়।
+- Load previews as needed instead of mounting them all at once. One failed preview must not break the entire catalog.
 
-- Missing/duplicate catalog ID, missing variant route ও unavailable preview-এর জন্য স্পষ্ট fallback ও validation রাখো।
+- Provide clear fallbacks and validation for missing/duplicate catalog IDs, missing variant routes, and unavailable previews.
 
-## সম্পন্ন হওয়ার শর্ত
+## Definition of done
 
-1. অন্তত কয়েকটি ভিন্ন family দিয়ে একই navigation logic পরীক্ষা করো; শুধু Accordion demo যথেষ্ট নয়।
+1. Test the same navigation logic with several different families. An Accordion-only demo is not enough.
 
-2. Family expand/collapse, variant link, direct URL, refresh, back/forward এবং active-state behavior যাচাই করো।
+2. Verify family expand/collapse, variant links, direct URLs, refresh, back/forward, and active-state behavior.
 
-3. প্রত্যেক variant page শুধু তার সঠিক numbered designs দেখায় কি না পরীক্ষা করো।
+3. Verify that each variant page shows only its correct numbered designs.
 
-4. Desktop/mobile, keyboard, overflow, long names, অনেক family/variant এবং loading/error অবস্থায় manual review করো।
+4. Manually review desktop/mobile, keyboard operation, overflow, long names, many families/variants, and loading/error states.
 
-5. [Testing and Visual QA](testing-visual-qa.md)-এর completion rules অনুসরণ করো; implementation, screenshots ও actual checks ছাড়া finished বলা যাবে না।
+5. Follow the completion rules in [Testing and Visual QA](testing-visual-qa.md). Do not call the work finished without implementation, screenshots, and actual checks.

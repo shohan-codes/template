@@ -4,72 +4,72 @@ Status: Proposed implementation guidance. This document does not describe featur
 
 [Proposal overview](README.md) · [Specification](spec.md)
 
-কেন এই library বানানো হচ্ছে, কী অর্জন করতে হবে, কোন কাজ এর scope নয়, এবং উদাহরণ থেকে সাধারণ principle কীভাবে বের করতে হবে।
+Why this library exists, what it should achieve, what is outside its scope, and how to derive general principles from examples.
 
-এখানে স্থির principle ও প্রস্তাবিত উদাহরণ আলাদা করে চিহ্নিত। এগুলো architecture নির্দেশনা; নতুন system implement হয়েছে এমন দাবি নয়।
+Agreed principles and proposed examples are identified separately. These are architecture instructions, not claims that the new system has been implemented.
 
-## Purpose এবং philosophy
+## Purpose and philosophy
 
-Ready-made UI দ্রুত ব্যবহার করা যাবে, আবার library-র সীমা ছাড়িয়ে প্রয়োজন বাড়লে সেটিকে extend করাও যাবে। সাধারণ ব্যবহার সহজ রাখব; advanced ব্যবহার বন্ধ করব না। একই composition ও interaction বারবার লেখার বদলে প্রয়োজনমতো reuse হবে, কিন্তু design freedom হারিয়ে একটি অতিরিক্ত generic abstraction বানানো হবে না।
+Ready-made UI should be quick to use and remain extensible when requirements grow beyond the library's defaults. Keep ordinary usage simple without blocking advanced usage. Reuse composition and interaction where useful instead of writing them repeatedly, but do not sacrifice design freedom for an overly generic abstraction.
 
 ## Goals
 
-- Component import করে data/configuration দিয়ে কার্যকর, ব্যবহারযোগ্য UI পাওয়া।
+- Obtain functional, usable UI by importing a component and supplying data/configuration.
 
-- বড় catalog-এ family, composition variant ও visual design সহজে খুঁজে পাওয়া।
+- Make families, composition variants, and visual designs easy to discover in a large catalog.
 
-- আলাদা design import, typed API, native props এবং slot-based customization বজায় রাখা।
+- Preserve separate design imports, typed APIs, native props, and slot-based customization.
 
-- Existing component-এর ওপর wrapper দিয়ে নতুন component বানানোর সুযোগ রাখা।
+- Allow new components to be built by wrapping existing components.
 
-- একই ধরনের component ব্যবহার শেখার খরচ কমাতে অর্থপূর্ণ API consistency রাখা।
+- Maintain meaningful API consistency to reduce the learning cost of similar components.
 
-- Visual quality, behavior, accessibility, type safety ও bundle impact যাচাইযোগ্য রাখা।
+- Make visual quality, behavior, accessibility, type safety, and bundle impact verifiable.
 
-## Non goals
+## Non-goals
 
-- প্রতিটি component-কে একটি universal layout, একই props বা একই interaction-এ বাধ্য করা।
+- Force every component into a universal layout, identical props, or identical interactions.
 
-- একটি giant component-এ সব design switch করে load করা।
+- Load every design through a giant component with a design switch.
 
-- প্রতিবার reuse-এর আগে সব code generic shared/core-এ সরিয়ে নেওয়া।
+- Move all reusable code into generic shared/core modules before allowing reuse.
 
-- shadcn primitives package-এ business UI বা project-specific logic ঢোকানো।
+- Put business UI or project-specific logic in the shadcn primitives package.
 
-- Plain field-কে React Hook Form-এর ওপর বাধ্যতামূলকভাবে নির্ভরশীল করা।
+- Make the plain field depend on React Hook Form.
 
-- Numbered design-কে version upgrade বা আগের design-এর replacement ধরে নেওয়া।
+- Treat a numbered design as a version upgrade or replacement for an earlier design.
 
-- প্রস্তাবিত architecture লেখা মানেই code implement হয়েছে ধরে নেওয়া।
+- Treat a written architecture proposal as implemented code.
 
-## Guide ব্যবহার করার নিয়ম
+## How to use this guide
 
-এটি SKILL.md-style architecture guide: নতুন pattern তৈরি, existing pattern extend, API review ও design review-এর সময় ব্যবহারযোগ্য। এটি কোনো installed executable skill নয়।
+This is a SKILL.md-style architecture guide for creating new patterns, extending existing patterns, reviewing APIs, and reviewing designs. It is not an installed executable skill.
 
-কাজ শুরুর আগে family, variant/composition এবং design নির্ধারণ করো। বিদ্যমান component সরাসরি reuse করা যায় কি না দেখো। তারপর typed data contract, slots ও public props ঠিক করে implementation এবং checks করো। নতুন সিদ্ধান্ত হলে সংশ্লিষ্ট নিয়ম আপডেট করো; পুরোনো ও নতুন বিরোধপূর্ণ নির্দেশ পাশাপাশি রেখো না।
+Before starting, identify the family, variant/composition, and design. Check whether an existing component can be reused directly. Then define typed data contracts, slots, and public props before implementing and verifying the result. When a decision changes, update the relevant rule rather than leaving contradictory old and new instructions side by side.
 
-**স্থির দিকনির্দেশ:** নিচের hierarchy, reuse, slots, extensible props, integration variants ও type-driven configuration।
+**Agreed direction:** The hierarchy, reuse, slots, extensible props, integration variants, and type-driven configuration described in this guide.
 
-**উদাহরণ ও নাম পরিবর্তনযোগ্য:** আলোচনায় বলা component/type তালিকা, naming এবং tree-এর নামগুলো illustrative, exhaustive বা চূড়ান্ত সীমা নয়। আরও উপযোগী component, variant, field type বা naming convention থাকলে যুক্তিসহ প্রস্তাব করা যাবে। Purpose, extensibility এবং consistency বজায় রেখে ভালো সিদ্ধান্ত নিতে হবে; উদাহরণকে অন্ধভাবে স্থির rule ধরা যাবে না। নতুন সুপারিশ ও স্থির principle আলাদা করে জানাতে হবে।
+**Examples and names remain open:** The component/type lists, names, and tree entries discussed are illustrative, not exhaustive or final boundaries. Propose additional components, variants, field types, or better naming conventions with reasons. Exercise judgment while preserving purpose, extensibility, and consistency; do not blindly turn examples into fixed rules. Clearly distinguish new recommendations from agreed principles.
 
-## নতুন প্রয়োজন থেকে pattern বের করার পদ্ধতি
+## Deriving patterns from new requirements
 
-এই guide অনুসরণকারীর কাজ শুধু উল্লেখ করা component-গুলো নকল করা নয়। প্রতিটি উদাহরণ থেকে সাধারণ প্রয়োজন বের করে তার কাছাকাছি গুরুত্বপূর্ণ use case-ও বিবেচনা করতে হবে।
+Following this guide means more than copying the components already mentioned. Derive the general need behind each example and consider important related use cases.
 
-1. **কাজটি চিহ্নিত করো:** consumer কী দেখাতে, বেছে নিতে, চালাতে, সম্পাদনা করতে বা navigate করতে চায়?
+1. **Identify the task:** What does the consumer need to display, select, execute, edit, or navigate?
 
-2. **Shape চিহ্নিত করো:** single value, homogeneous list, mixed typed items, tree, table, sequence, graph, নাকি free-form content?
+2. **Identify the shape:** Is it a single value, homogeneous list, mixed typed items, tree, table, sequence, graph, or free-form content?
 
-3. **Interaction চিহ্নিত করো:** disclosure, selection, editing, navigation, command execution, async fetching বা drag/reorder আছে কি?
+3. **Identify the interaction:** Does it involve disclosure, selection, editing, navigation, command execution, asynchronous fetching, or drag/reorder?
 
-4. **বিভাজন করো:** নতুন family দরকার, নাকি existing family-র composition variant, visual design, state prop বা integration adapter যথেষ্ট?
+4. **Separate the concerns:** Does it require a new family, or would an existing family's composition variant, visual design, state prop, or integration adapter suffice?
 
-5. **Reuse যাচাই করো:** সরাসরি existing design/component reuse করা পরিষ্কার হলে সেটাই করো। নতুন generic core বানানো automatic প্রথম ধাপ নয়।
+5. **Check reuse:** Reuse an existing design/component directly when that is clear. Creating a new generic core is not automatically the first step.
 
-6. **সম্পর্কিত সুযোগ খুঁজে বের করো:** ব্যবহারকারীর উদাহরণ ছাড়াও একই principle কোন কাজে প্রযোজ্য এবং কোথায় নয়, দুটোই বিবেচনা করো।
+6. **Find related opportunities:** Consider where the same principle applies beyond the user's examples and where it does not.
 
-7. **প্রস্তাব ব্যাখ্যা করো:** নতুন naming, family বা abstraction-এর সুবিধা, খরচ এবং compatibility impact সংক্ষেপে জানাও। নামগুলো বাড়ানোই অগ্রগতি নয়।
+7. **Explain the proposal:** Briefly state the benefits, costs, and compatibility impact of a new name, family, or abstraction. Adding names alone is not progress.
 
-8. **ছোট consumer example দিয়ে যাচাই করো:** সাধারণ ব্যবহার data/config দিয়েই হয় কি, native/advanced props হারায় কি, আর extension করলে API ভাঙে কি না দেখো।
+8. **Verify with a small consumer example:** Check whether ordinary use needs only data/config, whether native/advanced props remain available, and whether extension breaks the API.
 
-কথা থেকে principle নেওয়ার অর্থ অনুমতি ছাড়া repository refactor বা নতুন features implement করা নয়। এই guide-এর বিস্তার architecture proposal; implementation আলাদা অনুমোদিত কাজ।
+Deriving principles from a discussion does not authorize repository refactoring or new feature implementation. The broader scope of this guide is an architecture proposal; implementation remains a separately authorized task.

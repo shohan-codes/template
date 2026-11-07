@@ -9,7 +9,7 @@
 
 Make ready-made components usable with data/configuration while retaining native props, typed slots and wrapper-based extension. Organize families, composition variants and numbered visual designs; reuse code directly where appropriate rather than forcing everything into a generic shared core. Showcase navigation should expand every family into variant pages.
 
-The user-provided examples are starting points, not an exhaustive catalog or fixed naming scheme. Generalize the principles, propose justified improvements and keep design recommendations distinct from implemented facts. The detailed guides preserve Bengali discussion context with English technical identifiers.
+The user-provided examples are starting points, not an exhaustive catalog or fixed naming scheme. Generalize the principles, propose justified improvements and keep design recommendations distinct from implemented facts. The detailed guides use English throughout, preserving the architecture decisions and examples from the discussion.
 
 ## Reading order
 

@@ -4,59 +4,59 @@ Status: Proposed implementation guidance. This document does not describe featur
 
 [Proposal overview](README.md) · [Specification](spec.md)
 
-Variant-local core, সরাসরি component reuse, extensible props, default/runtime slots, state ownership এবং typed API contract।
+Variant-local cores, direct component reuse, extensible props, default/runtime slots, state ownership, and typed API contracts.
 
-এখানে স্থির principle ও প্রস্তাবিত উদাহরণ আলাদা করে চিহ্নিত। এগুলো architecture নির্দেশনা; নতুন system implement হয়েছে এমন দাবি নয়।
+Agreed principles and proposed examples are identified separately. These are architecture instructions, not claims that the new system has been implemented.
 
-## Core এবং সরাসরি reuse
+## Core and direct reuse
 
-- Core variant-এর direct child থাকবে, বাধ্যতামূলকভাবে `shared`-এ নয়।
+- Keep the core as a direct child of its variant, not necessarily in `shared`.
 
-- Core ছোট হলে `core.tsx`; বড় হলে দায়িত্ব অনুযায়ী `core/`-এর ভেতর কয়েকটি file, আর `core/index.ts` থেকে প্রয়োজনীয় exports। শুধু line কমানোর জন্য অযথা ভাগ করা হবে না।
+- Use `core.tsx` for a small core. For a large core, split files by responsibility inside `core/` and expose the necessary exports through `core/index.ts`. Do not split files merely to reduce line counts.
 
-- `02.tsx` চাইলে `01.tsx`-এর exported component, props বা reusable অংশ import করে extend করতে পারবে। আগে সেই অংশ `shared`-এ সরানো বাধ্যতামূলক নয়।
+- `02.tsx` may import and extend an exported component, props, or reusable part from `01.tsx`. Moving that part into `shared` first is not required.
 
-- Dependency একদিকে থাকবে। `02 → 01` হলে `01 → 02` হবে না; circular import এড়াতে হবে।
+- Dependencies must remain one-way. If `02 → 01`, do not also introduce `01 → 02`; avoid circular imports.
 
-- Number মানেই inheritance নয়। একই composition-এর design স্বাধীনভাবেও তৈরি হতে পারে।
+- Numbering does not imply inheritance. Designs with the same composition may also be implemented independently.
 
-- Composition আলাদা হয়ে গেলে অন্য variant/local core নেওয়া যাবে। সব design-কে একটি অতিরিক্ত generic core-এ জোর করে ঢোকানো হবে না।
+- When composition differs, use another variant/local core. Do not force every design into an overly generic core.
 
-- Base component বদলালে তার ওপর নির্ভরশীল design-গুলোও যাচাই করতে হবে।
+- When a base component changes, verify the designs that depend on it as well.
 
-## Props এবং slot contract
+## Props and slot contracts
 
-- Wrapper নিজের নতুন props যোগ করবে, পাশাপাশি base component-এর উপযোগী existing/default props, events ও overrides বজায় রাখবে। Props অকারণে সংকীর্ণ করা হবে না।
+- A wrapper adds its new props while preserving applicable existing/default props, events, and overrides from its base component. Do not narrow props unnecessarily.
 
-- `defaultSlots` হবে ready design-এর component mapping; `slots` হবে নির্দিষ্ট ব্যবহারের runtime override। একই key-তে runtime slot অগ্রাধিকার পাবে।
+- `defaultSlots` is the ready design's component mapping; `slots` contains runtime overrides for a particular usage. A runtime slot takes precedence for the same key.
 
-- Core-এর ভিতরে নির্দিষ্ট design component hard-code করা হবে না। যেমন Sidebar-এর Dropdown/Collapsible বদলানোর প্রয়োজন হলে সেগুলো typed slots দিয়ে আসবে। Default wrapper প্রয়োজনীয় implementations inject করবে।
+- Do not hard-code specific design components inside the core. For example, if a Sidebar's Dropdown/Collapsible must be replaceable, receive them through typed slots. The default wrapper injects the required implementations.
 
-- Slot-specific props-ও typed হবে, যাতে autocomplete ও invalid-prop checking থাকে।
+- Type slot-specific props to preserve autocomplete and invalid-prop checking.
 
-- মিল আছে এমন component-এ অর্থপূর্ণভাবে data shape, props নাম, selection/open state ও callback naming মিল রাখা হবে। Dropdown ও Context Menu-র common অংশ মিলতে পারে; তাদের আলাদা interaction/accessibility আচরণ বজায় থাকবে।
+- Keep data shapes, prop names, selection/open state, and callback names meaningfully consistent across related components. Dropdown and Context Menu may share common aspects while retaining their distinct interaction/accessibility behavior.
 
-- Primitive component-এর দায়িত্ব এবং composition core-এর দায়িত্ব আলাদা থাকবে। সব interaction core-এ নতুন করে লেখা প্রয়োজন নেই।
+- Separate primitive responsibilities from composition-core responsibilities. Not every interaction needs to be reimplemented in the core.
 
-## প্রস্তাবিত API contract এবং extension নিয়ম
+## Proposed API contracts and extension rules
 
-### Data এবং behavior আলাদা রাখা
+### Separate data and behavior
 
-- প্রতিটি state-এর owner স্পষ্ট: internal default, controlled consumer, অথবা external adapter। এক state-এর জন্য দুটি source of truth নয়।
+- Give each state an explicit owner: internal default, controlled consumer, or external adapter. Do not create two sources of truth for one state.
 
-- স্থায়ী identity দরকার হলে item `id` ব্যবহার করবে। Selection, reordering বা async refresh-এর ক্ষেত্রে array index identity হিসেবে যথেষ্ট নয়।
+- Use an item `id` when stable identity is required. An array index is insufficient identity for selection, reordering, or asynchronous refresh.
 
-- `label`, `description`, `disabled`, `children`-এর মতো নাম একই অর্থে reuse করা যায়। `value` এবং `id` এক জিনিস ধরে নেওয়া যাবে না।
+- Reuse names such as `label`, `description`, `disabled`, and `children` with consistent meanings. Do not assume that `value` and `id` are interchangeable.
 
-- Value change, command selection ও navigation আলাদা event। Consistency মানে সবকিছুর নাম `onChange` করা নয়।
+- Value changes, command selection, and navigation are different events. Consistency does not mean calling everything `onChange`.
 
-- Consumer callbacks না থাকলে action কী করবে, empty/loading/error অবস্থায় UI কী দেখাবে, controlled/default props একসঙ্গে দিলে কী হবে, এসব contract-এ বলা থাকবে।
+- Document what an action does without consumer callbacks, what appears in empty/loading/error states, and what happens if controlled and default props are supplied together.
 
-### Type map এবং renderer map
+### Type maps and renderer maps
 
-TypeScript union প্রতিটি type-এর বৈধ payload বলবে; renderer map সেই type-কে implementation-এর সঙ্গে যুক্ত করবে। Type যোগ করে renderer বাদ পড়া বা renderer যোগ করে props contract বাদ পড়া build-time বা registration-time check-এ ধরা উচিত।
+The TypeScript union defines the valid payload for each type; the renderer map connects that type to an implementation. Build-time or registration-time checks should catch a type without a renderer or a renderer without a props contract.
 
-প্রস্তাবিত recursive model:
+Proposed recursive model:
 
 ```text
 Item
@@ -67,46 +67,46 @@ Item
 └── custom      → typed render/slot contract
 ```
 
-এটি menu-like structure-এর উদাহরণ; form, tree বা timeline একই union হুবহু ব্যবহার করবে না। একই vocabulary সম্ভব হলে reuse করবে, কিন্তু family-specific types থাকবে।
+This illustrates a menu-like structure. Forms, trees, and timelines should not use this exact union unchanged. Reuse vocabulary where meaningful while retaining family-specific types.
 
-Runtime JSON/API থেকে config এলে TypeScript একা validation করে না। প্রয়োজনমতো runtime schema validation, unsupported type handling এবং error reporting থাকবে। Recursive input-এর depth/cycle guard এবং large collection-এর rendering strategy-ও বিবেচ্য।
+TypeScript alone does not validate config received as runtime JSON/API data. Provide runtime schema validation, unsupported-type handling, and error reporting as needed. Also consider depth/cycle guards for recursive input and rendering strategies for large collections.
 
-### Slots এবং props-এর precedence
+### Slot and prop precedence
 
-- Component selection: default slots-এর ওপর consumer-provided `slots` override।
+- Component selection: consumer-provided `slots` override default slots.
 
-- Slot props: default, design-level এবং consumer-level props-এর merge policy স্পষ্ট হতে হবে। Event handlers, `className`, `style` ও refs-এর জন্য সাধারণ object spread সবসময় যথেষ্ট নয়।
+- Slot props: define an explicit merge policy for default, design-level, and consumer-level props. A simple object spread is not always enough for event handlers, `className`, `style`, and refs.
 
-- Override-এ required accessibility props বা core handlers যেন ভুলে মুছে না যায়। Extension contract-এ কোনটা compose হবে এবং কোনটা replace হবে বলা থাকবে।
+- Overrides must not accidentally erase required accessibility props or core handlers. The extension contract should say what is composed and what is replaced.
 
-- Core replaceable components-কে slots হিসেবে গ্রহণ করবে; একটি design wrapper তার defaults inject করতে পারবে। Plain DOM structure-এর প্রত্যেকটি span আলাদা slot বানানো বাধ্যতামূলক নয়।
+- The core accepts replaceable components as slots; a design wrapper can inject its defaults. Not every plain DOM span needs a separate slot.
 
-- Wrapper native props forwarding, refs এবং generic value types বজায় রাখবে; `any` দিয়ে extensibility দেখানো হবে না।
+- Wrappers preserve native prop forwarding, refs, and generic value types. Do not use `any` as a substitute for extensibility.
 
-- Slot component identity অযথা প্রতি render-এ বদলালে remount/state loss হতে পারে। Stable definitions এবং প্রয়োজনমতো render functions-এর ভিন্ন contract বিবেচনা করতে হবে।
+- Unnecessarily changing a slot component's identity on every render may cause remounts/state loss. Consider stable definitions and, where needed, distinct contracts for render functions.
 
-### Dependency এবং bundle সীমা
+### Dependency and bundle boundaries
 
-একটি design অন্য design reuse করলে সেই dependency bundle-এ যুক্ত হওয়া স্বাভাবিক। লক্ষ্য সবসময় zero dependency নয়, প্রয়োজনীয় code-ই থাকা এবং কী load হচ্ছে তা বোঝা। Direct imports অনুমোদিত; deep inheritance chain জটিল হলে existing design ভেঙে না দিয়ে composition boundary পুনর্বিবেচনা করা যাবে।
+When one design reuses another, including that dependency in the bundle is expected. The goal is not always zero dependencies; it is to include necessary code and understand what loads. Direct imports are allowed. If a deep inheritance chain becomes complicated, reconsider composition boundaries without breaking existing designs.
 
-Public barrel, subpath exports, CSS side effects এবং client/server boundary consumer build দিয়ে যাচাই করতে হবে। শুধুমাত্র source alias-ভিত্তিক showcase পাস করাকে published package পাস ধরা যাবে না।
+Verify public barrels, subpath exports, CSS side effects, and client/server boundaries with a consumer build. A showcase passing through source aliases alone does not establish that the published package works.
 
-## বর্তমান code থেকে পাওয়া প্রমাণ
+## Evidence from current code
 
 **Starter template:**
 
-- `packages/pattern/src/accordion/variants/default-accordion.tsx` primitives-কে `defaultAccordionSlots`-এ map করে core-এ inject করে।
+- `packages/pattern/src/accordion/variants/default-accordion.tsx` maps primitives into `defaultAccordionSlots` and injects them into the core.
 
-- `card-accordion.tsx` আলাদা `CardAccordion` export করে এবং card slots দিয়ে default wrapper reuse করে।
+- `card-accordion.tsx` exports a separate `CardAccordion` and reuses the default wrapper with card slots.
 
-- `accordion/core.tsx` defaults-এর ওপর runtime slots merge করে।
+- `accordion/core.tsx` merges runtime slots over the defaults.
 
-**Reference project:** `ecomsaashq/frontend/packages/ui/src/patterns` বর্তমানে flat structure। নতুন numbered hierarchy সেখানে implement করা হয়নি।
+**Reference project:** `ecomsaashq/frontend/packages/ui/src/patterns` currently has a flat structure. The proposed numbered hierarchy has not been implemented there.
 
-- `record-dialog.tsx` সরাসরি `form-dialog.tsx` থেকে header ও size constants reuse করে।
+- `record-dialog.tsx` directly reuses header and size constants from `form-dialog.tsx`.
 
-- `danger-card.tsx` `SectionCard` wrap করে; `record-table.tsx` `DataTable` compose করে।
+- `danger-card.tsx` wraps `SectionCard`; `record-table.tsx` composes `DataTable`.
 
-- Picker components `PickerTrigger`, `PickerPopover` ও `PickerGrid` reuse করে।
+- Picker components reuse `PickerTrigger`, `PickerPopover`, and `PickerGrid`.
 
-এগুলো direct composition/reuse-এর উদাহরণ, নতুন hierarchy-র implementation নয়।
+These demonstrate direct composition/reuse, not implementation of the new hierarchy.

@@ -4,22 +4,22 @@ Status: Proposed implementation guidance. This document does not describe featur
 
 [Proposal overview](README.md) · [Specification](spec.md)
 
-TanStack reference থেকে table mechanics, data/state ownership ও richer composition-এর ধারণা এবং যাচাই প্রয়োজন এমন সীমা।
+Ideas from the TanStack reference for table mechanics, data/state ownership, richer compositions, and limitations requiring verification.
 
-এখানে স্থির principle ও প্রস্তাবিত উদাহরণ আলাদা করে চিহ্নিত। এগুলো architecture নির্দেশনা; নতুন system implement হয়েছে এমন দাবি নয়।
+Agreed principles and proposed examples are identified separately. These are architecture instructions, not claims that the new system has been implemented.
 
-## TanStack Table থেকে নেওয়ার ধারণা
+## Ideas to take from TanStack Table
 
-Reference project-এর DataTable ও RecordTable থেকে নেওয়ার উপযোগী ধারণা:
+Useful ideas from the reference project's DataTable and RecordTable:
 
-- Generic typed `data` ও `columns`, typed column metadata এবং stable row IDs।
+- Generic typed `data` and `columns`, typed column metadata, and stable row IDs.
 
-- Client-owned state ও server-owned pagination/sorting স্পষ্টভাবে আলাদা। Fetching, URL state, permissions ও mutations consuming app-এর দায়িত্ব।
+- Explicit separation of client-owned state and server-owned pagination/sorting. Fetching, URL state, permissions, and mutations remain the consuming app's responsibility.
 
-- Numbered এবং cursor pagination, controlled selection ও bulk actions।
+- Numbered and cursor pagination, controlled selection, and bulk actions.
 
-- Toolbar ও empty-state injection; initial loading এবং background fetching-এর আলাদা UI।
+- Toolbar and empty-state injection; distinct UI for initial loading and background fetching.
 
-- Base table-এর ওপর RecordTable-এর মতো richer composition বানানো যাবে; সবার জন্য সেটি বাধ্যতামূলক নয়।
+- Richer compositions such as RecordTable may be built on the base table without making them mandatory for every consumer.
 
-Reference-এর `data-table.tsx` এখন behavior ও rendering একসঙ্গে রাখে; সরাসরি headless core ধরে কপি করা যাবে না। Virtualization, grouping, resizing/pinning ও editable cells পরবর্তী সম্ভাবনা, বর্তমান implementation-এ পাওয়া features নয়। `pageSize={false}` নিয়ে static review-এর সম্ভাব্য সমস্যা runtime test ছাড়া নিশ্চিত নয়।
+The reference `data-table.tsx` currently combines behavior and rendering; do not copy it under the assumption that it is already a headless core. Virtualization, grouping, resizing/pinning, and editable cells are future possibilities, not features found in the current implementation. The potential issue identified through static review of `pageSize={false}` is unconfirmed without runtime testing.

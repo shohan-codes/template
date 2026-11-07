@@ -4,26 +4,26 @@ Status: Proposed implementation guidance. This document does not describe featur
 
 [Proposal overview](README.md) · [Specification](spec.md)
 
-একই dynamic field UI-এর plain ও React Hook Form integration variant; typed field props, renderer registration এবং thin wrapper reuse।
+Plain and React Hook Form integration variants for the same dynamic field UI, with typed field props, renderer registration, and thin-wrapper reuse.
 
-এখানে স্থির principle ও প্রস্তাবিত উদাহরণ আলাদা করে চিহ্নিত। এগুলো architecture নির্দেশনা; নতুন system implement হয়েছে এমন দাবি নয়।
+Agreed principles and proposed examples are identified separately. These are architecture instructions, not claims that the new system has been implemented.
 
 ## Dynamic form field
 
-দুটি integration variant থাকবে, দুটিতে একই field UI ও type-based rendering reuse হবে:
+Provide two integration variants that reuse the same field UI and type-driven rendering:
 
-1. **Plain variant:** form-library-agnostic React component। Consumer প্রয়োজন অনুযায়ী value, change, blur, error ও অন্যান্য props দেবে।
+1. **Plain variant:** A form-library-agnostic React component. The consumer supplies value, change, blur, error, and other props as needed.
 
-2. **React Hook Form variant:** plain/core field-এর ওপর পাতলা wrapper। Provider/context ও একটি internal hook/adapter দিয়ে integration হবে; consumer-কে প্রতিটি field-এর জন্য আলাদা Controller composition লিখতে হবে না। প্রয়োজনীয় `name` ও form context লাগবে।
+2. **React Hook Form variant:** A thin wrapper around the plain/core field. Integrate through provider/context and an internal hook/adapter so consumers do not have to write a separate Controller composition for every field. The required `name` and form context are still needed.
 
-`type` অনুযায়ী field render ও props বদলাবে। উদাহরণ: text, number, select, combobox; এই তালিকা বন্ধ নয়।
+Field rendering and props vary by `type`. Examples include text, number, select, and combobox; this list remains open.
 
-- Discriminated union বা typed field map থেকে union তৈরি হবে। `type: "text"`-এ text-specific props, `type: "combobox"`-এ তার items/value/selection props থাকবে।
+- Define a discriminated union or derive a union from a typed field map. `type: "text"` exposes text-specific props, while `type: "combobox"` exposes its items/value/selection props.
 
-- নতুন field যোগ করতে type contract ও renderer/slot registration দুটোই extend করতে হবে; runtime rendering এবং TypeScript contract একসঙ্গে মিলবে।
+- Adding a field requires extending both the type contract and renderer/slot registration. Runtime rendering and the TypeScript contract must stay aligned.
 
-- সাধারণ label, description, error এবং accessibility wiring reuse করা যাবে। Field-specific native props হারানো যাবে না।
+- Reuse common label, description, error, and accessibility wiring. Preserve field-specific native props.
 
-- RHF wrapper UI আবার লিখবে না। Field ভেদে value/event/ref adaptation করবে, যেমন checkbox, number বা combobox-এর আলাদা semantics। Hook execution React-এর নিয়ম মেনে হবে।
+- The RHF wrapper must not rewrite the UI. Adapt values/events/refs per field, accounting for distinct semantics such as checkbox, number, and combobox. Hook execution must follow React's rules.
 
-- Consumer-এর কাছে RHF-এর অপ্রয়োজনীয় implementation detail লুকানো যাবে; plain variant-কে RHF-এর ওপর নির্ভরশীল করা যাবে না।
+- Hide unnecessary RHF implementation details from consumers, but do not make the plain variant depend on RHF.
