@@ -1,4 +1,5 @@
 import BreadcrumbsShowcase from "@/app/components/breadcrumbs/page"
+import ContextMenuShowcase from "@/app/components/context-menu/page"
 import CollapsibleShowcase from "@/app/components/collapsible/page"
 import DropdownShowcase from "@/app/components/dropdown/page"
 import { notFound } from "next/navigation"
@@ -11,6 +12,7 @@ import { PreviewExample } from "@/components/preview-example"
 
 const showcases = {
   breadcrumbs: BreadcrumbsShowcase,
+  "context-menu": ContextMenuShowcase,
   dropdown: DropdownShowcase,
   collapsible: CollapsibleShowcase,
   accordion: AccordionShowcase,

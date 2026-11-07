@@ -19,8 +19,15 @@ const patterns = [
   {
     title: "Breadcrumbs Pattern",
     description:
-      "Typed link and current-page trails with responsive wrapping and custom routing slots.",
+      "Typed link and current-page trails with default and scrollable variants.",
     href: "/components/breadcrumbs",
+    icon: RiStackLine,
+  },
+  {
+    title: "Context Menu Pattern",
+    description:
+      "Typed contextual actions with keyboard access, nested menus and controlled preferences.",
+    href: "/components/context-menu",
     icon: RiStackLine,
   },
   {

@@ -76,6 +76,11 @@
       "import": "./dist/dropdown/index.js",
       "default": "./dist/dropdown/index.js"
     },
+    "./context-menu": {
+      "types": "./dist/context-menu/index.d.ts",
+      "import": "./dist/context-menu/index.js",
+      "default": "./dist/context-menu/index.js"
+    },
     "./breadcrumbs": {
       "types": "./dist/breadcrumbs/index.d.ts",
       "import": "./dist/breadcrumbs/index.js",
