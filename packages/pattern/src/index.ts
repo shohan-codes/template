@@ -6,4 +6,8 @@ export * from "./collapsible"
 export * from "./dropdown"
 
 export * from "./context-menu"
+
+export * from "./sidebar"
+export * from "./breadcrumbs"
+export * from "./toolbar"
 export * from "./command-palette"

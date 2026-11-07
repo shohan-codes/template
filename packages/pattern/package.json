@@ -81,6 +81,21 @@
       "import": "./dist/context-menu/index.js",
       "default": "./dist/context-menu/index.js"
     },
+    "./sidebar": {
+      "types": "./dist/sidebar/index.d.ts",
+      "import": "./dist/sidebar/index.js",
+      "default": "./dist/sidebar/index.js"
+    },
+    "./breadcrumbs": {
+      "types": "./dist/breadcrumbs/index.d.ts",
+      "import": "./dist/breadcrumbs/index.js",
+      "default": "./dist/breadcrumbs/index.js"
+    },
+    "./toolbar": {
+      "types": "./dist/toolbar/index.d.ts",
+      "import": "./dist/toolbar/index.js",
+      "default": "./dist/toolbar/index.js"
+    },
     "./command-palette": {
       "types": "./dist/command-palette/index.d.ts",
       "import": "./dist/command-palette/index.js",

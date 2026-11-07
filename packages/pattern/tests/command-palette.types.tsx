@@ -42,41 +42,41 @@ export const validInline = (
 )
 // @ts-expect-error Stable IDs are required.
 export const missingId: CommandItemData = { type: "action", label: "Open" }
-// @ts-expect-error Commands are not submenus.
 export const invalidType: CommandItemData = {
   id: "sub",
+  // @ts-expect-error Commands are not submenus.
   type: "submenu",
   label: "More",
   items: [],
 }
-// @ts-expect-error Labels must provide plain searchable text.
 export const invalidLabel: CommandItemData = {
   id: "open",
   type: "action",
+  // @ts-expect-error Labels must provide plain searchable text.
   label: <span>Open</span>,
 }
-// @ts-expect-error Groups intentionally cannot nest.
 export const nestedGroup: CommandItemData = {
   id: "outer",
   type: "group",
   label: "Outer",
+  // @ts-expect-error Groups intentionally cannot nest.
   items: [{ id: "inner", type: "group", label: "Inner", items: [] }],
 }
-// @ts-expect-error Core requires explicit default slots.
 export const missingSlots = (
+  // @ts-expect-error Core requires explicit default slots.
   <CommandPaletteCore items={items} trigger="Commands" />
 )
 // @ts-expect-error Inline search has no dialog state.
 export const inlineOpen = <CommandSearch items={items} open />
-// @ts-expect-error Data owns disabled state.
 export const invalidItemProps = (
+  // @ts-expect-error Data owns disabled state.
   <CommandSearch items={items} $item={{ disabled: true }} />
 )
-// @ts-expect-error Query state has a dedicated prop.
 export const invalidInputProps = (
+  // @ts-expect-error Query state has a dedicated prop.
   <CommandSearch items={items} $input={{ value: "query" }} />
 )
-// @ts-expect-error Unknown slots cannot silently go unused.
 export const invalidSlot = (
+  // @ts-expect-error Unknown slots cannot silently go unused.
   <CommandSearch items={items} slots={{ Content: "div" }} />
 )

@@ -1,205 +1,156 @@
 "use client"
 
-import {
-  RiArrowRightUpLine,
-  RiDashboardLine,
-  RiMoonLine,
-  RiStackLine,
-  RiSunLine,
-  RiLayoutTopLine,
-  RiCodeBoxLine,
-  RiQuestionAnswerLine,
-} from "@remixicon/react"
+import { Home, Layers, Moon, Sun } from "lucide-react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { useTheme } from "next-themes"
 import * as React from "react"
-
-import { Button } from "@workspace/shadcn-ui"
-import { Separator } from "@workspace/shadcn-ui"
+import { Sidebar, type SidebarItemData } from "@workspace/pattern/sidebar"
+import { Button } from "@workspace/shadcn-ui/components/button"
+import {
+  SidebarProvider,
+  SidebarTrigger,
+  useSidebar,
+} from "@workspace/shadcn-ui/components/sidebar"
+import {
+  familyHref,
+  variantHref,
+  showcaseFamilies,
+  getShowcaseRoute,
+} from "@/lib/showcase-registry"
 
 export interface ShowcaseShellProps {
   readonly children: React.ReactNode
 }
-
-const navItems = [
+const navigation: readonly SidebarItemData[] = [
   {
-    title: "Overview",
-    items: [
-      {
-        id: "nav-dashboard",
-        href: "/",
-        title: "Dashboard",
-        icon: <RiDashboardLine className="size-4" />,
-      },
-    ],
+    type: "link",
+    id: "dashboard",
+    label: "Dashboard",
+    href: "/",
+    icon: <Home />,
   },
   {
-    title: "Patterns",
-    items: [
-      {
-        id: "nav-command-palette",
-        href: "/components/command-palette",
-        title: "Command Palette",
-        icon: <RiStackLine className="size-4" />,
-      },
-      {
-        id: "nav-context-menu",
-        href: "/components/context-menu",
-        title: "Context Menu",
-        icon: <RiStackLine className="size-4" />,
-      },
-      {
-        id: "nav-dropdown",
-        href: "/components/dropdown",
-        title: "Dropdown",
-        icon: <RiStackLine className="size-4" />,
-      },
-      {
-        id: "nav-collapsible",
-        href: "/components/collapsible",
-        title: "Collapsible",
-        icon: <RiStackLine className="size-4" />,
-      },
-      {
-        id: "nav-accordion",
-        href: "/components/accordion",
-        title: "Accordion",
-        icon: <RiStackLine className="size-4" />,
-      },
-      {
-        id: "nav-tabs",
-        href: "/components/tabs",
-        title: "Tabs",
-        icon: <RiLayoutTopLine className="size-4" />,
-      },
-      {
-        id: "nav-code-block",
-        href: "/components/code-block",
-        title: "Code Block",
-        icon: <RiCodeBoxLine className="size-4" />,
-      },
-      {
-        id: "nav-questionnaire",
-        href: "/components/questionnaire",
-        title: "Questionnaire",
-        icon: <RiQuestionAnswerLine className="size-4" />,
-      },
-    ],
+    type: "group",
+    id: "patterns",
+    label: "Patterns",
+    items: showcaseFamilies.map((family) => ({
+      type: "disclosure",
+      id: family.id,
+      label: family.label,
+      icon: <Layers />,
+      items: [
+        {
+          type: "link",
+          id: `${family.id}-all`,
+          label: "All designs",
+          href: familyHref(family.id),
+        },
+        ...family.variants.map((variant) => ({
+          type: "link" as const,
+          id: `${family.id}-${variant.id}`,
+          label: variant.label,
+          href: variantHref(family.id, variant.id),
+        })),
+      ],
+    })),
   },
 ]
-
+function CloseNavigationOnRouteChange() {
+  const pathname = usePathname()
+  const { setOpenMobile } = useSidebar()
+  React.useEffect(() => {
+    setOpenMobile(false)
+  }, [pathname, setOpenMobile])
+  return null
+}
 export function ShowcaseShell({ children }: ShowcaseShellProps) {
   const pathname = usePathname()
-  const { theme, setTheme } = useTheme()
+  const router = useRouter()
+  const { resolvedTheme, setTheme } = useTheme()
   const mounted = React.useSyncExternalStore(
     () => () => {},
     () => true,
     () => false
   )
-
   const contentRef = React.useRef<HTMLDivElement>(null)
-
+  const route = getShowcaseRoute(pathname)
+  const title =
+    pathname === "/"
+      ? "Dashboard"
+      : route
+        ? `${route.family.label}${route.variant ? ` / ${route.variant.label}` : ""}`
+        : "Pattern Showcase"
   React.useEffect(() => {
     contentRef.current?.scrollTo({ top: 0, behavior: "instant" })
   }, [pathname])
-
   return (
-    <div className="flex h-svh w-full overflow-hidden bg-background text-foreground">
-      {/* Sidebar */}
-      <aside className="flex w-64 shrink-0 flex-col border-r bg-card">
-        <div className="flex h-14 items-center gap-2 border-b px-4 text-sm font-semibold">
-          <div className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-primary text-xs font-semibold text-primary-foreground">
-            UI
-          </div>
-          <div>
-            <div className="leading-tight">Pattern Showcase</div>
-            <div className="text-[11px] font-normal text-muted-foreground">
-              Starter Template
-            </div>
-          </div>
-        </div>
-
-        <nav className="flex-1 space-y-6 overflow-y-auto p-4">
-          {navItems.map((section) => (
-            <div key={section.title} className="space-y-1.5">
-              <div className="px-2 text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
-                {section.title}
-              </div>
-              <div className="space-y-1">
-                {section.items.map((item) => {
-                  const isActive = pathname === item.href
-                  return (
-                    <Link
-                      key={item.id}
-                      href={item.href}
-                      className={`flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
-                        isActive
-                          ? "bg-accent text-accent-foreground"
-                          : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
-                      }`}
-                    >
-                      {item.icon}
-                      <span>{item.title}</span>
-                    </Link>
-                  )
-                })}
-              </div>
-            </div>
-          ))}
-        </nav>
-
-        <div className="border-t p-3 text-xs text-muted-foreground">
-          <div className="flex items-center justify-between">
-            <span>@workspace/pattern</span>
-            <span>v0.0.1</span>
-          </div>
-        </div>
-      </aside>
-
-      {/* Main Content Area */}
+    <SidebarProvider className="h-svh min-h-0 overflow-hidden bg-background text-foreground">
+      <CloseNavigationOnRouteChange />
+      <a
+        href="#main-content"
+        className="sr-only fixed top-2 left-2 z-50 rounded bg-background p-3 text-sm focus:not-sr-only"
+      >
+        Skip to content
+      </a>
+      <Sidebar
+        items={navigation}
+        activeHref={pathname}
+        navigationLabel="Showcase navigation"
+        header={
+          <Link
+            href="/"
+            className="flex h-10 items-center gap-2 px-2 text-sm font-semibold"
+          >
+            <span className="flex size-7 items-center justify-center rounded-md bg-primary text-xs text-primary-foreground">
+              UI
+            </span>
+            Pattern Showcase
+          </Link>
+        }
+        footer={
+          <span className="px-2 py-1 text-xs text-muted-foreground">
+            @workspace/pattern
+          </span>
+        }
+        onNavigate={(item, event) => {
+          event.preventDefault()
+          router.push(item.href)
+        }}
+      />
       <div
         ref={contentRef}
         className="flex min-w-0 flex-1 flex-col overflow-y-auto"
       >
-        <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center justify-between border-b bg-background/95 px-6 backdrop-blur-md">
-          <div className="text-sm font-medium">
-            {pathname === "/"
-              ? "Dashboard"
-              : `${navItems.flatMap((section) => section.items).find((item) => item.href === pathname)?.title ?? "Component"} Showcase`}
+        <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center justify-between gap-3 border-b bg-background/95 px-4 backdrop-blur-md sm:px-6">
+          <div className="flex min-w-0 items-center gap-3">
+            <SidebarTrigger />
+            <span className="truncate text-sm font-medium">{title}</span>
           </div>
-
-          <div className="flex items-center gap-2">
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              aria-label="Toggle color theme"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            >
-              {mounted && theme === "dark" ? (
-                <RiSunLine className="size-4" />
-              ) : (
-                <RiMoonLine className="size-4" />
-              )}
-            </Button>
-            <Separator orientation="vertical" className="h-4" />
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="gap-1.5 text-xs"
-            >
-              <Link href="/components/accordion">
-                Components
-                <RiArrowRightUpLine className="size-3 text-muted-foreground" />
-              </Link>
-            </Button>
-          </div>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            aria-label="Toggle color theme"
+            onClick={() =>
+              setTheme(resolvedTheme === "dark" ? "light" : "dark")
+            }
+          >
+            {mounted && resolvedTheme === "dark" ? (
+              <Sun aria-hidden="true" />
+            ) : (
+              <Moon aria-hidden="true" />
+            )}
+          </Button>
         </header>
-
-        <main className="flex-1 p-6 md:p-8">{children}</main>
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className="flex-1 p-4 sm:p-6 lg:p-8"
+        >
+          {children}
+        </main>
       </div>
-    </div>
+    </SidebarProvider>
   )
 }
