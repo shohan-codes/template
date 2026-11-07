@@ -38,6 +38,12 @@ const navItems = [
     title: "Patterns",
     items: [
       {
+        id: "nav-toolbar",
+        href: "/components/toolbar",
+        title: "Toolbar",
+        icon: <RiStackLine className="size-4" />,
+      },
+      {
         id: "nav-breadcrumbs",
         href: "/components/breadcrumbs",
         title: "Breadcrumbs",
