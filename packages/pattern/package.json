@@ -75,6 +75,11 @@
       "types": "./dist/dropdown/index.d.ts",
       "import": "./dist/dropdown/index.js",
       "default": "./dist/dropdown/index.js"
+    },
+    "./breadcrumbs": {
+      "types": "./dist/breadcrumbs/index.d.ts",
+      "import": "./dist/breadcrumbs/index.js",
+      "default": "./dist/breadcrumbs/index.js"
     }
   }
 }
