@@ -41,6 +41,26 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
+    "./accordion": {
+      "types": "./dist/accordion/index.d.ts",
+      "import": "./dist/accordion/index.js",
+      "default": "./dist/accordion/index.js"
+    },
+    "./code-block": {
+      "types": "./dist/code-block/index.d.ts",
+      "import": "./dist/code-block/index.js",
+      "default": "./dist/code-block/index.js"
+    },
+    "./questionnaire": {
+      "types": "./dist/questionnaire/index.d.ts",
+      "import": "./dist/questionnaire/index.js",
+      "default": "./dist/questionnaire/index.js"
+    },
+    "./tabs": {
+      "types": "./dist/tabs/index.d.ts",
+      "import": "./dist/tabs/index.js",
+      "default": "./dist/tabs/index.js"
+    },
     "./*": {
       "types": "./dist/*.d.ts",
       "import": "./dist/*.js",
