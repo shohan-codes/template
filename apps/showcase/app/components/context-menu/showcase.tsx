@@ -18,6 +18,17 @@ import CustomContextMenuExampleRaw from "./custom-context-menu-example.tsx?raw" 
   turbopackAs: "*.js",
 }
 
+import ActionsContextMenuExample from "./actions-context-menu-example"
+import ActionsContextMenuExampleRaw from "./actions-context-menu-example.tsx?raw" with {
+  turbopackLoader: "raw-loader",
+  turbopackAs: "*.js",
+}
+import SelectionContextMenuExample from "./selection-context-menu-example"
+import SelectionContextMenuExampleRaw from "./selection-context-menu-example.tsx?raw" with {
+  turbopackLoader: "raw-loader",
+  turbopackAs: "*.js",
+}
+
 const contextMenuShowcaseItems: readonly ShowcaseItem[] = [
   {
     id: "file-context-menu",
@@ -42,6 +53,22 @@ const contextMenuShowcaseItems: readonly ShowcaseItem[] = [
       "Replace the item slot while preserving the primitive behavior. A local article workflow reports selection and open state.",
     code: CustomContextMenuExampleRaw,
     preview: <CustomContextMenuExample />,
+  },
+  {
+    id: "actions-context-menu",
+    title: "Actions Context Menu",
+    description:
+      "The same file actions through a right-click surface and a visible button, sharing controlled checkbox state.",
+    code: ActionsContextMenuExampleRaw,
+    preview: <ActionsContextMenuExample />,
+  },
+  {
+    id: "selection-context-menu",
+    title: "Selection Context Menu",
+    description:
+      "Caller-owned selection switches between single-file and bulk actions, with an explicit empty state.",
+    code: SelectionContextMenuExampleRaw,
+    preview: <SelectionContextMenuExample />,
   },
 ]
 

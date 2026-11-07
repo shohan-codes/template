@@ -176,6 +176,18 @@ export const showcaseFamilies: readonly ShowcaseFamily[] = [
           "custom-context-menu",
         ],
       },
+      {
+        id: "actions",
+        label: "Actions",
+        description: "A right-click surface with a visible actions button.",
+        exampleIds: ["actions-context-menu"],
+      },
+      {
+        id: "selection",
+        label: "Selection",
+        description: "Single-item and bulk menus driven by selection.",
+        exampleIds: ["selection-context-menu"],
+      },
     ],
   },
   {
