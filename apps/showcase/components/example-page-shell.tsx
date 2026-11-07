@@ -22,6 +22,8 @@ export interface ShowcaseItem extends Omit<ShowcaseCardProps, "children"> {
 
 /** Props accepted by {@link ExamplePageShell}. */
 export interface ExamplePageShellProps {
+  readonly familyId?: string
+  readonly introduction?: React.ReactNode
   /** Page title heading. */
   readonly title: React.ReactNode
   /** Explanatory description below the title. */
@@ -45,6 +47,8 @@ export interface ExamplePageShellProps {
  */
 export function ExamplePageShell({
   title,
+  familyId,
+  introduction,
   description,
   actions,
   className,
@@ -74,12 +78,14 @@ export function ExamplePageShell({
         {Boolean(actions) && <div>{actions}</div>}
       </div>
 
+      {introduction}
+
       {items?.map(({ id, preview, ...cardProps }, index) => (
         <ShowcaseCard
           key={id ?? index}
           previewSrc={
             id
-              ? `/preview${pathname.replace(/^\/components/, "")}/${encodeURIComponent(id)}`
+              ? `/preview/${familyId ?? pathname.split("/")[2]}/${encodeURIComponent(id)}`
               : undefined
           }
           {...cardProps}
