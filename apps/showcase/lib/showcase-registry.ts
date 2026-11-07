@@ -35,6 +35,28 @@ export const showcaseFamilies: readonly ShowcaseFamily[] = [
     ],
   },
   {
+    id: "navigation-menu",
+    label: "Navigation Menu",
+    description:
+      "Typed site navigation with real links, disclosure panels, and grouped destinations.",
+    variants: [
+      {
+        id: "default",
+        label: "Default",
+        description:
+          "Neutral horizontal navigation with optional controlled state and router anchors.",
+        exampleIds: ["basic-navigation-menu", "controlled-navigation-menu"],
+      },
+      {
+        id: "mega",
+        label: "Mega",
+        description:
+          "Grouped destinations in a wider panel that adapts to its container.",
+        exampleIds: ["mega-navigation-menu"],
+      },
+    ],
+  },
+  {
     id: "toolbar",
     label: "Toolbar",
     description:

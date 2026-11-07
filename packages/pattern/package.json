@@ -96,6 +96,11 @@
       "import": "./dist/toolbar/index.js",
       "default": "./dist/toolbar/index.js"
     },
+    "./navigation-menu": {
+      "types": "./dist/navigation-menu/index.d.ts",
+      "import": "./dist/navigation-menu/index.js",
+      "default": "./dist/navigation-menu/index.js"
+    },
     "./command-palette": {
       "types": "./dist/command-palette/index.d.ts",
       "import": "./dist/command-palette/index.js",

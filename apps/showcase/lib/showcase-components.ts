@@ -1,4 +1,5 @@
 import CommandPaletteShowcase from "@/app/components/command-palette/showcase"
+import NavigationMenuShowcase from "@/app/components/navigation-menu/showcase"
 import ToolbarShowcase from "@/app/components/toolbar/showcase"
 import BreadcrumbsShowcase from "@/app/components/breadcrumbs/showcase"
 import SidebarShowcase from "@/app/components/sidebar/showcase"
@@ -11,6 +12,7 @@ import CodeBlockShowcase from "@/app/components/code-block/showcase"
 import QuestionnaireShowcase from "@/app/components/questionnaire/showcase"
 export const showcaseComponents = {
   "command-palette": CommandPaletteShowcase,
+  "navigation-menu": NavigationMenuShowcase,
   toolbar: ToolbarShowcase,
   breadcrumbs: BreadcrumbsShowcase,
   sidebar: SidebarShowcase,
