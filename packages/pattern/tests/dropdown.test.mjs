@@ -75,6 +75,7 @@ test("recursive data maps to distinct slots, state, handlers and runtime overrid
           disabled: true,
           variant: "destructive",
           shortcut: "⌘C",
+          icon: h("svg", { "aria-hidden": true }),
           textValue: "Copy",
           onSelect,
         },

@@ -1,6 +1,7 @@
 "use client"
 
 import type * as React from "react"
+import { Fragment } from "react"
 import type {
   DropdownMenu,
   DropdownMenuContent,
@@ -142,8 +143,8 @@ export function DropdownCore({
                   disabled={option.disabled}
                   textValue={option.textValue}
                 >
-                  {option.icon}
-                  {option.label}
+                  <Fragment key="icon">{option.icon}</Fragment>
+                  <Fragment key="label">{option.label}</Fragment>
                 </P.RadioItem>
               ))}
             </P.RadioGroup>
@@ -156,8 +157,8 @@ export function DropdownCore({
                 disabled={item.disabled}
                 textValue={item.textValue}
               >
-                {item.icon}
-                {item.label}
+                <Fragment key="icon">{item.icon}</Fragment>
+                <Fragment key="label">{item.label}</Fragment>
               </P.SubTrigger>
               <P.Portal>
                 <P.SubContent {...$subContent}>
@@ -177,8 +178,8 @@ export function DropdownCore({
               onCheckedChange={item.onCheckedChange}
               onSelect={item.onSelect}
             >
-              {item.icon}
-              {item.label}
+              <Fragment key="icon">{item.icon}</Fragment>
+              <Fragment key="label">{item.label}</Fragment>
             </P.CheckboxItem>
           )
         case "action":
@@ -191,10 +192,10 @@ export function DropdownCore({
               variant={item.variant}
               onSelect={item.onSelect}
             >
-              {item.icon}
-              {item.label}
+              <Fragment key="icon">{item.icon}</Fragment>
+              <Fragment key="label">{item.label}</Fragment>
               {item.shortcut != null && (
-                <P.Shortcut>{item.shortcut}</P.Shortcut>
+                <P.Shortcut key="shortcut">{item.shortcut}</P.Shortcut>
               )}
             </P.Item>
           )
