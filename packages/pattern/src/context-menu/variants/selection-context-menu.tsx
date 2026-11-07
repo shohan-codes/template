@@ -42,6 +42,11 @@ export function SelectionContextMenu({
     <ContextMenuCore
       defaultSlots={selectionContextMenuSlots}
       {...props}
+      $content={{
+        "aria-label":
+          typeof summary === "string" ? summary : "Selection actions",
+        ...props.$content,
+      }}
       trigger={
         props.$trigger?.asChild ? (
           trigger

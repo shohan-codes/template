@@ -84,6 +84,10 @@ test("actions variant shares exact item objects and forwards separate menu custo
   const actionMenu = seen.find((x) => x.name === "ActionMenu").props
   assert.equal(actionMenu.items, data)
   assert.equal(actionMenu.trigger, "File actions")
+  assert.equal(
+    seen.find((x) => x.name === "Content").props["aria-label"],
+    "File actions"
+  )
   assert.equal(actionMenu.open, true)
   assert.equal(actionMenu.$content.align, "end")
   assert.equal(actionMenu.$trigger.asChild, false)
@@ -107,6 +111,10 @@ test("selection variant chooses single versus bulk data and deduplicates IDs", (
       })
     )
     assert.match(markup, new RegExp(label))
+    assert.equal(
+      seen.find((x) => x.name === "Content").props["aria-label"],
+      label
+    )
     assert.equal(
       seen.find((x) => x.name === "Item").props.children[1].props.children,
       action

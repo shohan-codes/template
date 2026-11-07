@@ -58,7 +58,11 @@ export function ActionsContextMenu({
   const P = slots ? { ...defaultSlots, ...slots } : defaultSlots
   return (
     <P.Container {...$container}>
-      <ContextMenuCore defaultSlots={P} {...props} />
+      <ContextMenuCore
+        defaultSlots={P}
+        {...props}
+        $content={{ "aria-label": menuLabel, ...props.$content }}
+      />
       <P.ActionMenu
         {...$actionMenu}
         items={props.items}
