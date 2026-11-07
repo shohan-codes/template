@@ -159,6 +159,18 @@ export const showcaseFamilies: readonly ShowcaseFamily[] = [
           "custom-dropdown",
         ],
       },
+      {
+        id: "icon",
+        label: "Icon",
+        description: "Compact overflow actions for cards and table rows.",
+        exampleIds: ["icon-dropdown"],
+      },
+      {
+        id: "split",
+        label: "Split",
+        description: "A primary action with a separate alternatives menu.",
+        exampleIds: ["split-dropdown"],
+      },
     ],
   },
   {
