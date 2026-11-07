@@ -1,3 +1,4 @@
+import ToolbarShowcase from "@/app/components/toolbar/page"
 import BreadcrumbsShowcase from "@/app/components/breadcrumbs/page"
 import ContextMenuShowcase from "@/app/components/context-menu/page"
 import CollapsibleShowcase from "@/app/components/collapsible/page"
@@ -11,6 +12,7 @@ import TabsShowcase from "@/app/components/tabs/page"
 import { PreviewExample } from "@/components/preview-example"
 
 const showcases = {
+  toolbar: ToolbarShowcase,
   breadcrumbs: BreadcrumbsShowcase,
   "context-menu": ContextMenuShowcase,
   dropdown: DropdownShowcase,

@@ -7,3 +7,4 @@ export * from "./dropdown"
 
 export * from "./context-menu"
 export * from "./breadcrumbs"
+export * from "./toolbar"

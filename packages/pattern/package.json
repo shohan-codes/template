@@ -85,6 +85,11 @@
       "types": "./dist/breadcrumbs/index.d.ts",
       "import": "./dist/breadcrumbs/index.js",
       "default": "./dist/breadcrumbs/index.js"
+    },
+    "./toolbar": {
+      "types": "./dist/toolbar/index.d.ts",
+      "import": "./dist/toolbar/index.js",
+      "default": "./dist/toolbar/index.js"
     }
   }
 }

@@ -17,6 +17,13 @@ import {
 
 const patterns = [
   {
+    title: "Toolbar Pattern",
+    description:
+      "Typed actions, links, and single or multiple toggle groups with roving keyboard focus.",
+    href: "/components/toolbar",
+    icon: RiStackLine,
+  },
+  {
     title: "Breadcrumbs Pattern",
     description:
       "Typed link and current-page trails with default and scrollable variants.",
