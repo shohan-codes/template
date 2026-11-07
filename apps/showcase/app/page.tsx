@@ -1,6 +1,12 @@
 import Link from "next/link"
 import { Button } from "@workspace/shadcn-ui"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/shadcn-ui"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@workspace/shadcn-ui"
 import {
   RiStackLine,
   RiLayoutTopLine,
@@ -11,26 +17,37 @@ import {
 
 const patterns = [
   {
+    title: "Collapsible Pattern",
+    description:
+      "Accessible disclosure with controlled state and customizable slots.",
+    href: "/components/collapsible",
+    icon: RiStackLine,
+  },
+  {
     title: "Accordion Pattern",
-    description: "Data-driven Accordion built on top of Radix primitives and shadcn-ui.",
+    description:
+      "Data-driven Accordion built on top of Radix primitives and shadcn-ui.",
     href: "/components/accordion",
     icon: RiStackLine,
   },
   {
     title: "Tabs Pattern",
-    description: "Accessible, data-driven tabbed navigation with pill, line, and card variants.",
+    description:
+      "Accessible, data-driven tabbed navigation with pill, line, and card variants.",
     href: "/components/tabs",
     icon: RiLayoutTopLine,
   },
   {
     title: "Code Block Pattern",
-    description: "Headless syntax-highlighted code blocks with notations, diffs, and terminal tabs.",
+    description:
+      "Headless syntax-highlighted code blocks with notations, diffs, and terminal tabs.",
     href: "/components/code-block",
     icon: RiCodeBoxLine,
   },
   {
     title: "Questionnaire Pattern",
-    description: "Multi-step sequential question forms with progress tracking and form submission.",
+    description:
+      "Multi-step sequential question forms with progress tracking and form submission.",
     href: "/components/questionnaire",
     icon: RiQuestionAnswerLine,
   },
@@ -42,7 +59,8 @@ export default function DashboardPage() {
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Pattern Showcase</h1>
         <p className="text-sm text-muted-foreground">
-          Interactive development playground for custom data-driven patterns in @workspace/pattern.
+          Interactive development playground for custom data-driven patterns in
+          @workspace/pattern.
         </p>
       </div>
 
@@ -63,7 +81,12 @@ export default function DashboardPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button asChild size="sm" variant="outline" className="w-full gap-2">
+                <Button
+                  asChild
+                  size="sm"
+                  variant="outline"
+                  className="w-full gap-2"
+                >
                   <Link href={item.href}>
                     View Showcase
                     <RiArrowRightLine className="size-3.5" />

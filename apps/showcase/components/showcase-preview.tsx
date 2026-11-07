@@ -33,10 +33,18 @@ const getServerLocationSuffix = () => ""
 interface ShowcasePreviewProps {
   readonly src: string
   readonly title: string
+  readonly renderLayout: (parts: {
+    controls: React.ReactNode
+    preview: React.ReactNode
+  }) => React.ReactNode
 }
 
 /** An interactive, independently themed viewport for one showcase example. */
-export function ShowcasePreview({ src, title }: ShowcasePreviewProps) {
+export function ShowcasePreview({
+  src,
+  title,
+  renderLayout,
+}: ShowcasePreviewProps) {
   const [viewport, setViewport] = React.useState<(typeof viewports)[number]>(
     viewports[0]
   )
@@ -151,89 +159,91 @@ export function ShowcasePreview({ src, title }: ShowcasePreviewProps) {
     }
   }, [theme, frameSrc])
 
-  return (
-    <div className="min-w-0 space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-3">
-          <div
-            role="group"
-            aria-label="Preview viewport"
-            className="flex items-center gap-0.5 rounded-lg border bg-background p-0.5"
-          >
-            {viewports.map((option) => (
-              <Button
-                key={option.name}
-                type="button"
-                variant={viewport.name === option.name ? "secondary" : "ghost"}
-                size="icon"
-                aria-label={`${option.name} preview`}
-                aria-pressed={viewport.name === option.name}
-                aria-controls={frameId}
-                title={`${option.name} (${option.width}px)`}
-                onClick={() => setViewport(option)}
-              >
-                <option.icon className="size-4" aria-hidden="true" />
-              </Button>
-            ))}
-          </div>
-          <span aria-live="polite" className="text-xs text-muted-foreground">
-            {viewport.width}px
-            {scale < 1 && ` · ${Math.round(scale * 100)}%`}
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button asChild variant="ghost" size="icon">
-            <a
-              href={previewUrl ?? frameSrc}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Open preview in new tab"
-              title="Open or share this preview"
-            >
-              <RiExternalLinkLine className="size-4" aria-hidden="true" />
-            </a>
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            aria-label="Dark preview"
-            aria-pressed={theme === "dark"}
-            aria-controls={frameId}
-            title={`Switch preview to ${theme === "dark" ? "light" : "dark"} mode`}
-            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-          >
-            {theme === "dark" ? (
-              <RiMoonLine className="size-3.5" aria-hidden="true" />
-            ) : (
-              <RiSunLine className="size-3.5" aria-hidden="true" />
-            )}
-            {theme === "dark" ? "Dark" : "Light"}
-          </Button>
-        </div>
-      </div>
-      <div
-        ref={containerRef}
-        className="min-w-0 overflow-hidden rounded-lg border bg-muted/20"
-      >
+  const controls = (
+    <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <div
-          className="relative mx-auto"
-          style={{ width: viewport.width * scale, height: height * scale }}
+          role="group"
+          aria-label="Preview viewport"
+          className="flex items-center gap-0.5 rounded-lg border bg-background p-0.5"
         >
-          <iframe
-            ref={frameRef}
-            id={frameId}
-            title={`${title} preview`}
-            src={frameSrc}
-            className="absolute top-0 left-0 block origin-top-left border-0"
-            style={{
-              width: viewport.width,
-              height,
-              transform: `scale(${scale})`,
-            }}
-          />
+          {viewports.map((option) => (
+            <Button
+              key={option.name}
+              type="button"
+              variant={viewport.name === option.name ? "secondary" : "ghost"}
+              size="icon-sm"
+              aria-label={`${option.name} preview`}
+              aria-pressed={viewport.name === option.name}
+              aria-controls={frameId}
+              title={`${option.name} (${option.width}px)`}
+              onClick={() => setViewport(option)}
+            >
+              <option.icon className="size-4" aria-hidden="true" />
+            </Button>
+          ))}
         </div>
+        <span aria-live="polite" className="text-xs text-muted-foreground">
+          {viewport.width}px
+          {scale < 1 && ` · ${Math.round(scale * 100)}%`}
+        </span>
+      </div>
+      <div className="flex items-center gap-2">
+        <Button asChild variant="ghost" size="icon-sm">
+          <a
+            href={previewUrl ?? frameSrc}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open preview in new tab"
+            title="Open or share this preview"
+          >
+            <RiExternalLinkLine className="size-4" aria-hidden="true" />
+          </a>
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="xs"
+          aria-label="Dark preview"
+          aria-pressed={theme === "dark"}
+          aria-controls={frameId}
+          title={`Switch preview to ${theme === "dark" ? "light" : "dark"} mode`}
+          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+        >
+          {theme === "dark" ? (
+            <RiMoonLine className="size-3.5" aria-hidden="true" />
+          ) : (
+            <RiSunLine className="size-3.5" aria-hidden="true" />
+          )}
+          {theme === "dark" ? "Dark" : "Light"}
+        </Button>
       </div>
     </div>
   )
+  const preview = (
+    <div
+      ref={containerRef}
+      className="min-w-0 overflow-hidden rounded-lg border bg-muted/20"
+    >
+      <div
+        className="relative mx-auto"
+        style={{ width: viewport.width * scale, height: height * scale }}
+      >
+        <iframe
+          ref={frameRef}
+          id={frameId}
+          title={`${title} preview`}
+          src={frameSrc}
+          className="absolute top-0 left-0 block origin-top-left border-0"
+          style={{
+            width: viewport.width,
+            height,
+            transform: `scale(${scale})`,
+          }}
+        />
+      </div>
+    </div>
+  )
+
+  return renderLayout({ controls, preview })
 }
