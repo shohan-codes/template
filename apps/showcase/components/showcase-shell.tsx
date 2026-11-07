@@ -38,6 +38,12 @@ const navItems = [
     title: "Patterns",
     items: [
       {
+        id: "nav-collapsible",
+        href: "/components/collapsible",
+        title: "Collapsible",
+        icon: <RiStackLine className="size-4" />,
+      },
+      {
         id: "nav-accordion",
         href: "/components/accordion",
         title: "Accordion",
@@ -90,7 +96,9 @@ export function ShowcaseShell({ children }: ShowcaseShellProps) {
           </div>
           <div>
             <div className="leading-tight">Pattern Showcase</div>
-            <div className="text-[11px] font-normal text-muted-foreground">Starter Template</div>
+            <div className="text-[11px] font-normal text-muted-foreground">
+              Starter Template
+            </div>
           </div>
         </div>
 
@@ -132,10 +140,15 @@ export function ShowcaseShell({ children }: ShowcaseShellProps) {
       </aside>
 
       {/* Main Content Area */}
-      <div ref={contentRef} className="flex min-w-0 flex-1 flex-col overflow-y-auto">
+      <div
+        ref={contentRef}
+        className="flex min-w-0 flex-1 flex-col overflow-y-auto"
+      >
         <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center justify-between border-b bg-background/95 px-6 backdrop-blur-md">
           <div className="text-sm font-medium">
-            {pathname === "/" ? "Dashboard" : "Accordion Showcase"}
+            {pathname === "/"
+              ? "Dashboard"
+              : `${navItems.flatMap((section) => section.items).find((item) => item.href === pathname)?.title ?? "Component"} Showcase`}
           </div>
 
           <div className="flex items-center gap-2">
@@ -153,7 +166,12 @@ export function ShowcaseShell({ children }: ShowcaseShellProps) {
               )}
             </Button>
             <Separator orientation="vertical" className="h-4" />
-            <Button asChild variant="outline" size="sm" className="gap-1.5 text-xs">
+            <Button
+              asChild
+              variant="outline"
+              size="sm"
+              className="gap-1.5 text-xs"
+            >
               <Link href="/components/accordion">
                 Components
                 <RiArrowRightUpLine className="size-3 text-muted-foreground" />

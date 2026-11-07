@@ -9,7 +9,6 @@ import { Button } from "@workspace/shadcn-ui"
 import { CodeBlock } from "@workspace/pattern"
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -78,66 +77,66 @@ export function ShowcaseCard({
 }: ShowcaseCardProps) {
   const [viewMode, setViewMode] = React.useState<"preview" | "code">("preview")
 
-  return (
-    <Card
-      className={cn("overflow-hidden bg-secondary/5", className)}
-      {...props}
-    >
-      <CardHeader className="border-b">
-        <div className="flex flex-wrap items-center gap-2">
-          <CardTitle className="text-base font-medium">{title}</CardTitle>
-          {Boolean(badge) && <div>{badge}</div>}
-        </div>
-        {Boolean(description) && (
-          <CardDescription className="text-xs">{description}</CardDescription>
-        )}
-        {Boolean(code) && (
-          <CardAction>
-            <div className="flex items-center rounded-lg border bg-background p-0.5 shadow-xs">
-              <Button
-                type="button"
-                variant={viewMode === "preview" ? "secondary" : "ghost"}
-                size="xs"
-                className="h-6 gap-1 px-2 text-xs"
-                aria-pressed={viewMode === "preview"}
-                onClick={() => setViewMode("preview")}
-              >
-                <RiEyeLine className="size-3.5" />
-                Preview
-              </Button>
-              <Button
-                type="button"
-                variant={viewMode === "code" ? "secondary" : "ghost"}
-                size="xs"
-                className="h-6 gap-1 px-2 text-xs"
-                aria-pressed={viewMode === "code"}
-                onClick={() => setViewMode("code")}
-              >
-                <RiCodeSSlashLine className="size-3.5" />
-                Code
-              </Button>
+  const renderCard = (
+    preview: React.ReactNode,
+    previewControls?: React.ReactNode
+  ) => (
+    <>
+      <CardHeader className="gap-2 border-b px-4 py-3 sm:px-5">
+        <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+          <div className="min-w-40 flex-1 space-y-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <CardTitle className="text-sm font-medium">{title}</CardTitle>
+              {Boolean(badge) && <div>{badge}</div>}
             </div>
-          </CardAction>
+            {Boolean(description) && (
+              <CardDescription className="text-xs">
+                {description}
+              </CardDescription>
+            )}
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            {Boolean(code) && (
+              <div
+                role="group"
+                aria-label="Example view"
+                className="flex items-center rounded-lg border bg-background p-0.5 shadow-xs"
+              >
+                <Button
+                  type="button"
+                  variant={viewMode === "preview" ? "secondary" : "ghost"}
+                  size="xs"
+                  className="h-6 gap-1 px-2 text-xs"
+                  aria-pressed={viewMode === "preview"}
+                  onClick={() => setViewMode("preview")}
+                >
+                  <RiEyeLine className="size-3.5" aria-hidden="true" />
+                  Preview
+                </Button>
+                <Button
+                  type="button"
+                  variant={viewMode === "code" ? "secondary" : "ghost"}
+                  size="xs"
+                  className="h-6 gap-1 px-2 text-xs"
+                  aria-pressed={viewMode === "code"}
+                  onClick={() => setViewMode("code")}
+                >
+                  <RiCodeSSlashLine className="size-3.5" aria-hidden="true" />
+                  Code
+                </Button>
+              </div>
+            )}
+            <div hidden={viewMode !== "preview"}>{previewControls}</div>
+          </div>
+        </div>
+        {Boolean(controls) && (
+          <div className="flex flex-wrap items-center gap-2 text-xs">
+            {controls}
+          </div>
         )}
       </CardHeader>
-
-      {Boolean(controls) && (
-        <div className="flex flex-wrap items-center gap-3 border-b bg-muted/10 px-6 py-3 text-xs">
-          {controls}
-        </div>
-      )}
-
-      <CardContent className="min-w-0 p-4 sm:p-6">
-        <div hidden={viewMode !== "preview"}>
-          {previewSrc ? (
-            <ShowcasePreview
-              src={previewSrc}
-              title={typeof title === "string" ? title : "Component"}
-            />
-          ) : (
-            children
-          )}
-        </div>
+      <CardContent className="min-w-0 px-4 py-3 sm:px-5">
+        <div hidden={viewMode !== "preview"}>{preview}</div>
         {viewMode === "code" && (
           <CodeBlock
             code={code ?? ""}
@@ -153,6 +152,25 @@ export function ShowcaseCard({
           />
         )}
       </CardContent>
+    </>
+  )
+
+  return (
+    <Card
+      className={cn("gap-0 overflow-hidden bg-secondary/5 py-0", className)}
+      {...props}
+    >
+      {previewSrc ? (
+        <ShowcasePreview
+          src={previewSrc}
+          title={typeof title === "string" ? title : "Component"}
+          renderLayout={({ controls: previewControls, preview }) =>
+            renderCard(preview, previewControls)
+          }
+        />
+      ) : (
+        renderCard(children)
+      )}
     </Card>
   )
 }
