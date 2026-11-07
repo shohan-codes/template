@@ -3,6 +3,8 @@
 import { RiCodeSSlashLine, RiEyeLine } from "@remixicon/react"
 import * as React from "react"
 
+import { ShowcasePreview } from "@/components/showcase-preview"
+
 import { Button } from "@workspace/shadcn-ui"
 import { CodeBlock } from "@workspace/pattern"
 import {
@@ -44,6 +46,8 @@ export interface ShowcaseCardProps extends Omit<
   readonly lineNumbers?: boolean
   /** Whether to parse internal magic notations or display raw code (defaults to false). */
   readonly notations?: boolean
+  /** Same-origin isolated preview route, when available. */
+  readonly previewSrc?: string
   /** Component interactive preview content. */
   readonly children: React.ReactNode
 }
@@ -68,13 +72,17 @@ export function ShowcaseCard({
   lineNumbers,
   notations = false,
   children,
+  previewSrc,
   className,
   ...props
 }: ShowcaseCardProps) {
   const [viewMode, setViewMode] = React.useState<"preview" | "code">("preview")
 
   return (
-    <Card className={cn("overflow-hidden bg-secondary/5", className)} {...props}>
+    <Card
+      className={cn("overflow-hidden bg-secondary/5", className)}
+      {...props}
+    >
       <CardHeader className="border-b">
         <div className="flex flex-wrap items-center gap-2">
           <CardTitle className="text-base font-medium">{title}</CardTitle>
@@ -91,6 +99,7 @@ export function ShowcaseCard({
                 variant={viewMode === "preview" ? "secondary" : "ghost"}
                 size="xs"
                 className="h-6 gap-1 px-2 text-xs"
+                aria-pressed={viewMode === "preview"}
                 onClick={() => setViewMode("preview")}
               >
                 <RiEyeLine className="size-3.5" />
@@ -101,6 +110,7 @@ export function ShowcaseCard({
                 variant={viewMode === "code" ? "secondary" : "ghost"}
                 size="xs"
                 className="h-6 gap-1 px-2 text-xs"
+                aria-pressed={viewMode === "code"}
                 onClick={() => setViewMode("code")}
               >
                 <RiCodeSSlashLine className="size-3.5" />
@@ -117,10 +127,18 @@ export function ShowcaseCard({
         </div>
       )}
 
-      <CardContent className="p-6">
-        {viewMode === "preview" ? (
-          <div className="min-w-0">{children}</div>
-        ) : (
+      <CardContent className="min-w-0 p-4 sm:p-6">
+        <div hidden={viewMode !== "preview"}>
+          {previewSrc ? (
+            <ShowcasePreview
+              src={previewSrc}
+              title={typeof title === "string" ? title : "Component"}
+            />
+          ) : (
+            children
+          )}
+        </div>
+        {viewMode === "code" && (
           <CodeBlock
             code={code ?? ""}
             language={language}

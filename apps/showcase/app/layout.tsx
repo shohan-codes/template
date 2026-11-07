@@ -5,8 +5,7 @@ import type * as React from "react"
 import "@workspace/css/globals.css"
 import "@workspace/css/themes/all.css"
 
-import { ShowcaseShell } from "@/components/showcase-shell"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ShowcaseLayout } from "@/components/showcase-layout"
 import { cn } from "@workspace/shadcn-ui/lib/utils"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
@@ -55,9 +54,7 @@ export default function RootLayout({
       )}
     >
       <body>
-        <ThemeProvider>
-          <ShowcaseShell>{children}</ShowcaseShell>
-        </ThemeProvider>
+        <ShowcaseLayout>{children}</ShowcaseLayout>
       </body>
     </html>
   )
